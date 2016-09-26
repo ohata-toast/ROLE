@@ -2,7 +2,7 @@
 
 ### 2016.09.29
 #### 기능 개선/변경
-* User 의 모든 Role 을 삭제 후, 신규 Role 을 부여하는 API 추가
+* User 에 신규 Role 부여시, 기존에 등록된 Role 중 Scope 이 같은 Role 을 삭제하는 API 추가
 * Role 에 User 추가 API 에서 User 가 없으면 User 를 생성 해주는 옵션 추가
 	* 자세한 사항은 메뉴얼 참고(http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#3-role)
 
