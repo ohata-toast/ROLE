@@ -1,5 +1,10 @@
 ## Upcoming Products > ROLE > Release Notes
 
+### 2016.10.20
+#### 기능 개선/변경
+* User 목록 조회시, 연관 관계에 있는 Role 을 가진 사용자도 반환 하는 옵션 추가
+	* 자세한 사항은 메뉴얼 참고(http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#1-user)
+
 ### 2016.09.29
 #### 기능 개선/변경
 * User 에 신규 Role 부여시, 기존에 등록된 Role 중 Scope 이 같은 Role 을 삭제하는 API 추가

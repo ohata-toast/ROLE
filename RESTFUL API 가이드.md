@@ -166,6 +166,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 #### 1.3. User 리스트 조회
 
 Scope ID 와 Role ID 를 넘겨주면, 해당 역할을 가진 User 만 반환한다.
+includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 Role 을 가진 User 도 포함하여 반환한다.
 
 **[Method, URL]**
 
@@ -192,6 +193,7 @@ Scope ID 와 Role ID 를 넘겨주면, 해당 역할을 가진 User 만 반환�
 |---|---|---|
 |scopeId|	Scope ID| No |
 |roleId|	Role ID| No |
+|includeRelation| true or false| No |
 
 **[Response Body]**
 
