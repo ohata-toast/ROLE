@@ -374,3 +374,9 @@ ROLE 을 사용하는 다른 프로젝트가 있다면, 데이터 이관 기능�
 
 ![[그림 7.4] AppKey 입력](http://static.toastoven.net/prod_role/role_31.png)
 <center>[그림 7.4] AppKey 입력</center>
+
+## 캐쉬 삭제
+
+Client SDK 와 서버의 Cache 때문에 변경된 Resource 에 대한 권한 체크 결과가 즉시 반영이 안될 수 있다.
+그럴 경우 우측 상단의 서버 설정 파업에서 명시적으로 캐쉬를 삭제 하여 해결 할 수 있다.
+![[그림 8.1] 캐쉬 삭제](http://static.toastoven.net/prod_role/role_32.png)
