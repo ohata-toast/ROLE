@@ -233,7 +233,80 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
 |users[0].relations[0].roleId | String | Role ID |
 |users[0].relations[0].scopeId | String | Scope ID |
 
-#### 1.4. User 설명 수정
+#### 1.4. 벌크 User 리스트 조회
+
+User 정보를 한번에 조회하는 API
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|POST|	/role/v1.0/appkeys/{appKey}/users/relations|
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+
+**[Request Body]**
+
+```json
+{
+	"usersIds": [
+		""
+	]
+}
+```
+
+**[Response Body]**
+
+```json
+{
+	"header" : {
+		"isSuccessful" : true,
+		"resultCode" : 0,
+		"resultMessage" : "Success."
+	}
+    "users" :
+    [
+        {
+            "description" : "",
+            "regYmdt" : 1466046601134,
+            "relations" :
+            [
+                {
+                    "userId" : "",
+                    "roleId" : "",
+                    "scopeId" : ""
+                }
+            ],
+            "userId" : ""
+        }
+    ]
+}
+```
+
+|Key|	Type|	Description|
+|---|---|---|
+|users|	List|	User 정보 리스트|
+|users[0].appKey|	String|	AppKey|
+|users[0].userId|	String|	User ID|
+|users[0].description|	String|	User 설명|
+|users[0].regYmdt|	Timestamp|	등록일|
+|users[0].relations | List | User 에 할당된 관계 리스트 |
+|users[0].relations[0].userId | String | User ID |
+|users[0].relations[0].roleId | String | Role ID |
+|users[0].relations[0].scopeId | String | Scope ID |
+
+#### 1.5. User 설명 수정
 
 **[Method, URL]**
 
@@ -279,7 +352,7 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
 }
 ```
 
-#### 1.5. User 삭제
+#### 1.6. User 삭제
 
 **[Method, URL]**
 
@@ -313,7 +386,7 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
 }
 ```
 
-#### 1.6 권한 체크
+#### 1.7. 권한 체크
 
 **[Method, URL]**
 
@@ -387,7 +460,7 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
 |authorizations[0].resourcePath|	String|	Resource Path|
 |authorizations[0].scopeId|	String|	Scope ID|
 
-#### 1.7 Role 권한 체크
+#### 1.8. Role 권한 체크
 
 User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따른 Role 도 포함한다.
 
@@ -455,7 +528,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |authorizations[0].roleId|	String|	Role ID|
 |authorizations[0].scopeId|	String|	Scope ID|
 
-#### 1.8. User 에 부여된 Role 조회
+#### 1.9. User 에 부여된 Role 조회
 
 직접적으로 부여한 Role 만 반환한다. Role 의 연관 관계에 따른 Role 은 반환하지 않는다.
 
@@ -507,7 +580,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |relations[0].scopeId|	String|	Scope ID|
 |relations[0].userId|	String|	User ID|
 
-#### 1.9. User 에 Role 부여
+#### 1.10. User 에 Role 부여
 
 **[Method, URL]**
 
@@ -557,7 +630,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 }
 ```
 
-#### 1.10. User 에 부여된 Role 삭제
+#### 1.11. User 에 부여된 Role 삭제
 
 **[Method, URL]**
 
@@ -598,7 +671,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 }
 ```
 
-#### 1.11. User 의 기존 Role 삭제 후, 신규 Role 부여
+#### 1.12. User 의 기존 Role 삭제 후, 신규 Role 부여
 
 **[Method, URL]**
 
@@ -825,6 +898,58 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 	}
 }
 ```
+
+#### 2.5. Scope 과 연관된 연관 관계 조회
+
+Scope ID 와 관련된 연관 관계를 조회한다.
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|GET|	/role/v1.0/appkeys/{appKey}/scope/{scopeId}/relations
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|scopeId|	Scope ID|
+
+**[Response Body]**
+
+```json
+{
+	"header" : {
+		"isSuccessful" : true,
+		"resultCode": 0,
+		"resultMessage" : "Success."
+	},
+	"relations": [
+		{
+			"appKey": "",
+			"roleId": "",
+			"scopeId": "",
+			"userId": ""
+		}
+	]
+}
+```
+
+|Key|	Type|	Description|
+|---|---|---|
+|relations|	List|	User - Role 관계 리스트|
+|relations[0].appKey|	String|	Operation ID|
+|relations[0].roleId|	String|	Role ID|
+|relations[0].scopeId|	String|	Scope ID|
+|relations[0].userId|	String|	User ID|
 
 ### 3. Role
 

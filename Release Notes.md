@@ -1,5 +1,10 @@
 ## Upcoming Products > ROLE > Release Notes
 
+### 2016.12.22
+#### 기능 개선/변경
+* 한꺼번에 User 정보를 조회하는 API 추가
+* Scope ID 와 연관된 연관 관계를 조회하는 API 추가
+
 ### 2016.11.17
 #### 기능 개선/변경
 * Client SDK 및 서버의 Cache 제거하는 기능 추가
