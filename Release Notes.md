@@ -1,5 +1,13 @@
 ## Upcoming Products > ROLE > Release Notes
 
+### 2016.11.24
+#### 기능 개선/변경
+* Client SDK 및 서버의 Cache 제거하는 기능 추가
+
+#### 버그 수정
+* Resource Path 수정 시 '/' 로 시작하지 않는 잘못된 Path 로 수정 할 수 없도록 수정
+        * 잘못된 Path 가 있을 시 Excel 을 이용한 데이터 입력이 안될 수 있음
+
 ### 2016.10.20
 #### 기능 개선/변경
 * User 목록 조회시, 연관 관계에 있는 Role 을 가진 사용자도 반환 하는 옵션 추가
