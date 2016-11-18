@@ -1,6 +1,6 @@
 ## Upcoming Products > ROLE > Release Notes
 
-### 2016.11.17
+### 2016.11.24
 #### 기능 개선/변경
 * Client SDK 및 서버의 Cache 제거하는 기능 추가
 
