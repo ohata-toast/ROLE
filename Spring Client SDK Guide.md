@@ -49,7 +49,7 @@ JAVA Client SDK For Spring 을 사용하기 위해선 pom.xml 에 maven reposito
 	<dependency>
 		<groupId>com.toast.cloud</groupId>
 		<artifactId>role-client-spring</artifactId>
-		<version>1.1.3</version>
+		<version>1.1.4</version>
 	</dependency>
 </dependencies>
 ```

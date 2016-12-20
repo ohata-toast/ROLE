@@ -45,7 +45,7 @@ JAVA Client SDK 를 사용하기 위해선 pom.xml 에 maven repository 및 depe
 	<dependency>
 		<groupId>com.toast.cloud</groupId>
 		<artifactId>role-client</artifactId>
-		<version>1.1.3</version>
+		<version>1.1.4</version>
 	</dependency>
 </dependencies>
 ```
