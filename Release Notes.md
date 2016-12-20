@@ -5,6 +5,11 @@
 * 한꺼번에 User 정보를 조회하는 API 추가
 * Scope ID 와 연관된 연관 관계를 조회하는 API 추가
 
+#### 버그 수정
+* Role 연관 관계가 제대로 동작하지 않던 문제 수정
+* User 검색 시, ScopeID ALL 이 검색되지 않는 문제 수정
+* invalid 한 resource tree 가 있을 시, hierarchy tree 가 비정상적으로 반환되는 버그 수정
+
 ### 2016.11.24
 #### 기능 개선/변경
 * Client SDK 및 서버의 Cache 제거하는 기능 추가
