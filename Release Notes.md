@@ -1,6 +1,6 @@
 ## Upcoming Products > ROLE > Release Notes
 
-### 2017.04.02
+### 2017.04.20
 #### 버그 수정
 * userId(key)의 value 값에 '.', '@' 포함될 경우 오류가 반환되는 버그 수정
 
