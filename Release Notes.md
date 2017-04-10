@@ -1,5 +1,9 @@
 ## Upcoming Products > ROLE > Release Notes
 
+### 2017.04.20
+#### 버그 수정
+* userId(key)의 value 값에 '.', '@' 포함될 경우 오류가 반환되는 버그 수정
+
 ### 2016.12.22
 #### 기능 개선/변경
 * 벌크 User 리스트 조회 API 추가
