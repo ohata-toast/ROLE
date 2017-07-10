@@ -1,5 +1,9 @@
 ## Upcoming Products > ROLE > Release Notes
 
+### 2017.07.20
+#### 버그 수정  
+* [Console] 중복 Resoucre 등록 시 경고창이 발생하지 않는 현상 수정  
+	
 ### 2017.05.25
 #### 버그 수정
 * [Console] Resource 탭의 [Excel 업로드] 기능이 동작하지 않는 문제 수정 
