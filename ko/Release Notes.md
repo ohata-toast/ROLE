@@ -1,5 +1,9 @@
 ## Upcoming Products > ROLE > Release Notes
 
+### 2017.07.20
+#### 버그 수정  
+* [Console] 이미 사용중인 Resoucre, Role, Scope 이름으로 등록/수정시 반영을 하지 않고 실패 경고창을 화면에 보여줍니다.  
+	
 ### 2017.05.25
 #### 버그 수정
 * [Console] Resource 탭의 [Excel 업로드] 기능이 동작하지 않는 문제 수정 
