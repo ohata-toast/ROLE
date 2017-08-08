@@ -16,7 +16,7 @@
 * [Console] Resource name에 한글을 입력 할 수 있습니다. '/'문자를 제외하고 모든 문자 입력이 가능합니다.
 * [Console] Resource, Role, User, Scope 입력, 수정시 필드 유효성 검사 실패시 보여주는 메시지가 수정되었습니다.
 	* Resource의 priority, description 의 유효성 검사시 4XX, 5XX 에러가 아닌 문구를 보여주도록 개선되었습니다.
-		* priority 유효성 검사 실패 문구 : 'Priority 는 숫자(1 - 65535)만 입력가능합니다.'
+		* priority 유효성 검사 실패 문구 : 'Priority 는 숫자(-32768 ~ 32767)만 입력가능합니다.'
 		* description 유효성 검사 실패 문구 : '잘못된 형식의 description 입니다.'
 	* Scope, Role, User 의 description 이 128자 넘어갈 경우 4XX, 5XX 에러가 아닌 문구를 보여주도록 개선되었습니다.
 		* description 유효성 검사 실패 문구 : '잘못된 형식의 description 입니다.'

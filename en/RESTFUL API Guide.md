@@ -977,7 +977,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |appKey|	[CONSOLE] 에서 발급받은 AppKey|
 
 **[Query Parameter]**
-|Key|	Value|	Required|	Description |
+|Key|	Value|	Required|	Description|
 |---|---|---|---|
 |scopeId|	Scope ID|	No|	|
 |description|	|	No|	설명|
@@ -1430,18 +1430,20 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 	"name": "",
 	"path": "",
 	"priority": 0,
-	"resourceId": ""
+	"resourceId": "",
+	"uiPath": ""
 }
 ```
 
 |Key|	Type|	Required|	Description|
 |---|---|---|---|
 |resourceId|	String|	Yes|	Resource ID <br/> 최대 32글자까지 등록 가능하다. <br/> -\_ 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 한다.|
-|name|	String|	Yes|	Resource 이름, Resource 경로의 마지막 이름과 동일해야 한다.<br/> 예) 경로가 '/path1/path2' 라면 이름은 'path2' 이어야 한다.|
-|path|	String|	Yes|	Resource 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> Resource 경로는 Resource 이름과 '/' 의 조합으로 이루어져야 한다. <br/> 예외적으로 Path Variable 을 표현할 수 있는 {}가 올 수 있다.|
+|name|	String|	No|	필요 없음.|
+|path|	String|	Yes|	Resource 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> Resource 경로는 '/' 의 조합으로 이루어져야 한다. <br/> 예외적으로 Path Variable 을 표현할 수 있는 {}가 올 수 있다.|
 |description|	String|	Yes|	Resource 설명 <br/> 최대 128글자까지 등록 가능하다.|
 |priority|	smallint|	Yes|	같은 경로에서 보여지는 우선순위 <br/> -32768 ~ 32767 값이 올 수 있으며, 낮을 수록 앞에 보이게 된다.|
 |metadata|	String|	Yes|	사용자 정의 데이터 <br/> 최대 65536글자까지 등록 가능하다.|
+|uiPath|	String|	Yes|	UI Path 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> UI Path 경로는 Resource 이름과 '/' 의 조합으로 이루어져야 한다. |
 
 **[Response Body]**
 
@@ -1608,11 +1610,12 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Type|	Required|	Description|
 |---|---|---|---|
-|name|	String|	Yes|	Resource 이름, Resource 경로의 마지막 이름과 동일해야 한다. <br/> 예) 경로가 '/path1/path2' 라면 이름은 'path2' 이어야 한다.|
-|path|	String|	Yes| 	Resource 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> Resource 경로는 Resource 이름과 '/' 의 조합으로 이루어져야 한다. <br/> 예외적으로 Path Variable 을 표현할 수 있는 {}가 올 수 있다.|
+|name|	String|	No| 필요 없음. |
+|path|	String|	Yes| 	Resource 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> Resource 경로는 '/' 의 조합으로 이루어져야 한다. <br/> 예외적으로 Path Variable 을 표현할 수 있는 {}가 올 수 있다.|
 |description|	String|	Yes|	Resource 설명 <br/> 최대 128글자까지 등록 가능하다.|
 |priority|	smallint|	Yes|	같은 경로에서 보여지는 우선순위 <br/> -32768 ~ 32767 값이 올 수 있으며, 낮을 수록 앞에 보이게 된다.|
 |metadata|	String|	Yes|	사용자 정의 데이터 <br/> 최대 65536글자까지 등록 가능하다.|
+|uiPath|	String|	Yes| 	UI Path 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> UI Path 경로는 Resource 이름과 '/' 의 조합으로 이루어져야 한다. |
 
 **[Response Body]**
 
