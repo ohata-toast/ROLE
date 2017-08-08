@@ -1,12 +1,56 @@
 ## Upcoming Products > ROLE > Release Notes
 
+### 2017.08.24
+#### 기능 추가
+* [RESTFUL API] 각 구성요소의 리스트를 조회할 수 있는 API 가 추가되었습니다.
+	* GET /role/v1.0/appkeys/{appKey}/roles : role 리스트 조회
+		* 자세한 사항은 매뉴얼 참고 (http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#3-role)
+	* GET /role/v1.0/appkeys/{appKey}/resources : resource 리스트 조회
+		* 자세한 사항은 매뉴얼 참고 (http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#4-resources)
+	* GET /role/v1.0/appkeys/{appKey}/scopes : scope 리스트 조회
+		* 자세한 사항은 매뉴얼 참고 (http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#2-scope)
+	* GET /role/v1.0/appkeys/{appKey}/operations : operation 리스트 조회
+		* 자세한 사항은 매뉴얼 참고 (http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#5-operation)
+
+#### 기능 개선/변경
+* [Console] Resource name에 한글을 입력 할 수 있습니다. '/'문자를 제외하고 모든 문자 입력이 가능합니다.
+* [Console] Resource, Role, User, Scope 입력, 수정시 필드 유효성 검사 실패시 보여주는 메시지가 수정되었습니다.
+	* Resource의 priority, description 의 유효성 검사시 4XX, 5XX 에러가 아닌 문구를 보여주도록 개선되었습니다.
+		* priority 유효성 검사 실패 문구 : 'Priority 는 숫자(1 - 65535)만 입력가능합니다.'
+		* description 유효성 검사 실패 문구 : '잘못된 형식의 description 입니다.'
+	* Scope, Role, User 의 description 이 128자 넘어갈 경우 4XX, 5XX 에러가 아닌 문구를 보여주도록 개선되었습니다.
+		* description 유효성 검사 실패 문구 : '잘못된 형식의 description 입니다.'
+	* User 수정 화면에서 없는 Role이나 Scope을 입력한 경우 11001, 13001 에러가 아닌 문구를 보여주도록 개선되었습니다.
+		* 없는 Scope 입력시 문구 : 'Scope ID 를 찾을 수 없습니다.'
+		* 없는 Role 입력시 문구 : 'Role ID 를 찾을 수 없습니다.'
+* [Console] Resource 검색 화면에서 Operation 필드에 자동 완성 기능이 추가되었습니다.
+* [Console] Migration 기능의 오용을 방지 하기 위해서 화면에 주의 문구가 추가되었습니다.
+	* 주의 문구 : '※ 주의 : 현재 프로젝트의 Resource, Role, Operation 을 선택한 프로젝트로 복사를 진행합니다. 선택한 프로젝트의 기존 Resource, Role, Operation 은 삭제합니다.'
+* [RESTFUL API] API 제약 사항이 변경되었습니다.
+	* GET /role/v1.0/appkeys/{appKey}/resources/hierarchy API 가 user나 role 을 인자로 주지 않아도 전체 결과를 주도록 변경되었습니다.
+		* 자세한 사항은 매뉴얼 참고 (http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#4-resources)
+
+#### 버그 수정
+* [Console] Resource 수정 화면에서 하위 리소스를 가진 리소스의 name 변경시 5XX 에러가 발생하는 오류가 수정되었습니다. 
+	* 정상적으로 변경된 Ui Path 가 하위 Resource에도 반영됩니다. 
+* [Console] Resource 검색 화면에서 없는 user로 검색시 모든 리소스가 검색되는 오류가 수정되었습니다. 
+	* Resource Tree 에 나오는 Resource가 없습니다.
+* [Console] Resource 수정 시 중복된 name 으로 수정 요청 후 취소 시 적용된 값으로 보이는 오류가 수정되었습니다. 
+	* 이전 상태로 보여집니다.
+* [Console] Role 검색 화면에서 description 을 키워드로 검색시 Total 값이 정상적으로 변경이 되지 않는 오류가 수정되었습니다.
+	* Total 값이 검색된 건수 값으로 반영이 됩니다.
+* [Console] User 화면에서 검색된 상태에서 Role 추가나 삭제시 바로 검색된 리스트 화면에 반영되지 않는 오류가 수정되었습니다.
+	* User 리스트 화면에 바로 반영되어 보여집니다.
+* [Console] User 수정 화면에서 Title 이 'User 추가' 에서 "User 수정' 으로 나오도록 수정되었습니다.
+ 
+
 ### 2017.07.20
 #### 버그 수정  
-* [Console] 이미 사용중인 Resoucre, Role, Scope 이름으로 등록/수정시 반영을 하지 않고 실패 경고창을 화면에 보여줍니다.  
-
+* [Console] 이미 사용중인 Resource, Role, Scope 이름으로 등록/수정시 반영을 하지 않고 실패 경고창을 화면에 보여줍니다.  
+	
 ### 2017.05.25
 #### 버그 수정
-* [Console] Resource 탭의 [Excel 업로드] 기능이 동작하지 않는 문제 수정
+* [Console] Resource 탭의 [Excel 업로드] 기능이 동작하지 않는 문제 수정 
 
 ### 2017.04.20
 #### 버그 수정
