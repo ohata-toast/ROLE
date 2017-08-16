@@ -4,13 +4,13 @@
 #### 기능 추가
 * [RESTFUL API] 각 구성요소의 리스트를 조회할 수 있는 API 가 추가되었습니다.
 	* GET /role/v1.0/appkeys/{appKey}/roles : role 리스트 조회
-		* 자세한 사항은 매뉴얼 참고 (http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#3-role)
+		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#3-role)
 	* GET /role/v1.0/appkeys/{appKey}/resources : resource 리스트 조회
-		* 자세한 사항은 매뉴얼 참고 (http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#4-resources)
+		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#4-resources)
 	* GET /role/v1.0/appkeys/{appKey}/scopes : scope 리스트 조회
-		* 자세한 사항은 매뉴얼 참고 (http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#2-scope)
+		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#2-scope)
 	* GET /role/v1.0/appkeys/{appKey}/operations : operation 리스트 조회
-		* 자세한 사항은 매뉴얼 참고 (http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#5-operation)
+		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#5-operation)
 
 #### 기능 개선/변경
 * [Console] Resource name에 한글을 입력 할 수 있습니다. '/'문자를 제외하고 모든 문자 입력이 가능합니다.
@@ -28,7 +28,7 @@
 	* 주의 문구 : '※ 주의 : 현재 프로젝트의 Resource, Role, Operation 을 선택한 프로젝트로 복사를 진행합니다. 선택한 프로젝트의 기존 Resource, Role, Operation 은 삭제합니다.'
 * [RESTFUL API] API 제약 사항이 변경되었습니다.
 	* GET /role/v1.0/appkeys/{appKey}/resources/hierarchy API 가 user나 role 을 인자로 주지 않아도 전체 결과를 주도록 변경되었습니다.
-		* 자세한 사항은 매뉴얼 참고 (http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#4-resources)
+		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#4-resources)
 
 #### 버그 수정
 * [Console] Resource 수정 화면에서 하위 리소스를 가진 리소스의 name 변경시 5XX 에러가 발생하는 오류가 수정되었습니다. 
@@ -77,19 +77,19 @@
 ### 2016.10.20
 #### 기능 개선/변경
 * User 목록 조회시, 연관 관계에 있는 Role 을 가진 사용자도 반환 하는 옵션 추가
-	* 자세한 사항은 메뉴얼 참고(http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#1-user)
+	* 자세한 사항은 메뉴얼 참고: [링크](http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#1-user)
 
 ### 2016.09.29
 #### 기능 개선/변경
 * User 에 신규 Role 부여시, 기존에 등록된 Role 중 Scope 이 같은 Role 을 삭제하는 API 추가
 * Role 에 User 추가 API 에서 User 가 없으면 User 를 생성 해주는 옵션 추가
-	* 자세한 사항은 메뉴얼 참고(http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#3-role)
+	* 자세한 사항은 메뉴얼 참고: [링크](http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/RESTFUL%20API%20가이드/#3-role)
 
 ### 2016.08.18
 #### 기능 개선/변경
 * 떨어지는 사용성으로 인하여, Polling API 지원 deprecate 됨
 * Role 상품을 이용하는 Project 간 데이터를 Migration 하는 기능 추가
-    * 자세한 사항은 메뉴얼 참고(http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/Getting%20Started/#_3)
+    * 자세한 사항은 메뉴얼 참고: [링크](http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/Getting%20Started/#_3)
 
 #### 버그 수정
 * Role을 삭제했는데 다른 Role의 연관 정보가 삭제되는 버그 수정
