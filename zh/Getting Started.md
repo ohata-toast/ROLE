@@ -364,15 +364,15 @@ ROLE 을 사용하는 다른 프로젝트가 있다면, 데이터 이관 기능�
 ![[그림 7.1] 데이터 이관 버튼](http://static.toastoven.net/prod_role/role_28.png)
 <center>[그림 7.1] 데이터 이관 버튼</center>
 
-![[그림 7.2] 데이터 이관 팝업](http://static.toastoven.net/prod_role/role_29.png)
+![[그림 7.2] 데이터 이관 팝업](http://static.toastoven.net/prod_role/role_33.png)
 <center>[그림 7.2] 데이터 이관 팝업</center>
 
 데이터를 이관 할 프로젝트를 선택하거나, 직접 AppKey 를 입력 할 수 있다.
 
-![[그림 7.3] 프로젝트 선택](http://static.toastoven.net/prod_role/role_30.png)
+![[그림 7.3] 프로젝트 선택](http://static.toastoven.net/prod_role/role_34.png)
 <center>[그림 7.3] 프로젝트 선택</center>
 
-![[그림 7.4] AppKey 입력](http://static.toastoven.net/prod_role/role_31.png)
+![[그림 7.4] AppKey 입력](http://static.toastoven.net/prod_role/role_35.png)
 <center>[그림 7.4] AppKey 입력</center>
 
 ## 캐쉬 삭제

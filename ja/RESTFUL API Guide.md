@@ -951,6 +951,65 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 |relations[0].scopeId|	String|	Scope ID|
 |relations[0].userId|	String|	User ID|
 
+
+#### 2.6. Scope 리스트 조회
+
+ 페이지 형태로 리스트를 조회할 수 있다. 
+page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조회한다.  
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|GET|	/role/v1.0/appkeys/{appKey}/scopes|
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+
+**[Query Parameter]**
+|Key|	Value|	Required|	Description|
+|---|---|---|---|
+|scopeId|	Scope ID|	No|	|
+|description|	|	No|	설명|
+|page|  |	No|	검색을 원하는 페이지 번호로 1부터 시작|
+|itemsPerPage|  |	No|	결과를 원하는 scopes 의 레코드 수|
+
+**[Response Body]**
+
+```json
+{
+  "header": {
+    "isSuccessful": true,
+    "resultCode": 0,
+    "resultMessage": "Success"
+  },
+  "scopes": [
+    {
+      "description": "",
+      "scopeId": ""
+    }
+  ],
+  "totalItems": 0
+}
+```
+
+|Key|	Type|	Description|
+|---|---|---|
+|scopes|	List|	Scope 정보|
+|scopes[0].description|	String|	Scope 설명|
+|scopes[0].scopeId|	String|	Scope ID|
+|totalItems|	int|	총 scope 수|
+
 ### 3. Role
 
 #### 3.1. Role 등록
@@ -1275,6 +1334,70 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 }
 ```
 
+#### 3.8. Role 리스트 조회
+
+ 페이지 형태로 리스트를 조회할 수 있다. 
+page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조회한다.  
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|GET|	/role/v1.0/appkeys/{appKey}/roles|
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+
+**[Query Parameter]**
+
+|Key|	Value| Required |
+|---|---|---|
+|roleId|	Role ID| No |
+|description|	설명|	No|
+|page|  검색을 원하는 페이지 번호로 1부터 시작|	No|
+|itemsPerPage|  결과를 원하는 scopes 의 레코드 수|	No|
+
+
+**[Response Body]**
+
+```json
+{
+  "header": {
+    "isSuccessful": true,
+    "resultCode": 0,
+    "resultMessage": "Success."
+  },
+  "roles": [
+    {
+      "description": "",
+      "relatedRoleIds": [
+        {}
+      ],
+      "roleId": ""
+    }
+  ],
+  "totalItems": 0
+}
+```
+
+|Key|	Type|	Description|
+|---|---|---|
+|roles|	List|	Role 정보|
+|roles[0].description|	String|	Role 설명|
+|roles[0].relatedRoleIds|	List|	연관 RoleId 들|
+|roles[0].roleId|	String|	Role ID|
+|totalItems|	int|	총 Role 수|
+
 ### 4. Resource
 
 #### 4.1. Resource 생성
@@ -1307,18 +1430,20 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 	"name": "",
 	"path": "",
 	"priority": 0,
-	"resourceId": ""
+	"resourceId": "",
+	"uiPath": ""
 }
 ```
 
 |Key|	Type|	Required|	Description|
 |---|---|---|---|
 |resourceId|	String|	Yes|	Resource ID <br/> 최대 32글자까지 등록 가능하다. <br/> -\_ 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 한다.|
-|name|	String|	Yes|	Resource 이름, Resource 경로의 마지막 이름과 동일해야 한다.<br/> 예) 경로가 '/path1/path2' 라면 이름은 'path2' 이어야 한다.|
-|path|	String|	Yes|	Resource 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> Resource 경로는 Resource 이름과 '/' 의 조합으로 이루어져야 한다. <br/> 예외적으로 Path Variable 을 표현할 수 있는 {}가 올 수 있다.|
+|name|	String|	No|	필요 없음.|
+|path|	String|	Yes|	Resource 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> Resource 경로는 '/' 의 조합으로 이루어져야 한다. <br/> 예외적으로 Path Variable 을 표현할 수 있는 {}가 올 수 있다.|
 |description|	String|	Yes|	Resource 설명 <br/> 최대 128글자까지 등록 가능하다.|
 |priority|	smallint|	Yes|	같은 경로에서 보여지는 우선순위 <br/> -32768 ~ 32767 값이 올 수 있으며, 낮을 수록 앞에 보이게 된다.|
 |metadata|	String|	Yes|	사용자 정의 데이터 <br/> 최대 65536글자까지 등록 가능하다.|
+|uiPath|	String|	Yes|	UI Path 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> UI Path 경로는 Resource 이름과 '/' 의 조합으로 이루어져야 한다. |
 
 **[Response Body]**
 
@@ -1354,12 +1479,12 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 
 **[Query Parameter]**
 
-|Key|	Value|	Required| Description |
+|Key|	Value|	Required|
 |---|---|---|---|
-|userId|	User ID|	No| userId 혹은 roleId 중 반드시 하나의 값은 있어야 한다 |
-|roleId|	Role ID|	No| userId 혹은 roleId 중 반드시 하나의 값은 있어야 한다 |
-|scopeId|	Scope ID|	No| |
-|operationId|	Operation ID|	Yes| |
+|userId|	User ID|	No|
+|roleId|	Role ID|	No|
+|scopeId|	Scope ID|	No|
+|operationId|	Operation ID|	No|
 
 **[Response Body]**
 
@@ -1485,11 +1610,12 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 
 |Key|	Type|	Required|	Description|
 |---|---|---|---|
-|name|	String|	Yes|	Resource 이름, Resource 경로의 마지막 이름과 동일해야 한다. <br/> 예) 경로가 '/path1/path2' 라면 이름은 'path2' 이어야 한다.|
-|path|	String|	Yes| 	Resource 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> Resource 경로는 Resource 이름과 '/' 의 조합으로 이루어져야 한다. <br/> 예외적으로 Path Variable 을 표현할 수 있는 {}가 올 수 있다.|
+|name|	String|	No| 필요 없음. |
+|path|	String|	Yes| 	Resource 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> Resource 경로는 '/' 의 조합으로 이루어져야 한다. <br/> 예외적으로 Path Variable 을 표현할 수 있는 {}가 올 수 있다.|
 |description|	String|	Yes|	Resource 설명 <br/> 최대 128글자까지 등록 가능하다.|
 |priority|	smallint|	Yes|	같은 경로에서 보여지는 우선순위 <br/> -32768 ~ 32767 값이 올 수 있으며, 낮을 수록 앞에 보이게 된다.|
 |metadata|	String|	Yes|	사용자 정의 데이터 <br/> 최대 65536글자까지 등록 가능하다.|
+|uiPath|	String|	Yes| 	UI Path 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> UI Path 경로는 Resource 이름과 '/' 의 조합으로 이루어져야 한다. |
 
 **[Response Body]**
 
@@ -1630,6 +1756,68 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 	}
 }
 ```
+
+#### 4.8. Resource 리스트 조회
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|GET|	/role/v1.0/appkeys/{appKey}/resources|
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+
+**[Query Parameter]**
+|Key|	Value|	Required|	Description |
+|---|---|---|---|
+|userId|	|	No|	|
+|roleId|	|	No|	|
+|operationId|  |	No|	|
+
+**[Response Body]**
+
+```json
+{
+  "header": {
+    "isSuccessful": true,
+    "resultCode": 0,
+    "resultMessage": "Success."
+  },
+  "resources": [
+    {
+      "description": "",
+      "metadata": "",
+      "name": "",
+      "path": "",
+      "priority": 0,
+      "resourceId": "",
+      "uiPath": ""
+    }
+  ]
+}
+```
+
+|Key|	Type|	Description|
+|---|---|---|
+|resources|	List|	Resource 정보|
+|resources[0].description|	String|	Resource 설명|
+|resources[0].metadata|	String|	사용자 정의 데이터|
+|resources[0].name|	String|	Resource 이름|
+|resources[0].path|	String|	Resource 경로|
+|resources[0].priority|	smallint|	우선순위|
+|resources[0].resourceId|	String|	Resource ID|
+|resources[0].uiPath|	String|	uiPath|
 
 ### 5. Operation
 
@@ -1806,3 +1994,51 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 	}
 }
 ```
+
+
+#### 5.5. Operation 리스트 조회
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|GET|	/role/v1.0/appkeys/{appKey}/operations|
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+
+**[Response Body]**
+
+```json
+{
+  "header": {
+    "isSuccessful": true,
+    "resultCode": 0,
+    "resultMessage": "Success."
+  },
+  "operations": [
+    {
+      "appKey": "",
+      "description": "",
+      "operationId": ""
+    }
+  ]
+}
+```
+
+|Key|	Type|	Description|
+|---|---|---|
+|operations|	List|	Operation 정보|
+|operations[0].appKey|	String|	AppKey|
+|operations[0].description|	String|	Operation 설명|
+|operations[0].operationId|	String|	Operation ID|
