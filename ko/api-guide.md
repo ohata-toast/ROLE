@@ -20,7 +20,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 ### Common Response Body
 
-모든 API 요청에 대해 200 OK 로 응답한다.
+모든 API 요청에 대해 HTTP 응답 코드는 200 으로 응답한다.
 자세한 응답 결과는 Response Body 의 header 항목을 참고한다.
 
 ```json
@@ -978,6 +978,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |appKey|	[CONSOLE] 에서 발급받은 AppKey|
 
 **[Query Parameter]**
+
 |Key|	Value|	Required|	Description|
 |---|---|---|---|
 |scopeId|	Scope ID|	No|	|
@@ -1496,7 +1497,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 **[Query Parameter]**
 
 |Key|	Value|	Required|
-|---|---|---|---|
+|---|---|---|
 |userId|	User ID|	No|
 |roleId|	Role ID|	No|
 |scopeId|	Scope ID|	No|
@@ -1795,6 +1796,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |appKey|	[CONSOLE] 에서 발급받은 AppKey|
 
 **[Query Parameter]**
+
 |Key|	Value|	Required|	Description |
 |---|---|---|---|
 |userId|	|	No|	|
