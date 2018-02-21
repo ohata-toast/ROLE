@@ -1,4 +1,4 @@
-## Application Service > ROLE > SDK Guide
+## Application Service > ROLE > SDK 사용 가이드
 
 
 > Role 상품을 이용하여 권한을 체크하기 위해서는

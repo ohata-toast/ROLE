@@ -1,18 +1,4 @@
-## Application Service > ROLE > Release Notes
-
-### 2018.02.22
-#### 기능 추가
-* [Console] Resource 항목 중 path 에서 antPathPattern 을 지원합니다. 
-    * "/admin/**" 설정시 admin 아래의 resource path 로 authorization 체크를 지원할 수 있습니다.
-* [Console] Role 항목 중 관리의 편의성을 위하여 RoleName 과 RoleGroup 이 추가되었습니다.
-    * RoleName : Role에 의미있는 이름을 부여하여 관리할 수 있습니다.
-    * RoleGroup : 그룹을 지정하여 그룹별 검색을 통해 관리할 수 있습니다.
-* [Console] Resource 의 Resource ID 의 길이가 64자로 늘었습니다.
-* [RESTFUL API] Role 항목 중 RoleName, RoleGroup 추가로 Role 관련 API 가 확장되었습니다.
-    * 자세한 사항은 매뉴얼 참고: [링크](http://docs.cloud.toast.com/ko/Upcoming%20Products/ROLE/ko/RESTFUL%20API%20Guide/#3-role)
-* [SDK] 1.1.7 로 릴리즈되었습니다.
-    * 보안 강화를 위해서 commons-colllection 3.2.2 를 적용하였습니다.
-    
+## Upcoming Products > ROLE > Release Notes
 
 ### 2017.08.24
 #### 기능 추가

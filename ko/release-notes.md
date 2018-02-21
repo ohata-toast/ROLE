@@ -1,6 +1,6 @@
-## Application Service > ROLE > Release Notes
+## Application Service > ROLE > 릴리스 노트
 
-### 2018.02.22
+### 2018.02.25
 #### 기능 추가
 * [Console] Resource 항목 중 path 에서 antPathPattern 을 지원합니다. 
     * "/admin/**" 설정시 admin 아래의 resource path 로 authorization 체크를 지원할 수 있습니다.

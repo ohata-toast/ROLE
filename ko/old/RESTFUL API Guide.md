@@ -1,5 +1,9 @@
-## Application Service > ROLE > API Guide
+## Upcoming Products > ROLE > REST API Developer's Guide
 
+> ※ 본 문서는 alpha 개발 단계의 문서입니다.
+> 사용에 관심이 있으신 분은 **support@cloud.toast.com**으로 문의해 주시기 바랍니다.
+
+<br/>
 
 > Role 상품을 이용하여 권한을 체크하기 위해서는
 > RESTFUL API 를 호출하거나, Client SDK 를 이용하여야 한다.
@@ -9,14 +13,14 @@
 RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요하다.
 [CONSOLE] 의 좌측 상단에서 발급된 Key 정보를 확인 할 수 있다.
 
-![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_40.png)
+![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_17.png)
 <center>[그림 1] AppKey & SecretKey 확인</center>
 
 ## RESTFUL API 가이드
 
 ### Common Response Body
 
-모든 API 요청에 대해 HTTP 응답 코드는 200 으로 응답한다.
+모든 API 요청에 대해 200 OK 로 응답한다.
 자세한 응답 결과는 Response Body 의 header 항목을 참고한다.
 
 ```json
@@ -547,7 +551,6 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |---|---|
 |appKey|	[CONSOLE] 에서 발급받은 AppKey|
 |userId|	User ID|
-|userId|	User ID|
 
 **[Response Body]**
 
@@ -974,7 +977,6 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |appKey|	[CONSOLE] 에서 발급받은 AppKey|
 
 **[Query Parameter]**
-
 |Key|	Value|	Required|	Description|
 |---|---|---|---|
 |scopeId|	Scope ID|	No|	|
@@ -1036,9 +1038,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 ```json
 {
 	"description": "",
-	"roleId": "",
-	"roleName" :  "",
-	"roleGroup" :  ""
+	"roleId": ""
 }
 ```
 
@@ -1046,8 +1046,6 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |---|---|---|---|
 |roleId|	String|	Yes|	Role ID <br/> 최대 32글자까지 등록 가능하다. <br/> -\_ 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 한다.|
 |description|	String|	Yes|	Role 설명 <br/> 최대 128글자까지 등록 가능하다.|
-|roleName|	String|	No|	Role 이름 <br/> 의미 있는 이름을 부여할 수 있다. 최대 128글자까지 등록 가능하다.|
-|roleGroup|	String|	No|	Role Group <br/> Role들을 그룹핑하여 관리 목적으로 사용할수 있다. 최대 128글자까지 등록 가능하다.|
 
 **[Response Body]**
 
@@ -1082,8 +1080,6 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |---|---|
 |appKey|	[CONSOLE] 에서 발급받은 AppKey|
 |roleId|	Role ID|
-|roleName| Role 이름|
-|roleGroup| Role Group|
 
 **[Response Body]**
 
@@ -1097,9 +1093,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 	"role": {
 		"appKey": "",
 		"description": "",
-		"roleId": "",
-		"roleName" : "",
-		"roleGroup" : ""
+		"roleId": ""
 	}
 }
 ```
@@ -1110,11 +1104,8 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |role.appKey|	String|	AppKey|
 |role.roleId|	String|	Role ID|
 |role.description|	String|	Role 설명|
-|role.roleName|	String|	Role 이름|
-|role.roleGroup|	String|	Role Group|
 
-
-#### 3.3. Role 수정
+#### 3.3. Role 설명 수정
 
 **[Method, URL]**
 
@@ -1140,17 +1131,13 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 ```json
 {
-	"description": "",
-	"roleName" : "",
-	"roleGroup" : ""
+	"description": ""
 }
 ```
 
 |Key|	Type|	Required|	Description|
 |---|---|---|---|
 |description|	String|	Yes|	User 설명|
-|roleName|	String|	No|	Role 이름 <br/> 의미 있는 이름을 부여할 수 있다. 최대 128글자까지 등록 가능하다.|
-|roleGroup|	String|	No|	Role Group <br/> Role들을 그룹핑하여 관리 목적으로 사용할수 있다. 최대 128글자까지 등록 가능하다.|
 
 **[Response Body]**
 
@@ -1493,7 +1480,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 **[Query Parameter]**
 
 |Key|	Value|	Required|
-|---|---|---|
+|---|---|---|---|
 |userId|	User ID|	No|
 |roleId|	Role ID|	No|
 |scopeId|	Scope ID|	No|
@@ -1792,7 +1779,6 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |appKey|	[CONSOLE] 에서 발급받은 AppKey|
 
 **[Query Parameter]**
-
 |Key|	Value|	Required|	Description |
 |---|---|---|---|
 |userId|	|	No|	|

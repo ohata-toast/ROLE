@@ -1,4 +1,7 @@
-## Application Service > ROLE > Console Guide
+## Upcoming Products > ROLE > Getting Started
+
+> ※ 본 문서는 alpha 개발 단계의 문서입니다.
+> 사용에 관심이 있으신 분은 **support@cloud.toast.com**으로 문의해 주시기 바랍니다.
 
 ## 게시판 예제
 
@@ -7,25 +10,23 @@
 해당 API 는 인증 된 회원만 호출할 수 있다고 가정하자.
 먼저 인증 된 회원이라는 Role 을 만들어야 한다.
 
-> curl 을 사용한 예제에서 "{Appkey}" 와 "{SecretKey}" 값은 실제 프로젝트 내의 활성화한 Role상품의 Appkey와 SecreKey로 대채를 해야 한다. 
-
 ### Role 생성
 
 **[CONSOLE 사용 시]**
 
-![[그림 1.1] Role 탭으로 이동](http://static.toastoven.net/prod_role/role_36.png)
+![[그림 1.1] Role 탭으로 이동](http://static.toastoven.net/prod_role/role_03.png)
 <center>[그림 1.1] Role 탭으로 이동</center>
 
-![[그림 1.2] Role 추가](http://static.toastoven.net/prod_role/role_37.png)
+![[그림 1.2] Role 추가](http://static.toastoven.net/prod_role/role_04.png)
 <center>[그림 1.2] Role 추가</center>
 
 **[RESTFUL API 호출 시]**
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: KImfa21z" -d '{
   "description": "인증된 회원",
   "roleId": "MEMBER"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/roles"
+}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/1fasfDas/roles"
 ```
 
 **[Client SDK 이용 시]**
@@ -51,10 +52,10 @@ Role 을 만들었으면 Operation 을 만들어야 한다.
 **[RESTFUL API 호출 시]**
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: KImfa21z" -d '{
   "description": "HTTP GET",
   "operationId": "GET"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/operations"
+}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/1fasfDas/operations"
 ```
 
 **[Client SDK 이용 시]**
@@ -91,32 +92,32 @@ board, v1.0, {boardId} 로 나누어서 순차적으로 등록해야 한다.
 **[RESTFUL API 호출 시]**
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: KImfa21z" -d '{
   "description": "",
   "metadata": "",
   "name": "board",
   "path": "/board",
   "priority": 0,
   "resourceId": "API_BOARD"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/resources"
+}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/1fasfDas/resources"
 
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: KImfa21z" -d '{
   "description": "",
   "metadata": "",
   "name": "v1.0",
   "path": "/board/v1.0",
   "priority": 0,
   "resourceId": "API_BOARD_VERSION"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/resources"
+}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/1fasfDas/resources"
 
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: KImfa21z" -d '{
   "description": "",
   "metadata": "",
   "name": "{boardId}",
   "path": "/board/v1.0/{boardId}",
   "priority": 0,
   "resourceId": "API_BOARD_ID"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/resources"
+}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/1fasfDas/resources"
 ```
 
 **[Client SDK 이용 시]**
@@ -130,23 +131,24 @@ client.createResource("API_BOARD_ID", "", "{boardId}", "/board/v1.0/{boardId}", 
 ### Role - Resource 관계 생성
 
 Resource 까지 등록했다면, Role 과 Resource 의 권한 관계를 설정해야 한다.
+하위 Resource 에 권한을 부여하면, 모든 상위 Resource 에 자동으로 권한이 같이 부여되므로,
 API_BOARD_ID 에만 권한을 부여해보자.
 
 **[CONSOLE 사용 시]**
 
-![[그림 4.1] Role - Resource 관계 추가](http://static.toastoven.net/prod_role/role_38.png)
+![[그림 4.1] Role - Resource 관계 추가](http://static.toastoven.net/prod_role/role_13.png)
 <center>[그림 4.1] Role - Resource 관계 추가</center>
 
-![[그림 4.2] Role - Resource 관계 추가 후 모습](http://static.toastoven.net/prod_role/role_39.png)
+![[그림 4.2] Role - Resource 관계 추가 후 모습](http://static.toastoven.net/prod_role/role_14.png)
 <center>[그림 4.2] Role - Resource 관계 추가 후 모습</center>
 
 **[RESTFUL API 호출 시]**
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: KImfa21z" -d '{
   "operationId": "GET",
   "roleId": "MEMBER"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/resources/API_BOARD_ID/authorizations"
+}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/1fasfDas/resources/API_BOARD_ID/authorizations"
 ```
 
 **[Client SDK 이용 시]**
@@ -170,7 +172,7 @@ client.addAuthorization("API_BOARD_ID", "GET", "MEMBER");
 **[RESTFUL API 호출 시]**
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: KImfa21z" -d '{
   "users": [
     {
       "description": "홍길동",
@@ -183,7 +185,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" 
       "userId": "12345678-1234-5678-1234-567812345678"
     }
   ]
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/users"
+}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/1fasfDas/users"
 ```
 
 **[Client SDK 이용 시]**
@@ -211,7 +213,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
             "scopeId": "ALL"
         }
     ]
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/users/12345678-1234-5678-1234-567812345678/authorizations"
+}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/1fasfDas/users/12345678-1234-5678-1234-567812345678/authorizations"
 ```
 
 **[Spring Client SDK 이용 시]**
@@ -323,7 +325,7 @@ Resource 에 권한을 부여하고 싶다면 Operation ID, Role ID 항목을 �
 
 [Excel 다운로드] 를 통해 받은 Excel 파일을 열고, Role 시트로 이동 후, 필수 Cell 의 값을 채운다.
 
-![[그림 6.4] Role 시트](http://static.toastoven.net/prod_role/role_41.png)
+![[그림 6.4] Role 시트](http://static.toastoven.net/prod_role/role_21.png)
 <center>[그림 6.4] Role 시트</center>
 
 Role 의 연관 관계를 구성하려면 Related ID 를 작성한다.
