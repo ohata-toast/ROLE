@@ -1,9 +1,5 @@
 ## Application Service > ROLE > SDK 사용 가이드
 
-> ※ 본 문서는 alpha 개발 단계의 문서입니다.
-> 사용에 관심이 있으신 분은 **support@cloud.toast.com**으로 문의해 주시기 바랍니다.
-
-<br/>
 
 > Role 상품을 이용하여 권한을 체크하기 위해서는
 > RESTFUL API 를 호출하거나, Client SDK 를 이용하여야 한다.
