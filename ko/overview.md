@@ -3,8 +3,8 @@
 ## Role 상품은?
 
 Role Based Access Control 을 할수 있게 API 및 UI를 제공하는 TOAST Cloud 상품이다.  
-Role 을 정의하고 Role 에 따라 접근할 수 있는 Resource 를 설정한 후, User 에게 Role 을 할당하면, 손쉽게 User 가 Resource 에 접근 할 수 있는지를 검사할 수 있다.  
-Resource 를 계층적으로 저장하기 때문에, Role 에 따라 접근 가능한 메뉴를 손쉽게 구할 수 있다.  
+Role을 정의하고 각 Resource에 접근 가능한 Role을 설정한 후, User에게 Role을 할당하면, User의 Resource에 대한 접근 권한을 확인할 수 있다.  
+Resource를 계층 구조로 저장하기 때문에, Role을 기반으로 접근 가능한 메뉴를 보다 쉽게 구할 수 있다.  
 
 ## 전체 구조
 
@@ -16,10 +16,10 @@ Resource 를 계층적으로 저장하기 때문에, Role 에 따라 접근 가�
 
 ## 특장점
 
-역할 기반의 접근 제어를 손쉽게 사용할 수 있다.  
-역할 상속 기능을 제공한다.  
-RESTFUL API 의 Path Variable 이 포함된 Resource 를 지원한다.  
-역할에 따른 메뉴를 손쉽게 구성 할 수 있다.  
+* 역할 기반의 접근 제어를 보다 쉽게 사용할 수 있다.  
+* 역할 상속 기능을 제공한다.  
+* RESTFUL API의 AntPath Pattern 방식의 Resource를 지원한다.  
+* 역할에 따른 메뉴를 보다 쉽게 구성 할 수 있다.  
 
 ## 주요기능
 
@@ -33,5 +33,5 @@ RESTFUL API 의 Path Variable 이 포함된 Resource 를 지원한다.
 |User|	권한을 가지는 주체|
 |Role|	역할|
 |Scope|	역할의 범위|
-|Operation|	Resource 에 행할 수 있는 행위|
+|Operation|	Resource에 행할 수 있는 행위|
 |Resource|	역할이 접근할 수 있는 모든 대상|

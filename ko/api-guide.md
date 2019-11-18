@@ -9,7 +9,7 @@
 RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요하다.
 [CONSOLE] 의 좌측 상단에서 발급된 Key 정보를 확인 할 수 있다.
 
-![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_40.png)
+![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_60.png)
 <center>[그림 1] AppKey & SecretKey 확인</center>
 
 ## RESTFUL API 가이드
@@ -69,7 +69,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 			"relations": [
 				{
 					"roleId": "",
-					"scopeId": ""
+					"scopeId": "",
+					"validStartDate" : "",
+					"validEndDate" : ""
 				}
 			],
 			"userId": ""
@@ -86,6 +88,8 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |users[0].relations|	List|	No|	User - Role 관계 리스트|
 |users[0].relations[0].roleId|	String|	Yes|	Role ID|
 |users[0].relations[0].scopeId|	String|	Yes|	Scope ID|
+|users[0].relations[0].validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
+|users[0].relations[0].validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜|
 
 **[Response Body]**
 
@@ -145,7 +149,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 	"user": {
 		"appKey": "",
 		"description": "",
-		"regYmdt": 1461633317442,
+		"regYmdt": "2019-11-01T00:00:00.000+0000",
 		"userId": ""
 	}
 }
@@ -204,12 +208,14 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
     [
         {
             "description" : "",
-            "regYmdt" : 1466046601134,
+            "regYmdt" : "2019-11-01T00:00:00.000+0000",
             "relations" :
             [
                 {
                     "roleId" : "",
-                    "scopeId" : ""
+                    "scopeId" : "",
+                    "validStartDate" : "",
+                    "validEndDate" : ""
                 }
             ],
             "userId" : ""
@@ -228,6 +234,8 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
 |users[0].relations | List | User 에 할당된 관계 리스트 |
 |users[0].relations[0].roleId | String | Role ID |
 |users[0].relations[0].scopeId | String | Scope ID |
+|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜|
+|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜|
 
 #### 1.4. 벌크 User 리스트 조회
 
@@ -275,13 +283,15 @@ User 정보를 한번에 조회하는 API
     [
         {
             "description" : "",
-            "regYmdt" : 1466046601134,
+            "regYmdt" : "2019-11-01T00:00:00.000+0000",
             "relations" :
             [
                 {
                     "userId" : "",
                     "roleId" : "",
-                    "scopeId" : ""
+                    "scopeId" : "",
+                    "validStartDate" : "",
+                    "validEndDate" : ""
                 }
             ],
             "userId" : ""
@@ -301,6 +311,9 @@ User 정보를 한번에 조회하는 API
 |users[0].relations[0].userId | String | User ID |
 |users[0].relations[0].roleId | String | Role ID |
 |users[0].relations[0].scopeId | String | Scope ID |
+|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜 |
+|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜 |
+
 
 #### 1.5. User 설명 수정
 
@@ -563,7 +576,9 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 			"appKey": "",
 			"roleId": "",
 			"scopeId": "",
-			"userId": ""
+			"userId": "",
+			"validStartDate" : "",
+			"validEndDate" : ""
 		}
 	]
 }
@@ -576,6 +591,8 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |relations[0].roleId|	String|	Role ID|
 |relations[0].scopeId|	String|	Scope ID|
 |relations[0].userId|	String|	User ID|
+|relations[0].validStartDate|	Date|User에게 부여된 Role의 유효 기간 시작 날짜|
+|relations[0].validEndDate|	Date|User에게 부여된 Role의 유효 기간 종료 날짜|
 
 #### 1.10. User 에 Role 부여
 
@@ -605,7 +622,9 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 {
 	"roleId": "",
 	"scopeId": "",
-	"createUserIfNotExist": false
+	"createUserIfNotExist": false,
+	"validStartDate" : "",
+	"validEndDate" : ""
 }
 ```
 
@@ -614,6 +633,8 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |roleId|	String|	Yes|	Role ID|
 |scopeId|	String|	Yes|	Scope ID|
 |createUserIfNotExist| Boolean| No| User 가 없을때 User 를 생성할 지 여부|
+|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
+|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜 |
 
 **[Response Body]**
 
@@ -699,7 +720,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 			"roleId": "",
 			"scopeId": ""
 		}
-	],
+	]
 }
 ```
 
@@ -708,6 +729,58 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |relations|	List|	No|	User - Role 관계 리스트|
 |relations[0].roleId|	String|	Yes|	Role ID|
 |relations[0].scopeId|	String|	Yes|	Scope ID|
+
+**[Response Body]**
+
+```json
+{
+	"header" : {
+		"isSuccessful" : true,
+		"resultCode": 0,
+		"resultMessage" : "Success."
+	}
+}
+```
+#### 1.13. User에게 부여된 Role에 유효 기간 설정
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|PUT|	/role/v1.0/appkeys/{appKey}/users/{userId}/roles/valid-period|
+
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|userId|	User ID|
+
+**[Request Body]**
+
+```json
+{
+    "roleId" : "",
+    "scopeId" : "",
+	"validStatDate" : "",
+	"validEndDate" : ""
+}
+```
+
+|Key|	Type|	Required|	Description|
+|---|---|---|---|
+|roleId|	String|	Yes|	Role ID|
+|scopeId|	String|	Yes|	Scope ID|
+|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
+|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜|
 
 **[Response Body]**
 
@@ -1170,7 +1243,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Method|	URI|
 |---|---|
-|PUT|	/role/v1.0/appkeys/{appKey}/roles/{roleId}|
+|Delete|	/role/v1.0/appkeys/{appKey}/roles/{roleId}|
 
 **[Request Header]**
 
@@ -1322,7 +1395,9 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 	"users": [
 		{
 			"scopeId": "",
-			"userId": ""
+			"userId": "",
+			"validStartDate" : "",
+			"validEndDate" : ""
 		}
 	]
 }
@@ -1334,6 +1409,8 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |users|	List|	Yes|	User 리스트|
 |users[0].scopeId|	String|	No|	Scope ID, 없을 시 기본값 ALL|
 |users[0].userId|	String|	Yes|	User ID|
+|users[0].validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
+|users[0].validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종 날짜|
 
 **[Response Body]**
 

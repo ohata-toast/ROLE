@@ -10,7 +10,7 @@
 RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요하다.
 [CONSOLE] 의 좌측 상단에서 발급된 Key 정보를 확인 할 수 있다.
 
-![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_40.png)
+![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_60.png)
 <center>[그림 1] AppKey & SecretKey 확인</center>
 
 
@@ -22,7 +22,7 @@ Spring Framework 을 이용한 MVC 프로젝트에서
 JAVA Client SDK 를 좀 더 편하게 사용하기 위한 @Annotation 및 Interceptor 를 제공한다.
 RESTFUL API 에 대한 접근 제어를 한다면 Spring Client SDK 를 사용 함으로서 손쉽게 접근 권한을 검사할 수 있다.
 Spring Client SDK 에서 제공하는 @Annotation 과 @RequestMapping 같이 사용하게 되며,
-@RequestMapping 의 value 가 Resource Path, method 가 Operation ID 로 각각 mapping 되게 되며,
+@RequestMapping 의 value 가 Resource Path, method 가 Operation ID 로 각각 mapping 되며,
 @Annotation 의 설정에 따라 User ID 와 Scope ID 를 Path Variable, Query Parameter, Header 의 특정 값으로 mapping 할 수 있다.
 
 
@@ -49,7 +49,7 @@ JAVA Client SDK For Spring 을 사용하기 위해선 pom.xml 에 maven reposito
 	<dependency>
 		<groupId>com.toast.cloud</groupId>
 		<artifactId>role-client-spring</artifactId>
-		<version>1.1.7</version>
+		<version>1.4.1</version>
 	</dependency>
 </dependencies>
 ```
@@ -160,7 +160,7 @@ JAVA Client SDK 를 사용하기 위해선 pom.xml 에 maven repository 및 depe
 	<dependency>
 		<groupId>com.toast.cloud</groupId>
 		<artifactId>role-client</artifactId>
-		<version>1.1.4</version>
+		<version>1.4.1</version>
 	</dependency>
 </dependencies>
 ```
@@ -194,7 +194,7 @@ LRU 로 관리를 하고 있으며, Cache 의 기본값은 300초의 TTL (Time T
 해당 값을 수정 하려면 [CONSOLE] 에 접속하여 변경할 수 있다.
 [CONSOLE] 에서 변경한 설정은 변경 즉시 반영되며, 변경되는 즉시 기존 Cache 는 모두 삭제된다.
 
-![[그림 2] Client SDK Cache 설정](http://static.toastoven.net/prod_role/role_27.png)
+![[그림 2] Client SDK Cache 설정](http://static.toastoven.net/prod_role/role_61.png)
 <center>[그림 2] Client SDK Cache 설정</center>
 
 ### Transaction 지원
