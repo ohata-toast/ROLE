@@ -9,7 +9,7 @@
 RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요하다.
 [CONSOLE] 의 좌측 상단에서 발급된 Key 정보를 확인 할 수 있다.
 
-![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_40.png)
+![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_60.png)
 <center>[그림 1] AppKey & SecretKey 확인</center>
 
 ## RESTFUL API 가이드
@@ -69,7 +69,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 			"relations": [
 				{
 					"roleId": "",
-					"scopeId": ""
+					"scopeId": "",
+					"validStartDate" : "",
+					"validEndDate" : ""
 				}
 			],
 			"userId": ""
@@ -86,6 +88,8 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |users[0].relations|	List|	No|	User - Role 관계 리스트|
 |users[0].relations[0].roleId|	String|	Yes|	Role ID|
 |users[0].relations[0].scopeId|	String|	Yes|	Scope ID|
+|users[0].relations[0].validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
+|users[0].relations[0].validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜|
 
 **[Response Body]**
 
@@ -145,7 +149,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 	"user": {
 		"appKey": "",
 		"description": "",
-		"regYmdt": 1461633317442,
+		"regYmdt": "2019-11-01T00:00:00.000+0000",
 		"userId": ""
 	}
 }
@@ -199,17 +203,19 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
 		"isSuccessful" : true,
 		"resultCode" : 0,
 		"resultMessage" : "Success."
-	}
+	},
     "users" :
     [
         {
             "description" : "",
-            "regYmdt" : 1466046601134,
+            "regYmdt" : "2019-11-01T00:00:00.000+0000",
             "relations" :
             [
                 {
                     "roleId" : "",
-                    "scopeId" : ""
+                    "scopeId" : "",
+                    "validStartDate" : "",
+                    "validEndDate" : ""
                 }
             ],
             "userId" : ""
@@ -228,6 +234,8 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
 |users[0].relations | List | User 에 할당된 관계 리스트 |
 |users[0].relations[0].roleId | String | Role ID |
 |users[0].relations[0].scopeId | String | Scope ID |
+|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜|
+|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜|
 
 #### 1.4. 벌크 User 리스트 조회
 
@@ -270,18 +278,20 @@ User 정보를 한번에 조회하는 API
 		"isSuccessful" : true,
 		"resultCode" : 0,
 		"resultMessage" : "Success."
-	}
+	},
     "users" :
     [
         {
             "description" : "",
-            "regYmdt" : 1466046601134,
+            "regYmdt" : "2019-11-01T00:00:00.000+0000",
             "relations" :
             [
                 {
                     "userId" : "",
                     "roleId" : "",
-                    "scopeId" : ""
+                    "scopeId" : "",
+                    "validStartDate" : "",
+                    "validEndDate" : ""
                 }
             ],
             "userId" : ""
@@ -301,6 +311,9 @@ User 정보를 한번에 조회하는 API
 |users[0].relations[0].userId | String | User ID |
 |users[0].relations[0].roleId | String | Role ID |
 |users[0].relations[0].scopeId | String | Scope ID |
+|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜 |
+|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜 |
+
 
 #### 1.5. User 설명 수정
 
@@ -563,7 +576,9 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 			"appKey": "",
 			"roleId": "",
 			"scopeId": "",
-			"userId": ""
+			"userId": "",
+			"validStartDate" : "",
+			"validEndDate" : ""
 		}
 	]
 }
@@ -576,6 +591,8 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |relations[0].roleId|	String|	Role ID|
 |relations[0].scopeId|	String|	Scope ID|
 |relations[0].userId|	String|	User ID|
+|relations[0].validStartDate|	Date|User에게 부여된 Role의 유효 기간 시작 날짜|
+|relations[0].validEndDate|	Date|User에게 부여된 Role의 유효 기간 종료 날짜|
 
 #### 1.10. User 에 Role 부여
 
@@ -605,7 +622,9 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 {
 	"roleId": "",
 	"scopeId": "",
-	"createUserIfNotExist": false
+	"createUserIfNotExist": false,
+	"validStartDate" : "",
+	"validEndDate" : ""
 }
 ```
 
@@ -614,6 +633,8 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |roleId|	String|	Yes|	Role ID|
 |scopeId|	String|	Yes|	Scope ID|
 |createUserIfNotExist| Boolean| No| User 가 없을때 User 를 생성할 지 여부|
+|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
+|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜 |
 
 **[Response Body]**
 
@@ -699,7 +720,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 			"roleId": "",
 			"scopeId": ""
 		}
-	],
+	]
 }
 ```
 
@@ -708,6 +729,58 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |relations|	List|	No|	User - Role 관계 리스트|
 |relations[0].roleId|	String|	Yes|	Role ID|
 |relations[0].scopeId|	String|	Yes|	Scope ID|
+
+**[Response Body]**
+
+```json
+{
+	"header" : {
+		"isSuccessful" : true,
+		"resultCode": 0,
+		"resultMessage" : "Success."
+	}
+}
+```
+#### 1.13. User에게 부여된 Role에 유효 기간 설정
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|PUT|	/role/v1.0/appkeys/{appKey}/users/{userId}/roles/valid-period|
+
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|userId|	User ID|
+
+**[Request Body]**
+
+```json
+{
+    "roleId" : "",
+    "scopeId" : "",
+	"validStatDate" : "",
+	"validEndDate" : ""
+}
+```
+
+|Key|	Type|	Required|	Description|
+|---|---|---|---|
+|roleId|	String|	Yes|	Role ID|
+|scopeId|	String|	Yes|	Scope ID|
+|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
+|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜|
 
 **[Response Body]**
 
@@ -1038,7 +1111,8 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 	"description": "",
 	"roleId": "",
 	"roleName" :  "",
-	"roleGroup" :  ""
+	"roleGroup" :  "",
+    "exposureOrder": 0
 }
 ```
 
@@ -1048,6 +1122,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |description|	String|	Yes|	Role 설명 <br/> 최대 128글자까지 등록 가능하다.|
 |roleName|	String|	No|	Role 이름 <br/> 의미 있는 이름을 부여할 수 있다. 최대 128글자까지 등록 가능하다.|
 |roleGroup|	String|	No|	Role Group <br/> Role들을 그룹핑하여 관리 목적으로 사용할수 있다. 최대 128글자까지 등록 가능하다.|
+|exposureOrder|	int|	No|	노출 순서 <br/> 숫자만 가능하다. 기본값 0|
 
 **[Response Body]**
 
@@ -1098,8 +1173,11 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 		"appKey": "",
 		"description": "",
 		"roleId": "",
-		"roleName" : "",
-		"roleGroup" : ""
+		"roleName": "",
+		"roleGroup": "",
+		"exposureOrder": 0,
+		"regDateTime": "",
+		"roleTags": [ {"roleTagId": ""}]
 	}
 }
 ```
@@ -1111,10 +1189,13 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |role.roleId|	String|	Role ID|
 |role.description|	String|	Role 설명|
 |role.roleName|	String|	Role 이름|
-|role.roleGroup|	String|	Role Group|
+|role.roleGroup|	String|	Role 그룹 이름|
+|role.exposureOrder|	int|	노출 순서|
+|role.regDateTime|	String|	등록일시|
+|role.roleTags|	Object|	Tag 정보 |
+|role.roleTags.roleTagId|	String|	Tag ID|
 
-
-#### 3.3. Role 수정
+#### 3.3. Role 정보 수정
 
 **[Method, URL]**
 
@@ -1140,9 +1221,10 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 ```json
 {
-	"description": "",
-	"roleName" : "",
-	"roleGroup" : ""
+  "description": "",
+  "roleName": "",
+  "roleGroup": "",
+  "exposureOrder": 0
 }
 ```
 
@@ -1151,6 +1233,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |description|	String|	Yes|	User 설명|
 |roleName|	String|	No|	Role 이름 <br/> 의미 있는 이름을 부여할 수 있다. 최대 128글자까지 등록 가능하다.|
 |roleGroup|	String|	No|	Role Group <br/> Role들을 그룹핑하여 관리 목적으로 사용할수 있다. 최대 128글자까지 등록 가능하다.|
+|exposureOrder|	int | No | 노출 순서|
 
 **[Response Body]**
 
@@ -1170,7 +1253,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Method|	URI|
 |---|---|
-|PUT|	/role/v1.0/appkeys/{appKey}/roles/{roleId}|
+|Delete|	/role/v1.0/appkeys/{appKey}/roles/{roleId}|
 
 **[Request Header]**
 
@@ -1186,17 +1269,6 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |appKey|	[CONSOLE] 에서 발급받은 AppKey|
 |roleId|	Role ID|
 
-**[Request Body]**
-
-```json
-{
-	"description": ""
-}
-```
-
-|Key|	Type|	Required|	Description|
-|---|---|---|---|
-|description|	String|	Yes|	User 설명|
 
 **[Response Body]**
 
@@ -1322,7 +1394,9 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 	"users": [
 		{
 			"scopeId": "",
-			"userId": ""
+			"userId": "",
+			"validStartDate" : "",
+			"validEndDate" : ""
 		}
 	]
 }
@@ -1334,6 +1408,8 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |users|	List|	Yes|	User 리스트|
 |users[0].scopeId|	String|	No|	Scope ID, 없을 시 기본값 ALL|
 |users[0].userId|	String|	Yes|	User ID|
+|users[0].validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
+|users[0].validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종 날짜|
 
 **[Response Body]**
 
@@ -1377,9 +1453,16 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |---|---|---|
 |roleId|	Role ID| No |
 |description|	설명|	No|
+|roleName|	Role 이름|	No|
+|roleGroup|	Role Group 이름|	No|
+|roleTagIds| Tag Id 조건 (;는 OR, ,는 AND)|	No|
 |page|  검색을 원하는 페이지 번호로 1부터 시작|	No|
 |itemsPerPage|  결과를 원하는 scopes 의 레코드 수|	No|
 
+roleTagIds 를 통해서 검색시 Role 에 설정 한 Tag 를 AND 나 OR 조건으로 조회할 수 있다.
+예를 들어 Role 에 A 와 B Tag 를 가지고 있는 Role을 검색시에는 A;B 로 조건을 만들수 있고,
+A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을 만들 수 있다.
+(A;B),C 와 같은 조건 생성도 가능하다.  
 
 **[Response Body]**
 
@@ -1396,7 +1479,12 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
       "relatedRoleIds": [
         {}
       ],
-      "roleId": ""
+      "roleId": "",
+      "roleName": "",
+      "roleGroup": "",
+      "exposureOrder": 0,
+      "regDateTime": "",
+      "roleTags": [{ "roleTagId": ""}]
     }
   ],
   "totalItems": 0
@@ -1409,7 +1497,137 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |roles[0].description|	String|	Role 설명|
 |roles[0].relatedRoleIds|	List|	연관 RoleId 들|
 |roles[0].roleId|	String|	Role ID|
+|roles[0].roleName|	String|	Role 이름|
+|roles[0].roleGroup|	String|	Role 그룹 이름|
+|roles[0].exposureOrder|	int|	노출 순서|
+|roles[0].regDateTime|	String|	등록일시|
+|roles[0].roleTags|	Object|	Tag 정보 |
+|roles[0].roleTags.roleTagId|	String|	Tag ID|
 |totalItems|	int|	총 Role 수|
+
+
+#### 3.9. Role Tag 생성
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|POST|	/role/v1.0/appkeys/{appKey}/roles/{roleId}/tags|
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|roleId|	Role ID|
+
+**[Request Body]**
+
+```json
+{
+	"roleTagId": ""
+}
+```
+
+|Key|	Type|	Required|	Description|
+|---|---|---|---|
+|roleTagId|	String|	Yes|	부여할 Tag ID|
+
+**[Response Body]**
+
+```json
+{
+	"header" : {
+		"isSuccessful" : true,
+		"resultCode": 0,
+		"resultMessage" : "Success."
+	}
+}
+```
+
+
+#### 3.10. Role Tag 삭제
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|DELETE|	/role/v1.0/appkeys/{appKey}/roles/{roleId}/tags/{roleTagId}|
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|roleId|	Role ID|
+|roleTagId|	Tag ID|
+
+**[Response Body]**
+
+```json
+{
+	"header" : {
+		"isSuccessful" : true,
+		"resultCode": 0,
+		"resultMessage" : "Success."
+	}
+}
+```
+
+#### 3.11. Role Tag 조회
+
+**[Method, URL]**
+
+|Method|	URI|
+|---|---|
+|GET|	/role/v1.0/appkeys/{appKey}/roles/{roleId}/tags|
+
+**[Request Header]**
+
+|Key|	Value|
+|---|---|
+|X-Secret-Key|	[CONSOLE] 에서 발급받은 SecretKey|
+|Content-Type|	application/json|
+
+**[Path Variable]**
+
+|Key|	Value|
+|---|---|
+|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|roleId|	Role ID|
+
+**[Response Body]**
+
+```json
+{
+	"header" : {
+		"isSuccessful" : true,
+		"resultCode": 0,
+		"resultMessage" : "Success."
+	},
+    "roleTags" : [{
+        "roleTagId" : ""
+    }]
+}
+```
+|Key|	Type|	Description|
+|---|---|---|
+|roleTags|	List|	Tag 정보|
+|roleTags[0].roleTagId|	String|	Tag ID|
 
 ### 4. Resource
 
