@@ -1,4 +1,4 @@
-## Application Service > ROLE > Error Code
+## Application Service > ROLE > 오류 코드
 Response Body에는 "header" 정보가 기본으로 포함되어 있습니다.
 API 호출이 실패하면 isSuccessful이 false가 되며, 오류 코드가 resultCode에 표시됩니다.
 
@@ -47,6 +47,7 @@ resultCode는 아래와 같이 정의되어 있습니다.
 | false | 14002 | user role 관계가 이미 존재 함 |
 | false | 14003 | user role 관계를 찾을 수 없음 |
 | false | 14004 | 유효하지 않은 user id |
+| false | 14005 | 유효하지 않은 기간 설정 |
 | false | 15000 | 엑셀 작업에 실패함 |
 | false | 15001 | 유효하지 않은 엑셀 형식 |
 | false | 90000 | 시스템적인 문제로 실패. 담당자에게 확인 필요|
