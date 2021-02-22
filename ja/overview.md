@@ -2,7 +2,7 @@
 
 ## Role 상품은?
 
-Role Based Access Control 을 할수 있게 API 및 UI를 제공하는 TOAST Cloud 상품이다.  
+Role Based Access Control 을 할수 있게 API 및 UI를 제공하는 NHN Cloud 상품이다.  
 Role을 정의하고 각 Resource에 접근 가능한 Role을 설정한 후, User에게 Role을 할당하면, User의 Resource에 대한 접근 권한을 확인할 수 있다.  
 Resource를 계층 구조로 저장하기 때문에, Role을 기반으로 접근 가능한 메뉴를 보다 쉽게 구할 수 있다.  
 
