@@ -1,6 +1,12 @@
 ## Application Service > ROLE > 릴리스 노트
 
-### 2019.11.26
+### 2023. 09. 26.
+#### 기능 수정
+* Role 생성 시 Role id 네이밍 규칙이 변경되었습니다.
+    * Role id 최대 글자수가 기존 32글자에서 128글자로 늘어났습니다.
+    * 기존에는 `_`와 `-`만 허용되던 특수문자가 `.`와 `:`도 허용되도록 추가되었습니다.
+
+### 2019. 11. 26.
 #### 기능 추가
 * User에게 Role 부여 시, 유효 기간을 설정할 수 있습니다.
     * User에게 부여된 Role은 설정한 유효 기간 이내에만 유효합니다. 반대로, 설정하지 않는다면 부여된 권한은 항상 유효합니다. 
@@ -11,13 +17,13 @@
     * role 목록 검색시 노출 순서로 정렬을 합니다.
     * 여러개의 tag 가 설정 가능 하고, 검색 키워드로 사용할 수 있습니다. 
 
-### 2019.06.25
+### 2019. 06. 25.
 #### 기능 추가
 * [Console] Resource Path의 Trailing Slash 설정을 할 수 있습니다.
     * Non Identical Path 설정 시, "/admin" 과 "/admin/" 은 다른 경로로 인식합니다.
     * Identical Path 설정 시, "/admin" 과 "/admin/" 은 같은 경로로 인식합니다.
 
-### 2018.02.22
+### 2018. 02. 22.
 #### 기능 추가
 * [Console] Resource 항목 중 path 에서 antPathPattern 을 지원합니다. 
     * "/admin/**" 설정시 admin 아래의 resource path 로 authorization 체크를 지원할 수 있습니다.
@@ -31,7 +37,7 @@
     * 보안 강화를 위해서 commons-colllection 3.2.2 를 적용하였습니다.
     
 
-### 2017.08.24
+### 2017. 08. 24.
 #### 기능 추가
 * [RESTFUL API] 각 구성요소의 리스트를 조회할 수 있는 API 가 추가되었습니다.
 	* GET /role/v1.0/appkeys/{appKey}/roles : role 리스트 조회
@@ -75,19 +81,19 @@
 * [Console] User 수정 화면에서 Title 이 'User 추가' 에서 "User 수정' 으로 나오도록 수정되었습니다.
  
 
-### 2017.07.20
+### 2017. 07. 20.
 #### 버그 수정  
 * [Console] 이미 사용중인 Resource, Role, Scope 이름으로 등록/수정시 반영을 하지 않고 실패 경고창을 화면에 보여줍니다.  
 	
-### 2017.05.25
+### 2017. 05. 25.
 #### 버그 수정
 * [Console] Resource 탭의 [Excel 업로드] 기능이 동작하지 않는 문제 수정 
 
-### 2017.04.20
+### 2017. 04. 20.
 #### 버그 수정
 * userId(key)의 value 값에 '.', '@' 포함될 경우 오류가 반환되는 버그 수정
 
-### 2016.12.22
+### 2016. 12. 22.
 #### 기능 개선/변경
 * 벌크 User 리스트 조회 API 추가
 * Scope과 연관된 연관 관계 조회 API 추가
@@ -97,7 +103,7 @@
 * User 검색 시, ScopeID ALL 이 검색되지 않는 문제 수정
 * invalid 한 resource tree 가 있을 시, hierarchy tree 가 비정상적으로 반환되는 버그 수정
 
-### 2016.11.24
+### 2016. 11. 24.
 #### 기능 개선/변경
 * Client SDK 및 서버의 Cache 제거하는 기능 추가
 
@@ -105,18 +111,18 @@
 * Resource Path 수정 시 '/' 로 시작하지 않는 잘못된 Path 로 수정 할 수 없도록 수정
 	* 잘못된 Path 가 있을 시 Excel 을 이용한 데이터 입력이 안될 수 있음
 
-### 2016.10.20
+### 2016. 10. 20.
 #### 기능 개선/변경
 * User 목록 조회시, 연관 관계에 있는 Role 을 가진 사용자도 반환 하는 옵션 추가
 	* 자세한 사항은 메뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#1-user)
 
-### 2016.09.29
+### 2016. 09. 29.
 #### 기능 개선/변경
 * User 에 신규 Role 부여시, 기존에 등록된 Role 중 Scope 이 같은 Role 을 삭제하는 API 추가
 * Role 에 User 추가 API 에서 User 가 없으면 User 를 생성 해주는 옵션 추가
 	* 자세한 사항은 메뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#3-role)
 
-### 2016.08.18
+### 2016. 08. 18.
 #### 기능 개선/변경
 * 떨어지는 사용성으로 인하여, Polling API 지원 deprecate 됨
 * Role 상품을 이용하는 Project 간 데이터를 Migration 하는 기능 추가
