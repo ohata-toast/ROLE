@@ -25,7 +25,7 @@
 curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
   "description": "인증된 회원",
   "roleId": "MEMBER"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/roles"
+}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/roles"
 ```
 
 **1-3) [Client SDK 이용 시]**
@@ -54,7 +54,7 @@ Role을 만들었으면 Operation을 만들어야 한다.
 curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
   "description": "HTTP GET",
   "operationId": "GET"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/operations"
+}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/operations"
 ```
 
 **2-3) [Client SDK 이용 시]**
@@ -95,7 +95,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" 
   "path": "/board",
   "priority": 0,
   "resourceId": "API_BOARD"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/resources"
+}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/resources"
 
 curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
   "description": "",
@@ -104,7 +104,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" 
   "path": "/board/v1.0",
   "priority": 0,
   "resourceId": "API_BOARD_VERSION"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/resources"
+}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/resources"
 
 curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
   "description": "",
@@ -113,7 +113,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" 
   "path": "/board/v1.0/{boardId}",
   "priority": 0,
   "resourceId": "API_BOARD_ID"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/resources"
+}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/resources"
 ```
 
 **3-3) [Client SDK 이용 시]**
@@ -143,7 +143,7 @@ API_BOARD_ID 권한을 부여해보자.
 curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
   "operationId": "GET",
   "roleId": "MEMBER"
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/resources/API_BOARD_ID/authorizations"
+}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/resources/API_BOARD_ID/authorizations"
 ```
 
 **4-3) [Client SDK 이용 시]**
@@ -180,7 +180,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" 
       "userId": "12345678-1234-5678-1234-567812345678"
     }
   ]
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/users"
+}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/users"
 ```
 
 **5-3) [Client SDK 이용 시]**
@@ -208,7 +208,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
             "scopeId": "ALL"
         }
     ]
-}' "https://api-role.cloud.toast.com/role/v1.0/appkeys/{Appkey}/users/12345678-1234-5678-1234-567812345678/authorizations"
+}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/users/12345678-1234-5678-1234-567812345678/authorizations"
 ```
 
 **6-2) [Spring Client SDK 이용 시]**
