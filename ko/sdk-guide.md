@@ -169,8 +169,6 @@ JAVA Client SDK 를 사용하기 위해선 pom.xml 에 maven repository 및 depe
 
 JAVA Client SDK 를 사용하기 위해선 먼저 TCRoleClientFactory 객체를 이용하여 TCRoleClient 객체의 instance 를 생성해야 한다.
 TCRoleClient 객체를 생성하였으면, 해당 객체에서 제공하는 method 를 호출하여 여러 작업들을 처리하면 된다.
-TCRoleClient 객체가 제공하는 상세한 API 는 다음 링크에서 확인 할 수 있다.
-https://api-role.cloud.toast.com//doc/index.html
 
 ```java
 // TCRoleClient 객체를 생성하는 올바른 방법
