@@ -21,11 +21,11 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
@@ -63,20 +63,18 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 ```json
 {
-	"users": [
-		{
-			"description": "",
-			"relations": [
-				{
-					"roleId": "",
-					"scopeId": "",
-					"validStartDate" : "",
-					"validEndDate" : ""
-				}
-			],
-			"userId": ""
-		}
-	]
+  "users": [
+    {
+      "description": "",
+      "relations": [
+        {
+          "roleId": "",
+          "scopeId": ""
+        }
+      ],
+      "userId": ""
+    }
+  ]
 }
 ```
 
@@ -88,8 +86,8 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |users[0].relations|	List|	No|	User - Role 관계 리스트|
 |users[0].relations[0].roleId|	String|	Yes|	Role ID|
 |users[0].relations[0].scopeId|	String|	Yes|	Scope ID|
-|users[0].relations[0].validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
-|users[0].relations[0].validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜|
+|users[0].relations[0].validStartDate|	Date|	No| 	User에게 부여된 Role의 유효 기간 시작 날짜 (2024-01-23 이후 지원 종료) |
+|users[0].relations[0].validEndDate|	Date|	No| 	User에게 부여된 Role의 유효 기간 종료 날짜 (2024-01-23 이후 지원 종료) |
 
 **[Response Body]**
 
@@ -213,9 +211,7 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
             [
                 {
                     "roleId" : "",
-                    "scopeId" : "",
-                    "validStartDate" : "",
-                    "validEndDate" : ""
+                    "scopeId" : ""
                 }
             ],
             "userId" : ""
@@ -234,8 +230,8 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
 |users[0].relations | List | User 에 할당된 관계 리스트 |
 |users[0].relations[0].roleId | String | Role ID |
 |users[0].relations[0].scopeId | String | Scope ID |
-|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜|
-|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜|
+|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜 (2024-01-23 이후 지원 종료)|
+|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜 (2024-01-23 이후 지원 종료)|
 
 #### 1.4. 벌크 User 리스트 조회
 
@@ -289,9 +285,7 @@ User 정보를 한번에 조회하는 API
                 {
                     "userId" : "",
                     "roleId" : "",
-                    "scopeId" : "",
-                    "validStartDate" : "",
-                    "validEndDate" : ""
+                    "scopeId" : ""
                 }
             ],
             "userId" : ""
@@ -311,8 +305,8 @@ User 정보를 한번에 조회하는 API
 |users[0].relations[0].userId | String | User ID |
 |users[0].relations[0].roleId | String | Role ID |
 |users[0].relations[0].scopeId | String | Scope ID |
-|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜 |
-|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜 |
+|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜 (2024-01-23 이후 지원 종료) |
+|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜 (2024-01-23 이후 지원 종료) |
 
 
 #### 1.5. User 설명 수정
@@ -576,9 +570,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 			"appKey": "",
 			"roleId": "",
 			"scopeId": "",
-			"userId": "",
-			"validStartDate" : "",
-			"validEndDate" : ""
+			"userId": ""
 		}
 	]
 }
@@ -591,8 +583,8 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |relations[0].roleId|	String|	Role ID|
 |relations[0].scopeId|	String|	Scope ID|
 |relations[0].userId|	String|	User ID|
-|relations[0].validStartDate|	Date|User에게 부여된 Role의 유효 기간 시작 날짜|
-|relations[0].validEndDate|	Date|User에게 부여된 Role의 유효 기간 종료 날짜|
+|relations[0].validStartDate|	Date|User에게 부여된 Role의 유효 기간 시작 날짜 (2024-01-23 이후 지원 종료)|
+|relations[0].validEndDate|	Date|User에게 부여된 Role의 유효 기간 종료 날짜 (2024-01-23 이후 지원 종료)|
 
 #### 1.10. User 에 Role 부여
 
@@ -622,9 +614,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 {
 	"roleId": "",
 	"scopeId": "",
-	"createUserIfNotExist": false,
-	"validStartDate" : "",
-	"validEndDate" : ""
+	"createUserIfNotExist": false
 }
 ```
 
@@ -633,8 +623,8 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |roleId|	String|	Yes|	Role ID|
 |scopeId|	String|	Yes|	Scope ID|
 |createUserIfNotExist| Boolean| No| User 가 없을때 User 를 생성할 지 여부|
-|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
-|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜 |
+|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜 (2024-01-23 이후 지원 종료)|
+|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜 (2024-01-23 이후 지원 종료) |
 
 **[Response Body]**
 
@@ -769,9 +759,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 ```json
 {
     "roleId" : "",
-    "scopeId" : "",
-	"validStatDate" : "",
-	"validEndDate" : ""
+    "scopeId" : ""
 }
 ```
 
@@ -779,8 +767,8 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |---|---|---|---|
 |roleId|	String|	Yes|	Role ID|
 |scopeId|	String|	Yes|	Scope ID|
-|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
-|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜|
+|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜 (2024-01-23 이후 지원 종료)|
+|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜 (2024-01-23 이후 지원 종료)|
 
 **[Response Body]**
 
@@ -1024,8 +1012,8 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 
 #### 2.6. Scope 리스트 조회
 
- 페이지 형태로 리스트를 조회할 수 있다. 
-page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조회한다.  
+페이지 형태로 리스트를 조회할 수 있다.
+page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조회한다.
 
 **[Method, URL]**
 
@@ -1394,9 +1382,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 	"users": [
 		{
 			"scopeId": "",
-			"userId": "",
-			"validStartDate" : "",
-			"validEndDate" : ""
+			"userId": ""
 		}
 	]
 }
@@ -1408,25 +1394,25 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |users|	List|	Yes|	User 리스트|
 |users[0].scopeId|	String|	No|	Scope ID, 없을 시 기본값 ALL|
 |users[0].userId|	String|	Yes|	User ID|
-|users[0].validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
-|users[0].validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종 날짜|
+|users[0].validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜 (2024-01-23 이후 지원 종료)|
+|users[0].validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종 날짜 (2024-01-23 이후 지원 종료)|
 
 **[Response Body]**
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
 #### 3.8. Role 리스트 조회
 
- 페이지 형태로 리스트를 조회할 수 있다. 
-page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조회한다.  
+페이지 형태로 리스트를 조회할 수 있다.
+page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조회한다.
 
 **[Method, URL]**
 
@@ -1462,7 +1448,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 roleTagIds 를 통해서 검색시 Role 에 설정 한 Tag 를 AND 나 OR 조건으로 조회할 수 있다.
 예를 들어 Role 에 A 와 B Tag 를 가지고 있는 Role을 검색시에는 A;B 로 조건을 만들수 있고,
 A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을 만들 수 있다.
-(A;B),C 와 같은 조건 생성도 가능하다.  
+(A;B),C 와 같은 조건 생성도 가능하다.
 
 **[Response Body]**
 
@@ -1532,7 +1518,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"roleTagId": ""
+  "roleTagId": ""
 }
 ```
 
@@ -1544,11 +1530,11 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
@@ -1580,11 +1566,11 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
@@ -1614,14 +1600,14 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	},
-    "roleTags" : [{
-        "roleTagId" : ""
-    }]
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  },
+  "roleTags" : [{
+    "roleTagId" : ""
+  }]
 }
 ```
 |Key|	Type|	Description|
@@ -1656,13 +1642,13 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"description": "",
-	"metadata": "",
-	"name": "",
-	"path": "",
-	"priority": 0,
-	"resourceId": "",
-	"uiPath": ""
+  "description": "",
+  "metadata": "",
+  "name": "",
+  "path": "",
+  "priority": 0,
+  "resourceId": "",
+  "uiPath": ""
 }
 ```
 
@@ -1680,11 +1666,11 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
@@ -1721,22 +1707,22 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	},
-	"resources": [
-		{
-			"description": "",
-			"metadata": "",
-			"name": "",
-			"path": "",
-			"priority": 0,
-			"resourceId": "",
-			"resources": []
-		}
-	]
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  },
+  "resources": [
+    {
+      "description": "",
+      "metadata": "",
+      "name": "",
+      "path": "",
+      "priority": 0,
+      "resourceId": "",
+      "resources": []
+    }
+  ]
 }
 ```
 
@@ -1777,20 +1763,20 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	},
-	"resource": {
-		"appKey": "",
-		"description": "",
-		"metadata": "",
-		"name": "",
-		"path": "",
-		"priority": 0,
-		"resourceId": ""
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  },
+  "resource": {
+    "appKey": "",
+    "description": "",
+    "metadata": "",
+    "name": "",
+    "path": "",
+    "priority": 0,
+    "resourceId": ""
+  }
 }
 ```
 
@@ -1831,11 +1817,11 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"description": "",
-	"metadata": "",
-	"name": "",
-	"path": "",
-	"priority": 0
+  "description": "",
+  "metadata": "",
+  "name": "",
+  "path": "",
+  "priority": 0
 }
 ```
 
@@ -1852,11 +1838,11 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
@@ -1886,11 +1872,11 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
@@ -1920,17 +1906,17 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	},
-	"authorizations": [
-		{
-			"operationId": "",
-			"roleId": ""
-		}
-	]
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  },
+  "authorizations": [
+    {
+      "operationId": "",
+      "roleId": ""
+    }
+  ]
 }
 ```
 
@@ -1966,8 +1952,8 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"operationId": "",
-  	"roleId": ""
+  "operationId": "",
+  "roleId": ""
 }
 ```
 
@@ -1980,11 +1966,11 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
@@ -2078,8 +2064,8 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"description": "",
-	"operationId": ""
+  "description": "",
+  "operationId": ""
 }
 ```
 
@@ -2092,11 +2078,11 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
@@ -2126,16 +2112,16 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	},
-	"operation": {
-		"appKey": "",
-		"description": "",
-		"operationId": ""
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  },
+  "operation": {
+    "appKey": "",
+    "description": "",
+    "operationId": ""
+  }
 }
 ```
 
@@ -2173,7 +2159,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"description": ""
+  "description": ""
 }
 ```
 
@@ -2185,11 +2171,11 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
@@ -2219,11 +2205,11 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 ```json
 {
-	"header" : {
-		"isSuccessful" : true,
-		"resultCode": 0,
-		"resultMessage" : "Success."
-	}
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode": 0,
+    "resultMessage" : "Success."
+  }
 }
 ```
 
