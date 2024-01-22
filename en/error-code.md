@@ -4,11 +4,11 @@ API 호출이 실패하면 isSuccessful이 false가 되며, 오류 코드가 res
 
 ```json
 {
-  "header" : {
-    "isSuccessful" : true,
-    "resultCode": 0,
-    "resultMessage" : "SUCCESS"
-  }
+    "header" : {
+        "isSuccessful" : true,
+        "resultCode": 0,
+        "resultMessage" : "SUCCESS"
+    }
 }
 ```
 resultCode는 아래와 같이 정의되어 있습니다.
