@@ -1,22 +1,22 @@
 ## Application Service > ROLE > API v3 가이드
 
-> Role 상품을 이용하여 권한을 체크하기 위해서는
-> RESTFUL API 를 호출하거나, Client SDK 를 이용하여야 한다.
+> ROLE 서비스를 이용 권한을 체크하기 위해서는
+> RESTful API를 호출하거나, Client SDK를 이용하여야 합니다.
 
 ## AppKey & SecretKey
 
-RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요하다.
-[CONSOLE] 의 좌측 상단에서 발급된 Key 정보를 확인 할 수 있다.
+RESTful API와 Client SDK를 사용하려면 AppKey와 Secret Key가 필요합니다.
+[CONSOLE] 우측 상단의 **URL & Appkey** 버튼을 클릭하여 발급 Key 정보를 확인 할 수 있습니다.
 
 ![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_60.png)
 <center>[그림 1] AppKey & SecretKey 확인</center>
 
-## RESTFUL API 가이드
+## RESTful API 가이드
 
 ### Common Response Body
 
-모든 API 요청에 대해 HTTP 응답 코드는 200 으로 응답한다.
-자세한 응답 결과는 Response Body 의 header 항목을 참고한다.
+모든 API 요청에 대해 HTTP 응답 코드는 200 으로 응답합니다.
+자세한 응답 결과는 Response Body 의 header 항목을 참고합니다.
 
 ```json
 {
@@ -37,16 +37,16 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Key                  |  Type    |   Description                          |
 |----------------------|----------|---------------------------------------|
-| header               |  Object  |   응답헤더                                 |
+| header               |  Object  |   응답 헤더                                 |
 | header.isSuccessful  |  boolean |   성공 여부                                |
 | header.resultCode    |  int     |   응답 코드. 성공 시 0, 실패 시 에러코드 반환          |
-| header.resultMessage |  String  |   응답 메시지. 성공 시 "SUCCESS", 실패 시 에러메시지 반환 |
+| header.resultMessage |  String  |   응답 메시지. 성공 시 "SUCCESS", 실패 시 오류 메시지 반환 |
 | cache                | Object   |  캐시                                      |
 | cache.cacheFlushTime | String   | 캐시 삭제 시간 | 
 | cache.size | int      | 리소스 ID 기반 인증 캐시 크기 |
 | cache.sizeByPath | int      | 리소스 Path 기반 인증 캐시 크기 |
 | cache.sizeTree | int      | 리소스 Hierarchy 조회 캐시 크기 |
-| cache.ttl | int      | 캐시 데이터 유지 시간 (초 단위) |
+| cache.ttl | int      | 캐시 데이터 유지 시간(초 단위) |
 
 ## 사용자
 
@@ -212,9 +212,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.userId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.userId,ASC`)|
 | Request Body | **SearchUser.Request** | **SearchUser.Request**| **Yes** |  | |
 
 
@@ -226,16 +226,16 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **descriptionLike** | **String**| **No** | 사용자 설명 (부분 일치)  |
-|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관관계 포함 여부  |
-|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 연관관계 포함 시 역할 태그 포함 여부  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID (전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록 (완전 일치)  |
-|   **scopeIdPreLike** | **String**| **No** | 범위 ID (전방 일치)  |
-|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록 (완전 일치)  |
+|   **descriptionLike** | **String**| **No** | 사용자 설명(부분 일치)  |
+|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 여부  |
+|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 시 역할 태그 포함 여부  |
+|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
+|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
+|   **scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치)  |
+|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록(완전 일치)  |
 |   **searchRoleOptionCode** | **String**| **No** |   DIRECT_ROLE, INDIRECT_ROLE |
-|   **userIdPreLike** | **String**| **No** | 사용자 ID (전방 일치)  |
-|   **userIds** | **List&lt;String>**| **No** | 사용자 ID 목록 (완전 일치)  |
+|   **userIdPreLike** | **String**| **No** | 사용자 ID(전방 일치)  |
+|   **userIds** | **List&lt;String>**| **No** | 사용자 ID 목록(완전 일치)  |
 
 
 
@@ -280,7 +280,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **totalItems** | **Long**| **Yes** | 전체 개수  |
 |   **userIds** | **List&lt;String>**| **Yes** | 사용자 목록  |
 
- 
+
 
 
 
@@ -304,8 +304,8 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
 |  Path |**userId** | **String**| **Yes** | 사용자 ID | 
 |  Query |**searchRoleOptionCode** | **String**| **No** | 접근 가능한 역할 목록 검색 방식 | [optional] [default to null] [enum: DIRECT_ROLE, INDIRECT_ROLE] |
-|  Query |**roleIds** |  **List&lt;String>**| **No** | 연관관계 역할 ID |
-|  Query |**scopeIds** |  **List&lt;String>**| **No** | 연관관계 범위 ID |
+|  Query |**roleIds** |  **List&lt;String>**| **No** | 연관 관계 역할 ID |
+|  Query |**scopeIds** |  **List&lt;String>**| **No** | 연관 관계 범위 ID |
 
 
 
@@ -403,7 +403,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------ | ------------- | ------------- |-------------|
 |   **user** | **UserBundleProtocol**| **Yes** | 사용자         |
 
- 
+
 ##### UserBundleProtocol
 
 
@@ -523,9 +523,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |  Query |**fromDateTime** | **Date**| **No** | 변경 시작일시 |
 |  Query |**toDateTime** | **Date**| **No** | 변경 종료일시 |
 |  Query |**historyType** |  **List&lt;String>**| **No** | 변경 유형 | [optional] [default to null] [enum: USER_ADD, USER_REMOVE, ADD, REMOVE] |
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `seq,DESC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `seq,DESC`)|
 
 
 
@@ -613,7 +613,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **totalItems** | **Long**| **Yes** | 전체 개수  |
 |   **userHistory** | **List&lt;UserHistoryProtocol>**| **Yes** | 사용자 변경 내역 목록  |
 
- 
+
 
 ##### UserHistoryProtocol
 
@@ -667,9 +667,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.userId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.userId,ASC`)|
 | Request Body | **SearchUser.Request** | **SearchUser.Request**| **Yes** |  | |
 
 
@@ -681,16 +681,16 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **descriptionLike** | **String**| **No** | 사용자 설명 (부분 일치)  |
-|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관관계 포함 여부  |
-|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 연관관계 포함 시 역할 태그 포함 여부  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID (전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록 (완전 일치)  |
-|   **scopeIdPreLike** | **String**| **No** | 범위 ID (전방 일치)  |
-|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록 (완전 일치)  |
+|   **descriptionLike** | **String**| **No** | 사용자 설명(부분 일치)  |
+|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 여부  |
+|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 시 역할 태그 포함 여부  |
+|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
+|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
+|   **scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치)  |
+|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록(완전 일치)  |
 |   **searchRoleOptionCode** | **String**| **No** |   DIRECT_ROLE, INDIRECT_ROLE |
-|   **userIdPreLike** | **String**| **No** | 사용자 ID (전방 일치)  |
-|   **userIds** | **List&lt;String>**| **No** | 사용자 ID 목록 (완전 일치)  |
+|   **userIdPreLike** | **String**| **No** | 사용자 ID(전방 일치)  |
+|   **userIds** | **List&lt;String>**| **No** | 사용자 ID 목록(완전 일치)  |
 
 
 
@@ -865,7 +865,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **totalItems** | **Long**| **Yes** | 전체 개수  |
 |   **users** | **List&lt;UserBundleProtocol>**| **Yes** | 사용자 목록  |
 
- 
+
 
 ##### UserBundleProtocol
 
@@ -1225,7 +1225,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 
- 
+
 
 
 
@@ -1377,7 +1377,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 
- 
+
 
 
 
@@ -1599,7 +1599,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **deniable** | **Boolean**| **No** | 역할 사용여부 DENY(미사용)로 변경가능 여부  |
 
 
- 
+
 
 
 
@@ -1720,7 +1720,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------ | ------------- | ------------- |-------------|
 |   **role** | **RoleBundleProtocol**| **Yes** | 역할 |
 
- 
+
 ##### RoleBundleProtocol
 
 
@@ -1734,7 +1734,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **roleGroup** | **String**| **No** | 역할 그룹  |
 |   **roleId** | **String**| **Yes** | 역할 ID  |
 |   **roleName** | **String**| **No** | 역할 이름  |
-|   **roleRelations** | **List&lt;RoleBundleProtocol.RoleRelationProtocol>**| **No** | 연관관계 역할 목록  |
+|   **roleRelations** | **List&lt;RoleBundleProtocol.RoleRelationProtocol>**| **No** | 연관 관계 역할 목록  |
 |   **roleTags** | **List&lt;RoleBundleProtocol.RoleTagProtocol>**| **No** | 역할 태그 목록  |
 
 
@@ -1859,10 +1859,10 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**roleIdPreLike** | **String**| **No** | 역할 ID (전방 일치) |
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.roleId,ASC`)|
+|  Query |**roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치) |
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.roleId,ASC`)|
 
 
 
@@ -1898,7 +1898,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **roleIds** | **List&lt;String>**| **Yes** | 역할 ID 목록  |
 |   **totalItems** | **Long**| **Yes** | 전체 개수  |
 
- 
+
 
 
 
@@ -1921,9 +1921,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
 |  Path |**roleId** | **String**| **Yes** | 역할 ID | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `attributeCreationTypeCode,ASC&quot;,&quot;id.attributeId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `attributeCreationTypeCode,ASC&quot;,&quot;id.attributeId,ASC`)|
 | Request Body | **SearchRoleAttributes.Request** | **SearchRoleAttributes.Request**| **Yes** |  | |
 
 
@@ -1936,9 +1936,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록 (완전 일치)  |
-|   **attributeNameLike** | **String**| **No** | 조건 속성 이름 (부분 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록 (완전 일치)  |
+|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
+|   **attributeNameLike** | **String**| **No** | 조건 속성 이름(부분 일치)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
 
 
 
@@ -2004,7 +2004,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 
- 
+
 
 
 
@@ -2025,9 +2025,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `exposureOrder,ASC&quot;,&quot;id.roleId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `exposureOrder,ASC&quot;,&quot;id.roleId,ASC`)|
 | Request Body | **GetRoles.Request** | **GetRoles.Request**| **Yes** |  | |
 
 
@@ -2039,19 +2039,19 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록 (완전 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록 (완전 일치)  |
-|   **descriptionLike** | **String**| **No** | 역할 설명 (부분 일치)  |
+|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
+|   **descriptionLike** | **String**| **No** | 역할 설명(부분 일치)  |
 |   **needAttributes** | **Boolean**| **No** | 응답 시 조건 속성 정보 포함 여부  |
-|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관관계 ID 목록 포함 여부  |
+|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관 관계 ID 목록 포함 여부  |
 |   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 태그 ID 목록 포함 여부  |
-|   **relatedRoleIds** | **List&lt;String>**| **No** | 연관관계 역할 ID 목록 (완전 일치)  |
-|   **roleGroupLike** | **String**| **No** | 역할 그룹 (부분 일치)  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID (전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록 (완전 일치)  |
-|   **roleNameLike** | **String**| **No** | 역할 이름 (부분 일치)  |
-|   **roleTagIdExpr** | **String**| **No** | 역할 태그 조건 (구분자 &#39;;&#39;:OR, &#39;,&#39;:AND)  |
-|   **roleTagIds** | **List&lt;String>**| **No** | 역할 태그 ID 목록 (완전 일치)  |
+|   **relatedRoleIds** | **List&lt;String>**| **No** | 연관 관계 역할 ID 목록(완전 일치)  |
+|   **roleGroupLike** | **String**| **No** | 역할 그룹(부분 일치)  |
+|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
+|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
+|   **roleNameLike** | **String**| **No** | 역할 이름(부분 일치)  |
+|   **roleTagIdExpr** | **String**| **No** | 역할 태그 조건(구분자 &#39;;&#39;:OR, &#39;,&#39;:AND)  |
+|   **roleTagIds** | **List&lt;String>**| **No** | 역할 태그 ID 목록(완전 일치)  |
 
 
 
@@ -2237,7 +2237,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **roles** | **List&lt;RoleBundleProtocol>**| **Yes** | 역할 목록  |
 |   **totalItems** | **Long**| **Yes** | 역할 전체 개수  |
 
- 
+
 ##### RoleBundleProtocol
 
 
@@ -2251,7 +2251,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **roleGroup** | **String**| **No** | 역할 그룹  |
 |   **roleId** | **String**| **Yes** | 역할 ID  |
 |   **roleName** | **String**| **No** | 역할 이름  |
-|   **roleRelations** | **List&lt;RoleBundleProtocol.RoleRelationProtocol>**| **No** | 연관관계 역할 목록  |
+|   **roleRelations** | **List&lt;RoleBundleProtocol.RoleRelationProtocol>**| **No** | 연관 관계 역할 목록  |
 |   **roleTags** | **List&lt;RoleBundleProtocol.RoleTagProtocol>**| **No** | 역할 태그 목록  |
 
 
@@ -2495,10 +2495,10 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**roleTagIdPreLike** | **String**| **No** | 역할 태그 ID (전방 일치) |
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.roleTagId,ASC`)|
+|  Query |**roleTagIdPreLike** | **String**| **No** | 역할 태그 ID(전방 일치) |
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.roleTagId,ASC`)|
 
 
 
@@ -2534,7 +2534,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **roleTagIds** | **List&lt;String>**| **No** | 역할 태그 ID 목록  |
 |   **totalItems** | **Long**| **Yes** | 전체 개수  |
 
- 
+
 
 
 
@@ -2661,10 +2661,10 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** |  | 
-|  Query |**scopeIdPreLike** | **String**| **No** | 범위 ID (전방 일치) |
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.scopeId,ASC`)|
+|  Query |**scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치) |
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.scopeId,ASC`)|
 
 
 
@@ -2700,7 +2700,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록  |
 |   **totalItems** | **Long**| **Yes** | 전체 개수  |
 
- 
+
 
 
 
@@ -2757,7 +2757,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------ | ------------- | ------------- |-------------|
 |   **scope** | **ScopeProtocol**| **No** | 범위          |
 
- 
+
 ##### ScopeProtocol
 
 
@@ -2791,9 +2791,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** |  | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.scopeId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.scopeId,ASC`)|
 | Request Body | **PostSearchScopes.Request** | **PostSearchScopes.Request**| **Yes** |  | |
 
 
@@ -2805,9 +2805,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **descriptionLike** | **String**| **No** | 범위 설명 (부분 일치)  |
-|   **scopeIdPreLike** | **String**| **No** | 범위 ID (전방 일치)  |
-|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록 (완전 일치)  |
+|   **descriptionLike** | **String**| **No** | 범위 설명(부분 일치)  |
+|   **scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치)  |
+|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록(완전 일치)  |
 
 
 
@@ -2851,7 +2851,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **scopes** | **List&lt;ScopeProtocol>**| **No** | 범위 목록  |
 |   **totalItems** | **Long**| **No** | 범위 총 개수  |
 
- 
+
 ##### ScopeProtocol
 
 
@@ -3091,7 +3091,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------ | ------------- | ------------- |-------------|
 |   **resource** | **ResourceProtocol**| **No** | 리소스         |
 
- 
+
 ##### ResourceProtocol
 
 
@@ -3135,9 +3135,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.resourceId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.resourceId,ASC`)|
 | Request Body | **GetAllResourceIds.Request** | **GetAllResourceIds.Request**| **Yes** |  | |
 
 
@@ -3149,7 +3149,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **operationIds** | **List&lt;String>**| **No** | 리소스 ID (전방 일치)      |
+|   **operationIds** | **List&lt;String>**| **No** | 리소스 ID(전방 일치)      |
 |   **resourceIdPreLike** | **String**| **No** | 리소스에 접근 가능한 사용자 ID      |
 |   **roleIds** | **List&lt;String>**| **No** | 리소스에 부여된 역할 ID      |
 |   **userIds** | **List&lt;String>**| **No** | 리소스에 부여된 Operation ID      |
@@ -3191,7 +3191,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **resourceIds** | **List&lt;String>**| **Yes** | 리소스 ID 목록  |
 |   **totalItems** | **Long**| **Yes** | 전체 개수  |
 
- 
+
 
 
 
@@ -3265,7 +3265,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------ | ------------- | ------------- | ------------ |
 |   **resources** | **List&lt;ResourceProtocol>**| **No** | 리소스 목록  |
 
- 
+
 ##### ResourceProtocol
 
 
@@ -3309,9 +3309,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.attributeId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.attributeId,ASC`)|
 | Request Body | **SearchResourceAttributes.Request** | **SearchResourceAttributes.Request**| **Yes** |  | |
 
 
@@ -3324,7 +3324,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
 |   **operationId** | **String**| **Yes** | 오퍼레이션 ID  |
-|   **resourceId** | **String**| **No** | 리소스 ID, ID 와 Path 가 둘다 있을 경우 ID 기준으로만 제공  |
+|   **resourceId** | **String**| **No** | 리소스 ID, ID와 Path 가 둘다 있을 경우 ID 기준으로만 제공  |
 |   **resourcePath** | **String**| **No** | 리소스 Path  |
 
 
@@ -3391,7 +3391,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 
- 
+
 
 
 
@@ -3412,9 +3412,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `uiPath,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `uiPath,ASC`)|
 | Request Body | **PostSearchResources.Request** | **PostSearchResources.Request**| **Yes** |  | |
 
 
@@ -3427,13 +3427,13 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
 |   **operationIds** | **List&lt;String>**| **No** | 리소스에 부여된 Operation ID 목록  |
-|   **resourceIdPreLike** | **String**| **No** | 리소스 ID (전방 일치)  |
+|   **resourceIdPreLike** | **String**| **No** | 리소스 ID(전방 일치)  |
 |   **resourceIds** | **List&lt;String>**| **No** | 리소스 ID 목록  |
-|   **resourcePath** | **String**| **No** | 리소스 Path (완전 일치)  |
-|   **resourcePathLike** | **String**| **No** | 리소스 Path (전방 일치)  |
-|   **resourcePaths** | **List&lt;String>**| **No** | 리소스 Path 목록 (완전 일치)  |
-|   **resourceUiPath** | **String**| **No** | 리소스 UI Path (완전 일치)  |
-|   **resourceUiPaths** | **List&lt;String>**| **No** | 리소스 UI Path 목록 (완전 일치)  |
+|   **resourcePath** | **String**| **No** | 리소스 Path(완전 일치)  |
+|   **resourcePathLike** | **String**| **No** | 리소스 Path(전방 일치)  |
+|   **resourcePaths** | **List&lt;String>**| **No** | 리소스 Path 목록(완전 일치)  |
+|   **resourceUiPath** | **String**| **No** | 리소스 UI Path(완전 일치)  |
+|   **resourceUiPaths** | **List&lt;String>**| **No** | 리소스 UI Path 목록(완전 일치)  |
 |   **roleIds** | **List&lt;String>**| **No** | 리소스에 부여된 역할 ID 목록  |
 |   **scopeIds** | **List&lt;String>**| **No** | 리소스에 접근 가능한 범위 ID 목록  |
 |   **searchRoleOptionCode** | **String**| **No** | 접근 가능한 역할 목록 검색 방식  DIRECT_ROLE, INDIRECT_ROLE |
@@ -3500,7 +3500,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **resources** | **List&lt;ResourceProtocol>**| **Yes** | 리소스 목록  |
 |   **totalItems** | **Long**| **Yes** | 전체 개수  |
 
- 
+
 ##### ResourceProtocol
 
 
@@ -3592,7 +3592,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 }
 ```
 
-## 리소스 계층구조
+## 리소스 계층 구조
 
 
 | Method | HTTP request | Description |
@@ -3619,8 +3619,8 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |  Query |**operationId** | **String**| **No** | 오퍼레이션 ID |
 |  Query |**scopeId** | **String**| **No** | 범위 ID |
 |  Query |**depth** | **Integer**| **No** | 리소스 UI Path에서 하위의 계층 깊이 |
-|  Query |**limit** | **Integer**| **No** | 반환할 목록의 위치. default : INT_MAX |
-|  Query |**offset** | **Integer**| **No** | 반환할 목록의 시작 위치. default : 0 |
+|  Query |**limit** | **Integer**| **No** | 반환할 목록의 위치. default: INT_MAX |
+|  Query |**offset** | **Integer**| **No** | 반환할 목록의 시작 위치. default: 0 |
 
 
 
@@ -3677,7 +3677,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **resources** | **List&lt;ResourceProtocol>**| **No** | 리소스 목록  |
 |   **totalItemCount** | **Long**| **No** | 리소스 전체 개수  |
 
- 
+
 ##### ResourceProtocol
 
 
@@ -3793,9 +3793,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | 리소스 계층구조 목록  |
+|   **resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | 리소스 계층 구조 목록  |
 
- 
+
 ##### SearchResourceHierarchy.ResourceHierarchyProtocol
 
 
@@ -3908,13 +3908,13 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#addAuthorization) | 리소스 역할 연관관계 추가 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#getAuthorizations) | 리소스 역할 연관관계 목록 조회 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#removeAuthorization) | 리소스 역할 연관관계 삭제 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#addAuthorization) | 리소스 역할 연관 관계 추가 |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#getAuthorizations) | 리소스 역할 연관 관계 목록 조회 |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#removeAuthorization) | 리소스 역할 연관 관계 삭제 |
 
 
 <a name="addAuthorization"></a>
-### **리소스 역할 연관관계 추가**
+### **리소스 역할 연관 관계 추가**
 > POST "/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations"
 
 #### Parameters
@@ -3971,7 +3971,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 <a name="getAuthorizations"></a>
-### **리소스 역할 연관관계 목록 조회**
+### **리소스 역할 연관 관계 목록 조회**
 > GET "/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations"
 
 #### Parameters
@@ -4020,7 +4020,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **authorizations** | **List&lt;ResourceAuthorizationProtocol>**| **No** | 리소스 역할 연관관계 목록  |
+|   **authorizations** | **List&lt;ResourceAuthorizationProtocol>**| **No** | 리소스 역할 연관 관계 목록  |
 
 ##### ResourceAuthorizationProtocol
 
@@ -4038,7 +4038,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 
- 
+
 
 
 
@@ -4047,7 +4047,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 <a name="removeAuthorization"></a>
-### **리소스 역할 연관관계 삭제**
+### **리소스 역할 연관 관계 삭제**
 > DELETE "/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations"
 
 #### Parameters
@@ -4238,7 +4238,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------ | ------------- | ------------- |-------------|
 |   **operation** | **OperationResponseProtocol**| **Yes** | 오퍼레이션       |
 
- 
+
 ##### OperationResponseProtocol
 
 
@@ -4274,10 +4274,10 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** |  | 
-|  Query |**operationIdPreLike** | **String**| **No** | 오퍼레이션 ID (전방 일치) |
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.operationId,ASC`)|
+|  Query |**operationIdPreLike** | **String**| **No** | 오퍼레이션 ID(전방 일치) |
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.operationId,ASC`)|
 
 
 
@@ -4313,7 +4313,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **operationIds** | **List&lt;String>**| **Yes** | 오퍼레이션 ID 목록  |
 |   **totalItems** | **Long**| **Yes** | 전체 개수  |
 
- 
+
 
 
 
@@ -4335,9 +4335,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.operationId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.operationId,ASC`)|
 | Request Body | **PostSearchOperations.Request** | **PostSearchOperations.Request**| **Yes** |  | |
 
 
@@ -4349,9 +4349,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **descriptionLike** | **String**| **No** | 오퍼레이션 설명 (부분 일치)  |
-|   **operationIdPreLike** | **String**| **No** | 오퍼레이션 ID (전방 일치)  |
-|   **operationIds** | **List&lt;String>**| **No** | 오퍼레이션 ID 목록 (완전 일치)  |
+|   **descriptionLike** | **String**| **No** | 오퍼레이션 설명(부분 일치)  |
+|   **operationIdPreLike** | **String**| **No** | 오퍼레이션 ID(전방 일치)  |
+|   **operationIds** | **List&lt;String>**| **No** | 오퍼레이션 ID 목록(완전 일치)  |
 
 
 
@@ -4397,7 +4397,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **operations** | **List&lt;OperationResponseProtocol>**| **Yes** | 오퍼레이션 목록  |
 |   **totalItems** | **Long**| **Yes** | 전체 개수  |
 
- 
+
 ##### OperationResponseProtocol
 
 
@@ -4724,7 +4724,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 
- 
+
 
 
 
@@ -4744,9 +4744,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.attributeId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.attributeId,ASC`)|
 | Request Body | **SearchAttributes.Request** | **SearchAttributes.Request**| **Yes** |  | |
 
 
@@ -4760,12 +4760,12 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCodes** | **List&lt;AttributeCreationTypeCode>**| **No** | 조건 속성 생성 타입 목록  |
 |   **attributeDataTypeCodes** | **List&lt;AttributeDataTypeCode>**| **No** | 조건 속성 데이터 유형  |
-|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID (전방 일치)  |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록 (완전 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록 (완전 일치)  |
-|   **descriptionLike** | **String**| **No** | 조건 속성 설명 (부분 일치)  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID (전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록 (완전 일치)  |
+|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID(전방 일치)  |
+|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
+|   **descriptionLike** | **String**| **No** | 조건 속성 설명(부분 일치)  |
+|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
+|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
 
 
 
@@ -4809,7 +4809,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **totalItems** | **Long**| **Yes** | 역할 전체 개수  |
 
 
- 
+
 
 
 
@@ -4830,9 +4830,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.attributeId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.attributeId,ASC`)|
 | Request Body | **SearchAttributes.Request** | **SearchAttributes.Request**| **Yes** |  | |
 
 
@@ -4846,12 +4846,12 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCodes** | **List&lt;AttributeCreationTypeCode>**| **No** | 조건 속성 생성 타입 목록  |
 |   **attributeDataTypeCodes** | **List&lt;AttributeDataTypeCode>**| **No** | 조건 속성 데이터 유형  |
-|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID (전방 일치)  |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록 (완전 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록 (완전 일치)  |
-|   **descriptionLike** | **String**| **No** | 조건 속성 설명 (부분 일치)  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID (전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록 (완전 일치)  |
+|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID(전방 일치)  |
+|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
+|   **descriptionLike** | **String**| **No** | 조건 속성 설명(부분 일치)  |
+|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
+|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
 
 
 
@@ -5016,7 +5016,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 
- 
+
 
 
 
@@ -5167,8 +5167,8 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **max** | **Integer**| **Yes** | 연산자가 사용할수 있는 값의 최대갯수  |
-|   **min** | **Integer**| **Yes** | 연산자가 사용할수 있는 값의 최소갯수  |
+|   **max** | **Integer**| **Yes** | 연산자가 사용할수 있는 값의 최대 개수  |
+|   **min** | **Integer**| **Yes** | 연산자가 사용할수 있는 값의 최소 개수  |
 |   **operatorTypeCode** | **String**| **Yes** | 연산자  |
 
 
@@ -5182,7 +5182,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 
- 
+
 
 
 
@@ -5251,7 +5251,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 ```
 
 
-## 조건 속성 역할 연관관계
+## 조건 속성 역할 연관 관계
 
 
 | Method | HTTP request | Description |
@@ -5380,9 +5380,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
 |  Path |**attributeId** | **String**| **Yes** | 조건 속성 ID | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `attribute.id.attributeId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `attribute.id.attributeId,ASC`)|
 | Request Body | **SearchAttributeRoleRelations.Request** | **SearchAttributeRoleRelations.Request**| **Yes** |  | |
 
 
@@ -5395,8 +5395,8 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roleIdPreLike** | **String**| **No** | 조건 속성과 연관된 역할 ID (전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 조건 속성과 연관된 역할 ID 목록 (완전 일치)  |
+|   **roleIdPreLike** | **String**| **No** | 조건 속성과 연관된 역할 ID(전방 일치)  |
+|   **roleIds** | **List&lt;String>**| **No** | 조건 속성과 연관된 역할 ID 목록(완전 일치)  |
 |   **searchRoleOptionCode** | **String**| **No** |   DIRECT_ROLE, INDIRECT_ROLE |
 
 
@@ -5448,7 +5448,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeRoleRelations** | **List&lt;AttributeRoleRelationProtocol>**| **Yes** | 조건 속성 연관관계 Role 목록  |
+|   **attributeRoleRelations** | **List&lt;AttributeRoleRelationProtocol>**| **Yes** | 조건 속성 연관 관계 Role 목록  |
 |   **totalItems** | **Long**| **Yes** | 역할 전체 개수  |
 
 ##### AttributeRoleRelationProtocol
@@ -5475,7 +5475,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 
- 
+
 
 
 
@@ -5611,9 +5611,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.attributeTagId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.attributeTagId,ASC`)|
 | Request Body | **SearchAttributeTagIds.Request** | **SearchAttributeTagIds.Request**| **Yes** |  | |
 
 
@@ -5625,10 +5625,10 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID (전방 일치)  |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록 (완전 일치)  |
-|   **attributeTagIdPreLike** | **String**| **No** | 조건 속성 태그 ID (전방 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록 (완전 일치)  |
+|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID(전방 일치)  |
+|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
+|   **attributeTagIdPreLike** | **String**| **No** | 조건 속성 태그 ID(전방 일치)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
 
 
 
@@ -5668,7 +5668,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **totalItems** | **Long**| **Yes** | 역할 전체 개수  |
 
 
- 
+
 
 
 
@@ -5689,9 +5689,9 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------- |------------- | ------------- | ------------- | ------------- | 
 |  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
 |  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호 (기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수 (기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서  (기본값 `id.attributeTagId,ASC`)|
+|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `id.attributeTagId,ASC`)|
 | Request Body | **SearchAttributeTags.Request** | **SearchAttributeTags.Request**| **Yes** |  | |
 
 
@@ -5703,10 +5703,10 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID (전방 일치)  |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록 (완전 일치)  |
-|   **attributeTagIdPreLike** | **String**| **No** | 조건 속성 태그 ID (전방 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록 (완전 일치)  |
+|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID(전방 일치)  |
+|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
+|   **attributeTagIdPreLike** | **String**| **No** | 조건 속성 태그 ID(전방 일치)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
 
 
 
@@ -5769,7 +5769,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 
 
- 
+
 
 
 
@@ -5865,7 +5865,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |------------ | ------------- | ------------- | ------------ |
 |   **resourcePathTrailingSlashMatchPolicyCode** | **String**| **Yes** |   IDENTICAL_PATH, NON_IDENTICAL_PATH |
 
- 
+
 
 
 
@@ -5900,7 +5900,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |   **cacheSize** | **Integer**| **No** | 리소스 ID 기반 인증 캐시 크기  |
 |   **cacheSizeByPath** | **Integer**| **No** | 리소스 Hierarchy 조회 캐시 크기  |
 |   **cacheSizeTree** | **Integer**| **No** | 리소스 Path 기반 인증 캐시 크기  |
-|   **cacheTtl** | **Integer**| **No** |  캐시 데이터 유지 시간 (초 단위) |
+|   **cacheTtl** | **Integer**| **No** |  캐시 데이터 유지 시간(초 단위) |
 |   **resourcePathTrailingSlashMatchPolicyCode** | **String**| **No** |   IDENTICAL_PATH, NON_IDENTICAL_PATH |
 
 
