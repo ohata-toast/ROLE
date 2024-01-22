@@ -7,7 +7,7 @@
 ## 전체 구조
 
 ![\[그림 1\] 전체 구조](http://static.toastoven.net/prod_role/Role_Intro_01.png)
-[그림 1] 전체 구조
+<center>[그림 1] 전체 구조</center>
 
 ### RBAC(Role-based access control)
 
@@ -44,7 +44,7 @@ ex) `bucket-name 속성 ID`를 정의합니다. 이 속성은 각각의 접근 �
 ## 주요기능
 
 ![\[그림 2\] 기능 설명](http://static.toastoven.net/prod_role/Role_Intro_02.png)
-[그림 2] 기능 설명
+<center>[그림 2] 기능 설명</center>
 
 * RBAC와 역할에 대한 ABAC을 제공합니다.
 * 역할 간의 상속이 가능하여 수많은 역할을 체계적으로 관리할 수 있습니다.
