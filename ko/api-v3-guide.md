@@ -15,8 +15,8 @@ RESTful API와 Client SDK를 사용하려면 AppKey와 Secret Key가 필요합�
 
 ### Common Response Body
 
-모든 API 요청에 대해 HTTP 응답 코드는 200 으로 응답합니다.
-자세한 응답 결과는 Response Body 의 header 항목을 참고합니다.
+모든 API 요청에 대해 HTTP 응답 코드는 200으로 응답합니다.
+자세한 응답 결과는 Response Body의 Header 항목을 참고합니다.
 
 ```json
 {
