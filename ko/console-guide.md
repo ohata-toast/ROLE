@@ -2,11 +2,11 @@
 
 ## 게시판 예제
 
-작은 게시판을 만드는 예제로 콘솔 사용법을 설명하겠습니다.
+작은 게시판을 만드는 상황에서 역할 기반 리소스 접근 제어를 구성하는 예제로 콘솔 사용법을 설명하겠습니다.
 `/board/v1.0/{boardId}` API를 호출하면 게시물을 반환하는 API가 있고, 이 API는 인증된 회원만 호출할 수 있다고 가정하겠습니다.
 먼저 인증된 회원이라는 역할을 만들어야 합니다.
 
-> curl을 사용한 예제에서 "\{Appkey}" 와 "\{SecretKey}" 값은 실제 프로젝트 내의 활성화한 Role 서비스의 Appkey와 SecreKey로 대체해야 합니다.
+> curl을 사용한 예제에서 "\{Appkey}" 와 "\{SecretKey}" 값은 실제 프로젝트 내의 활성화한 Role 서비스의 Appkey와 SecretKey로 대체해야 합니다.
 
 ### 1) 역할 생성
 
@@ -48,7 +48,7 @@
 
 ### 4) 역할-리소스 관계 생성
 
-리소스까지 등록했다면, 역할과 리소스의 관계를 설정해야 합니다.
+리소스까지 등록했다면 역할이 오퍼레이션을 수행할 수 있는 리소스를 지정하기 위해, `역할-리소스` 관계를 설정해야 합니다.
 
 ![role_4.1.png](http://static.toastoven.net/prod_role/role_4.1.png)
 [그림 4.1] 사용자-리소스 관계를 추가합니다.
@@ -58,7 +58,8 @@
 
 ### 5) 조건 속성 생성
 
-생성한 역할에 역할-조건 속성 관계를 만들기 위해 조건 속성을 생성한 뒤, 앞서 생성한 역할을 추가합니다.
+생성한 역할에 특정 조건에만 오퍼레이션 수행 권한을 부여하기 위해, `역할-조건 속성` 관계를 설정해야 합니다.
+조건 속성은 조건 속성에 미리 추가한 역할에서만 사용할 수 있습니다. 조건 속성을 생성/수정할 때, 앞서 생성해 둔 역할을 조건 속성에 추가해 줍니다.
 
 ![role_5.1.png](http://static.toastoven.net/prod_role/role_5.1.png)
 [그림 5.1] 조건 속성 탭으로 이동합니다.
@@ -71,7 +72,7 @@
 
 ### 6) 사용자 생성
 
-마지막으로 사용자를 추가하고 역할을 부여합니다.
+마지막으로 게시판 API를 사용할 사용자를 추가하고, 접근 제어를 설정하기 위해 `MEMBER` 역할과 `instance.name`조건 속성을 설정합니다.
 
 ![role_6.1.png](http://static.toastoven.net/prod_role/role_6.1.png)
 [그림 6.1] 사용자 탭으로 이동합니다.
@@ -99,14 +100,14 @@
 `userId` 가 Header 의 `'uuid'`로 값이 넘어온다고 가정해 보겠습니다.
 `12345678-1234-5678-1234-567812345678` 사용자가 `/board/v1.0/1` API를 호출하였을 때, 권한을 체크하면 아래와 같습니다.
 
-#### 7-1) [RESTFUL API 호출 시]
+#### [RESTFUL API 호출 시]
 
 ```shell
 curl -X POST -H "Content-Type: application/json" -d '{
     "resources": [
         {
             "attributes": {
-                "attributeId": "InstanceName",
+                "attributeId": "instance.name",
                 "attributeValue": "GPU"
             },
             "authRequestId": "",
@@ -117,6 +118,33 @@ curl -X POST -H "Content-Type: application/json" -d '{
         }
     ]
 }' "https://role.api.nhncloudservice.com/role/v3.0/appkeys/{Appkey}/users/12345678-1234-5678-1234-567812345678/authorizations/resources"
+```
+
+응답 예시) 접근 권한이 있는 경우 해당 리소스 내부에 `permission: true`로 응답이 내려온다.
+
+```json
+{
+  "authorizations" : [
+    {
+      "attributes" : [
+        {
+          "attributeId" : "instance.name",
+          "attributeValue" : "GPU"
+        }
+      ],
+      "operationId" : "GET",
+      "permission" : true,
+      "resourceId" : "{boardId}",
+      "resourcePath" : "/board/v1.0/1",
+      "scopeId" : "ALL"
+    }
+  ],
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode" : 0,
+    "resultMessage" : ""
+  }
+}
 ```
 
 ## 마이그레이션
