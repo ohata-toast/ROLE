@@ -110,7 +110,7 @@ RoleClient client = new RoleClient(RoleConfig.builder()
 | totalItems         | Integer    | **Yes** | 전체 개수    |
 | items | List&lt;T> | **Yes** | 조회된 목록     |
 
-#### 1. User
+#### 1. 사용자
 > 사용자 정보 등록, 조회, 수정, 삭제 기능 및 사용자 역할 변경 내역 조회
 
 1. Model
@@ -131,6 +131,7 @@ RoleClient client = new RoleClient(RoleConfig.builder()
 |roleId|     String            |**Yes**|     역할 ID                 |
 |roleApplyPolicyCode|    RoleApplyPolicyCode |**No**|   역할 사용 여부: ALLOW, DENY |
 |conditions|     List&lt;Condition>   |**No**|  역할 조건 속성              |
+|regYmdt | Date| **Yes** | 생성일시  |
 
 **[Condition]**
 
@@ -140,7 +141,7 @@ RoleClient client = new RoleClient(RoleConfig.builder()
 |attributeOperatorType | Required |**Yes**|   조건 속성 연산자 유형  |
 |attributeValues| List&lt;String> |**No**|  조건 속성 값           |
 
-2. User 생성
+2. 사용자 생성
 
 ```java
 User user = User.builder()
@@ -160,7 +161,7 @@ User user = User.builder()
 client.createUsers(List.of(user));
 ```
 
-3. User 조회
+3. 사용자 조회
 
 **[GetUserRequest]**
 
@@ -179,7 +180,7 @@ GetUserRequest request = GetUserRequest.builder()
 User user = client.getUser(request);
 ```
 
-4. User 목록 조회
+4. 사용자 목록 조회
 
 ⚠️ 응답 시 사용되는 모델은 `Common` 참고
 
@@ -210,9 +211,15 @@ Pageable pageable = Pageable.builder()
 Page<User> user = client.getUsers(request, pageable);
 ```
 
-5. User 수정
+5. 사용자 수정
 
-⚠️ 요청 시 사용되는 모델은 `User` 참고
+**[PutUserRequest]**
+
+| Key                  |     Type | Required |   Description   |
+|--------------|----------------|----|----------|
+| user                 | User      |**Yes**|   ⚠️ 요청 시 사용되는 모델은 `User` 참고 |
+| createUserIfNotExist | Boolean    |**No**|   요청 시 존재하지 않는 사용자일 경우 생성 여부 |
+
 
 ```java
 User user = User.builder()
@@ -229,10 +236,15 @@ User user = User.builder()
                                                                                      .build()))
                                                         .build();
 
-client.updateUser(user);
+PutUserRequest request = PutUserRequest.builder()
+                                       .user(user)
+                                       .createUserIfNotExist(true)
+                                       .build();
+
+client.updateUser(request);
 ```
 
-6. User 삭제
+6. 사용자 삭제
 
 ```java
 String userId = "";
@@ -240,7 +252,23 @@ String userId = "";
 client.deleteUser(userId);
 ```
 
-7. User 역할 변경 내역 리스트 조회
+7. 사용자 다건 삭제
+
+**[DeleteUsersRequest]**
+
+| Key                  |     Type | Required |   Description   |
+|--------------|----------------|----|----------|
+| userIds             | Set&lt;String>      |**Yes**|   사용자 ID 목록 |
+
+```java
+DeleteUsersRequest request = DeleteUsersRequest.builder()
+                                               .userIds(Set.of(""))
+                                               .build();
+
+client.deleteUsers(request);
+```
+
+8. 사용자 역할 변경 내역 리스트 조회
 
 **[GetUserRoleHistoriesRequest]**
 
@@ -278,7 +306,38 @@ Page<UserRoleHistory> userRoleHistories = client.getUserRoleHistories(request, P
 | executionTime | OffsetDateTime |**Yes**|  변경 일시     |
 | operatorUuid | String |**Yes**|   작업자 UUID     |
 
-#### 2. Operation
+9. 범위 기반 사용자 수정
+
+**[PutUserScopeRequest]**
+
+| Key                  |    Type | Required |   Description   |
+|--------------|----------------|----|----------|
+| userId               | String         |**Yes**|   사용자 ID      |
+| scopeId             | String          |**Yes**| 적용 대상 ID
+| description|    String  |**No**| 설명|
+| createUserIfNotExist | Boolean    |**No**|   요청 시 존재하지 않는 사용자일 경우 생성 여부 |
+| roleRelations|  List&lt;UserRoleRelation> |**No**| 연관 역할|
+
+```java
+PutUserRequest request = PutUserScopeRequest.builder()
+                                            .userId("")
+                                            .description("")
+                                            .createUserIfNotExist(true)
+                                            .roleRelations(List.of(UserRoleRelation.builder()
+                                                                                   .roleId("")
+                                                                                   .scopeId("")
+                                                                                   .roleApplyPolicyCode(RoleApplyPolicyCode.ALLOW)
+                                                                                   .conditions(List.of(Condition.builder()
+                                                                                                                .attributeId("")
+                                                                                                                .attributeOperatorTypeCode(AttributeOperatorTypeCode.STRING)
+                                                                                                                .attributeValues(List.of(""))))
+                                                                                                                .build()))
+                                                                                   .build();
+
+client.updateUserInScope(request);
+```
+
+#### 2. 오퍼레이션
 > Operation 정보 등록, 조회, 수정, 삭제
 
 1. Model
@@ -290,7 +349,7 @@ Page<UserRoleHistory> userRoleHistories = client.getUserRoleHistories(request, P
 |operationId|    String                    |**Yes**| 오퍼레이션 ID|
 |description|    String                    |**No**| 설명|
 
-2. Operation 생성
+2. 오퍼레이션 생성
 
 ```java
 Operation operation = Operation.builder()
@@ -301,7 +360,7 @@ Operation operation = Operation.builder()
 client.createOperation(operation);
 ```
 
-3. Operation 조회
+3. 오퍼레이션 조회
 
 ⚠️ 응답 시 사용되는 모델은 `Model` 참고
 
@@ -311,7 +370,7 @@ String operationId = "";
 Operation operation = client.getOperation(operationId);
 ```
 
-4. Operation 목록 조회
+4. 오퍼레이션 목록 조회
 
 ⚠️ 응답 시 사용되는 모델은 `Common` 참고
 
@@ -335,7 +394,7 @@ Pageable pageable = Pageable.builder()
 Page<Operation> operations = client.getOperations(request, pageable);
 ```
 
-5. Operation 수정
+5. 오퍼레이션 수정
 
 ⚠️ 요청 시 사용되는 모델은 `Operation` 참고
 ```java
@@ -347,7 +406,7 @@ Operation operation = Operation.builder()
 client.updateOperation(operation);
 ```
 
-6. Operation 삭제
+6. 오퍼레이션 삭제
 
 ```java
 String operationId = "";
@@ -355,8 +414,24 @@ String operationId = "";
 client.deleteOperation(userId);
 ```
 
-#### 3. Attribute
-> attribute 정보 등록, 조회, 수정, 삭제
+7. 오퍼레이션 다건 삭제
+
+**[DeleteOperationsRequest]**
+
+| Key                  |     Type | Required |   Description   |
+|--------------|----------------|----|----------|
+| operationIds             | Set&lt;String>      |**Yes**|   오퍼레이션 ID 목록 |
+
+```java
+DeleteOperationsRequest request = DeleteOperationsRequest.builder()
+                                                          .operationIds(Set.of(""))
+                                                          .build();
+
+client.deleteOperations(request);
+```
+
+#### 3. 속성
+> 속성 정보 등록, 조회, 수정, 삭제
 
 1. Model
 
@@ -372,7 +447,7 @@ client.deleteOperation(userId);
 |attributeTagIds|    List&lt;String>    |**No**|    조건 속성 태그 목록                              |
 |attributeRoleRelationIds|   List&lt;String> |**No**|   연관 역할 목록                                     |
 
-2. Attribute 생성
+2. 속성 생성
 
 ```java
 Attribute attribute = Attribute.builder()
@@ -387,7 +462,7 @@ Attribute attribute = Attribute.builder()
 client.createAttribute(attribute);
 ```
 
-3. Attribute 조회
+3. 속성 조회
 
 ```java
 String attributeId = "";
@@ -395,7 +470,7 @@ String attributeId = "";
 Attribute attribute = client.getAttribute(attributeId);
 ```
 
-4. Attribute 목록 조회
+4. 속성 목록 조회
 
 ⚠️ 응답 시 사용되는 모델은 `Common` 참고
 
@@ -435,7 +510,7 @@ Page<GetAttributeResponse> attributes = client.getAttributes(request, pageable);
 | attributeRoleRelationByRoleId |   Map&lt;String, AttributeRoleRelation> |**No**| 조건 속성과 연관된 역할 |
 | attributeInUse                |   Boolean                               |**Yes**| 조건 속성 데이터 타입    |
 
-5. Attribute 수정
+5. 속성 수정
 
    ⚠️ 요청 시 사용되는 모델은 `Attribute` 참고
 
@@ -449,9 +524,9 @@ Attribute attribute = Attribute.build()
 client.updateAttribute(attribute);
 ```
 
-6. Attribute 삭제
+6. 속성 삭제
 
-**[RemoveAttributeRequest]**
+**[DeleteAttributeRequest]**
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
@@ -459,16 +534,33 @@ client.updateAttribute(attribute);
 |forceDelete|    boolean        |**No**|     강제 삭제 여부(기본값: false) |
 
 ```java
-RemoveAttributeRequest request = RemoveAttributeRequest.build()
+DeleteAttributeRequest request = DeleteAttributeRequest.build()
                                                       .attributeId("")
                                                       .forceDelete(false)
                                                       .build();
 
-client.deleteAttribute(userId);
+client.deleteAttribute(request);
 ```
 
-#### 3. Scope
-> Scope 정보 등록, 조회, 수정, 삭제
+7. 속성 다건 삭제
+
+**[DeleteAttributesRequest]**
+
+| Key                  |     Type | Required |   Description   |
+|--------------|----------------|----|----------|
+|attributeIds| Set&lt;String>      |**Yes**|   조건 속성 ID 목록 |
+|forceDelete|    boolean        |**No**|     강제 삭제 여부(기본값: false) |
+
+```java
+DeleteAttributesRequest request = DeleteAttributesRequest.builder()
+                                                          .operationIds(Set.of(""))
+                                                          .build();
+
+client.deleteAttributes(request);
+```
+
+#### 4. 범위
+> 범위 정보 등록, 조회, 수정, 삭제
 
 1. Model
 
@@ -479,7 +571,7 @@ client.deleteAttribute(userId);
 |scopeId|    String          |**Yes**| 범위 ID|
 |description|    String      |**No**| 설명|
 
-2. Scope 생성
+2. 범위 생성
 
 ```java
 Scope scope = Scope.builder()
@@ -489,7 +581,8 @@ Scope scope = Scope.builder()
 
 client.createScope(scope);
 ```
-3. Scope 조회
+
+3. 범위 조회
 
 ⚠️ 응답 시 사용되는 모델은 `Model` 참고
 ```java
@@ -497,7 +590,8 @@ String scopeId = "";
 
 Scope scope = client.getScope(scopeId);
 ```
-4. Scope 목록 조회
+
+4. 범위 목록 조회
 
 ⚠️ 응답 시 사용되는 모델은 `Common` 참고
 
@@ -521,7 +615,7 @@ Pageable pageable = Pageable.builder()
 Page<Scope> scopes = client.getScopes(request, pageable);
 ```
 
-5. Scope 수정
+5. 범위 수정
 
 ⚠️ 요청 시 사용되는 모델은 `Scope` 참고
 
@@ -534,7 +628,7 @@ Scope scope = Scope.builder()
 client.updateScope(scope);
 ```
 
-6. Scope 삭제
+6. 범위 삭제
 
 ```java
 String scopeId = "";
@@ -542,8 +636,24 @@ String scopeId = "";
 client.deleteScope(userId);
 ```
 
-#### 4. Role
-> Role 정보 등록, 조회, 수정, 삭제 및 등록된 Role의 설정 가능한 Attribute 목록 조회, DENY(미사용)로 변경 가능 여부
+7. 범위 다건 삭제
+
+**[DeleteScopesRequest]**
+
+| Key                  |     Type | Required |   Description   |
+|--------------|----------------|----|----------|
+|scopeIds| Set&lt;String>      |**Yes**|   범위 ID 목록 |
+
+```java
+DeleteScopesRequest request = DeleteScopesRequest.builder()
+                                                 .scopeIds(Set.of(""))
+                                                 .build();
+
+client.deleteScopes(request);
+```
+
+#### 5. 역할
+> 역할 정보 등록, 조회, 수정, 삭제 및 등록된 역할의 설정 가능한 Attribute 목록 조회, DENY(미사용)로 변경 가능 여부
 
 1. Model
 
@@ -581,7 +691,7 @@ client.deleteScope(userId);
 |attributeOperatorType | Required |**Yes**|   조건 속성 연산자 유형   |
 |attributeValues| List&lt;String> |**No**|  조건 속성 값           |
 
-2. Role 생성
+2. 역할 생성
 
 ```java
 Role role = Role.builder()
@@ -607,7 +717,7 @@ Role role = Role.builder()
 client.createRole(role);
 ```
 
-3. Role 조회
+3. 역할 조회
 
 ⚠️ 응답 시 사용되는 모델은 `Model` 참고
 
@@ -617,25 +727,27 @@ String roleId = "";
 Role role = client.getRole(roleId);
 ```
 
-4. Role 목록 조회
+4. 역할 목록 조회
 
 **[GetRoleRequest]**
 
 | Key               |    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| roleIds           |    List&lt;String>  |**No**|  역할 ID 목록(완전 일치)                |
-| roleIdPreLike     |    String           |**No**|  범위 ID(전방 일치)                  |
-| relatedRoleIds    |    List&lt;String>  |**No**|  연관관계 역할 ID 목록(완전 일치)           |
-| descriptionLike   |    String           |**No**|  설명(부분 일치)                        |
-| roleNameLike      |    String           |**No**|  역할 이름(부분 일치)                   |
-| roleGroupLike     |    String           |**No**|  역할 그룹(부분 일치)                   |
-| roleTagIdExpr     |    String           |**No**|  역할 태그 조건(구분자 ';':OR, ',':AND) |
-| roleTagIds        |    List&lt;String>  |**No**|  역할 태그 ID 목록(완전 일치)            |
-| attributeIds      |    List&lt;String>  |**No**|  조건 속성 ID 목록(완전 일치)           |
-| attributeTagIds   |    List&lt;String>  |**No**|  조건 속성 태그 ID 목록(완전 일치)       |
-| needAttributes    |    Boolean          |**No**|  응답 시 조건 속성 정보 포함 여부           |
-| needRoleTags      |    Boolean          |**No**|  응답 시 역할 태그 ID 목록 포함 여부         |
-| needRoleRelations |    Boolean          |**No**|  응답 시 연관관계 역할 ID 목록 포함 여부        |
+| roleIds              |    List&lt;String>               |**No**|  역할 ID 목록(완전 일치)                |
+| roleIdPreLike        |    String                        |**No**|  범위 ID(전방 일치)                  |
+| relatedRoleIds       |    List&lt;String>               |**No**|  연관관계 역할 ID 목록(완전 일치)           |
+| descriptionLike      |    String                        |**No**|  설명(부분 일치)                        |
+| roleNameLike         |    String                        |**No**|  역할 이름(부분 일치)                   |
+| roleGroup            |    String                        |**No**|  역할 그룹(완전 일치)                   |
+| roleGroupLike        |    String                        |**No**|  역할 그룹(부분 일치)                   |
+| roleTagIdExpr        |    String                        |**No**|  역할 태그 조건(구분자 ';':OR, ',':AND) |
+| roleTagIds           |    List&lt;String>               |**No**|  역할 태그 ID 목록(완전 일치)            |
+| attributeIds         |    List&lt;String>               |**No**|  조건 속성 ID 목록(완전 일치)           |
+| attributeTagIds      |    List&lt;String>               |**No**|  조건 속성 태그 ID 목록(완전 일치)       |
+| needAttributes       |    Boolean                       |**No**|  응답 시 조건 속성 정보 포함 여부           |
+| needRoleTags         |    Boolean                       |**No**|  응답 시 역할 태그 ID 목록 포함 여부         |
+| needRoleRelations    |    Boolean                       |**No**|  응답 시 연관관계 역할 ID 목록 포함 여부        |
+| searchRoleOptionCode |    SearchRoleOptionCode          |**No**|  역할 검색 시 하위 역할 포함 여부       |
 
 ```java
 GetRoleRequest request = GetRoleRequest.builder()
@@ -649,7 +761,7 @@ Pageable pageable = Pageable.builder()
 Page<Role> roles = client.getRoles(request, pageable);
 ```
 
-5. Role 수정
+5. 역할 수정
 
 ⚠️ 요청 시 사용되는 모델은 `Role` 참고
 
@@ -677,7 +789,7 @@ Role role = Role.builder()
 client.updateRole(role);
 ```
 
-6. Role 삭제
+6. 역할 삭제
 
 ```java
 String roleId = "";
@@ -685,7 +797,23 @@ String roleId = "";
 client.deleteRole(roleId);
 ```
 
-7. Role에서 설정 가능한 모든 Attribute 목록 조회
+7. 역할 다건 삭제
+
+**[DeleteRolesRequest]**
+
+| Key                  |     Type | Required |   Description   |
+|--------------|----------------|----|----------|
+|roleIds| Set&lt;String>      |**Yes**|   역할 ID 목록 |
+
+```java
+DeleteRolesRequest request = DeleteRolesRequest.builder()
+                                               .roleIds(Set.of(""))
+                                               .build();
+
+client.deleteRoles(request);
+```
+
+8. 역할에서 설정 가능한 모든 속성 목록 조회
 
 **[GetRoleAttributesRequest]**
 
@@ -710,7 +838,7 @@ Pageable pageable = Pageable.builder()
 
 Page<Attribute> attributes = client.getRoleAttributes(request, pageable);
 ```
-⚠️ 응답 시 사용되는 모델은 `3. Attribute` Model 참고
+⚠️ 응답 시 사용되는 모델은 `3. 속성` Model 참고
 
 8. 역할 사용 여부 DENY(미사용)로 변경 가능 여부
 
@@ -720,8 +848,81 @@ String roleId = "";
 boolean result = client.isDeniable(roleId);
 ```
 
-#### 5. Resource
-> Resource 정보 등록, 조회, 수정, 삭제
+#### 6. 역할 연관 관계
+> 역할 연관 관계 등록, 수정, 삭제
+
+1. 역할 연관 관계 등록
+
+**[CreateRoleRelationRequest]**
+
+| Key           |    Type | Required |   Description   |
+|--------------|----------------|----|----------|
+| roleId    |    String  |**Yes**|   역할 ID                       |
+| roleRelations   |    List&lt;RoleRelation>  |**No**|   ⚠️ `5. 역할`의 RoleRelation Model 참고   |
+
+```java
+CreateRoleRelationRequest role = CreateRoleRelationRequest.builder()
+                                                          .roleId("")
+                                                          .roleRelations(RoleRelation.build()
+                                                                                     .relatedRoleId("")
+                                                                                     .roleApplyPolicyCode(RoleApplyPolicyCode.ALLOW)
+                                                                                     .conditions(Condition.build()
+                                                                                                          .attributeId("")
+                                                                                                          .attributeOperatorTypeCode(AttributeOperatorTypeCode.STRING)
+                                                                                                          .attributeValues(List.of())
+                                                                                                          .build())
+                                                                                     .build())
+                                                          .build();
+
+client.createRoleRelations(role);
+```
+
+2. 역할 연관 관계 수정
+
+**[UpdateRoleRelationRequest]**
+
+| Key           |    Type | Required |   Description   |
+|--------------|----------------|----|----------|
+| roleId    |    String  |**Yes**|   역할 ID                       |
+| roleRelations   |    List&lt;RoleRelation>  |**No**|   ⚠️ `5. 역할`의 RoleRelation Model 참고   |
+
+```java
+UpdateRoleRelationRequest role = UpdateRoleRelationRequest.builder()
+                                                          .roleId("")
+                                                          .roleRelations(RoleRelation.build()
+                                                                                     .relatedRoleId("")
+                                                                                     .roleApplyPolicyCode(RoleApplyPolicyCode.ALLOW)
+                                                                                     .conditions(Condition.build()
+                                                                                                          .attributeId("")
+                                                                                                          .attributeOperatorTypeCode(AttributeOperatorTypeCode.STRING)
+                                                                                                          .attributeValues(List.of())
+                                                                                                          .build())
+                                                                                     .build())
+                                                          .build();
+
+client.updateRoleRelation(role);
+```
+
+3. 역할 연관 관계 삭제
+
+**[DeleteRoleRelationRequest]**
+
+| Key           |    Type | Required |   Description   |
+|--------------|----------------|----|----------|
+| roleId    |    String  |**Yes**|   역할 ID                       |
+| relatedRoleIds   |    List&lt;String>  |**No**|   연관 역할 ID 목록   |
+
+```java
+DeleteRoleRelationRequest role = DeleteRoleRelationRequest.builder()
+                                                          .roleId("")
+                                                          .relatedRoleIds(List.Of(""))
+                                                          .build();
+
+client.deleteRoleRelations(role);
+```
+
+#### 7. 리소스
+> 리소스 정보 등록, 조회, 수정, 삭제
 
 1. Model
 
@@ -738,7 +939,7 @@ boolean result = client.isDeniable(roleId);
 | metadata      |    String  |**No**|   메타데이터                             |
 | newResourceId |    String  |**No**|   기존에 생성된 리소스 ID를 업데이트하고 싶을 때만 사용 |
 
-2. Resource 생성
+2. 리소스 생성
 
 ```java
 Resource resource = Resource.builder()
@@ -754,16 +955,17 @@ Resource resource = Resource.builder()
 client.createResource(resource);
 ```
 
-3. Resource 조회
+3. 리소스 조회
 
 ⚠️ 응답 시 사용되는 모델은 `Model` 참고
+
 ```java
 String resourceId = "";
 
 Resource resource = client.getResource(resourceId);
 ```
 
-4. Resource 목록 조회
+4. 리소스 목록 조회
 
 ⚠️ 응답 시 사용되는 모델은 `Common` 참고
 
@@ -799,7 +1001,7 @@ Pageable pageable = Pageable.builder()
 Page<Resource> resources = client.getResources(request, pageable);
 ```
 
-5. Resource 수정
+5. 리소스 수정
 
 ⚠️ 요청 시 사용되는 모델은 `Resource` 참고
 
@@ -817,7 +1019,7 @@ Resource resource = Resource.builder()
 client.updateResource(operation);
 ```
 
-6. Resource 삭제
+6. 리소스 삭제
 
 ```java
 String resourceId = "";
@@ -825,8 +1027,23 @@ String resourceId = "";
 client.deleteResource(resourceId);
 ```
 
+7. 리소스 다건 삭제
 
-#### 7. 리소스 계층구조
+**[DeleteResourcesRequest]**
+
+| Key                  |     Type | Required |   Description   |
+|--------------|----------------|----|----------|
+|resourceIds| Set&lt;String>      |**Yes**|   리소스 ID 목록 |
+
+```java
+DeleteResourcesRequest request = DeleteResourcesRequest.builder()
+                                                       .roleIds(Set.of(""))
+                                                       .build();
+
+client.deleteResources(request);
+```
+
+#### 8. 리소스 계층구조
 > 리소스의 계층구조를 조회합니다.
 > uiPath(resourceUiPath)를 기준으로 계층구조가 형성되며, 사용자가 정의한 캐시 시간만큼 캐싱됩니다.
 
@@ -864,7 +1081,7 @@ List<ResourceHierarchy> responses = client.getResourceHierarchy(request);
 | priority    | Integer                    |**Yes**| 우선 순위                                   |
 | resources   | List&lt;ResourceHierarchy> |**No**| 하위 리소스들                                 |
 
-#### 8. 사용자 인가(user authorization)
+#### 9. 사용자 인가(user authorization)
 > 사용자가 특정한 역할을 가지고 있거나, 리소스에 대한 접근 권한을 가지고 있는지를 확인합니다.
 > 리소스의 경우 사용자가 정의한 캐시 시간만큼 캐싱됩니다.
 
