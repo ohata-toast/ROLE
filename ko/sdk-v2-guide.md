@@ -1,22 +1,22 @@
 ## Application Service > ROLE > SDK 사용 가이드
 
 > ROLE 서비스를 이용하여 권한을 체크하기 위해서는
-> RESTful API를 호출하거나, 클라이언트 SDK를 이용하여야 한다.
+> RESTful API를 호출하거나, 클라이언트 SDK를 이용해야 합니다.
 
-## AppKey & SecretKey
+## 앱키 & 비밀 키
 
-RESTful API와 클라이언트 SDK를 사용하려면 AppKey와 Secret Key 가 필요하다.
-[CONSOLE]의 좌측 상단에서 발급된 Key 정보를 확인 할 수 있다.
+RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 필요합니다. 
+[CONSOLE]의 우측 상단에서 발급된 키 정보를 확인할 수 있습니다.
 
-![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_60.png)
-<center>[그림 1] AppKey & SecretKey 확인</center>
+![[그림 1] 앱키 & 비밀 키 확인](http://static.toastoven.net/prod_role/role_60.png)
+<center>[그림 1] 앱키 & 비밀 키 확인</center>
 
 ## 클라이언트 SDK
 
 ### 클라이언트 SDK 란?
 
-RESTful API를 손쉽게 호출하기 위한 ROLE 전용 클라이언트 SDK 이다.
-자체 캐시 기능을 가지고 있기 때문에, 좀더 효율적으로 ROLE 서비스를 이용할 수 있다.
+RESTful API를 손쉽게 호출하기 위한 ROLE 전용 클라이언트 SDK입니다.
+자체 캐시 기능을 가지고 있기 때문에, 좀더 효율적으로 ROLE 서비스를 이용할 수 있습니다.
 현재는 JAVA 언어에 대해서만 지원합니다.
 
 ### 사용 환경
@@ -24,7 +24,7 @@ RESTful API를 손쉽게 호출하기 위한 ROLE 전용 클라이언트 SDK 이
 
 ### Maven을 이용한 JAVA 클라이언트 SDK 사용
 
-JAVA 클라이언트 SDK를 사용하기 위해선 pom.xml에 maven repository 및 depencency 설정이 필요하다.
+JAVA 클라이언트 SDK를 사용하기 위해선 pom.xml에 maven repository 및 depencency 설정이 필요합니다.
 
 **[Maven Repository]**
 Maven Central Repository에 저장되어 있어 별도의 설정은 필요 없음.
@@ -52,18 +52,18 @@ Maven Central Repository에 저장되어 있어 별도의 설정은 필요 없�
 
 ### JAVA 클라이언트 SDK 사용법
 
-JAVA 클라이언트 SDK를 사용하기 위해서는 먼저 RoleClientFactory 객체를 이용하여 RoleClient 객체의 instance를 생성해야 한다.
-RoleClient 객체를 생성하였으면, 해당 객체에서 제공하는 method를 호출하여 여러 작업들을 처리하면 된다.
+JAVA 클라이언트 SDK를 사용하기 위해서는 먼저 RoleClientFactory 객체를 이용하여 RoleClient 객체의 인스턴스를 생성해야 합니다.
+RoleClient 객체를 생성하였으면, 해당 객체에서 제공하는 메서드를 호출하여 여러 작업들을 처리하면 됩니다.
 
 **[RoleConfig]**
 
-| Key            | Type | Required |   Description   |
-|--------------|----------------|----|----------|
-| appKey         | String  |**Yes**| 서버에서 발급받은 앱키                                                       |
-| secretKey      | String  |**Yes**| 서버에서 발급받은 비밀 키                                                     |
-| domain         | String  |**No**| 도메인 주소<br/>기본으로 설정된 값을 사용하며, 별도로 설정할 필요는 없다                   |
-| connectTimeout | Integer |**No**| 연결 타임아웃을 설정할 수 있으며, 시간 단위는 밀리 세컨드다 입니다.<br/>기본값은 okHttp의 기본값인 10초이다   |
-| readTimeout    | Integer |**No**| Read 타임아웃을 설정할 수 있으며, 시간 단위는 밀리 세컨드 입니다.<br/>기본값은 okHttp의 기본값인 10초이다 |
+| Key            | Type | Required | Description                                                         |
+|--------------|----------------|----|---------------------------------------------------------------------|
+| appKey         | String  |**Yes**| 서버에서 발급받은 앱키                                                        |
+| secretKey      | String  |**Yes**| 서버에서 발급받은 비밀 키                                                      |
+| domain         | String  |**No**| 도메인 주소<br/>기본으로 설정된 값을 사용하며, 별도로 설정할 필요는 없다                         |
+| connectTimeout | Integer |**No**| 연결 타임아웃을 설정할 수 있으며, 시간 단위는 밀리 세컨드이다.<br/>기본값은 okHttp의 기본값인 10초이다.   |
+| readTimeout    | Integer |**No**| Read 타임아웃을 설정할 수 있으며, 시간 단위는 밀리 세컨드이다.<br/>기본값은 okHttp의 기본값인 10초이다. |
 
 ```java
 String appKey = "appKey";
@@ -87,7 +87,7 @@ RoleClient client = new RoleClient(RoleConfig.builder()
                                                 .build());
 ```
 
-> RoleClient의 생성자를 직접 호출하지 않도록 주의한다.
+> RoleClient의 생성자를 직접 호출하지 않도록 주의합니다.
 
 ### SDK 사용 가이드
 #### Common
@@ -736,7 +736,7 @@ boolean result = client.isDeniable(roleId);
 | uiPath        |    String  |**Yes**|   리소스 UI 경로                  |
 | priority      |    Integer |**Yes**|   우선순위                              |
 | metadata      |    String  |**No**|   메타데이터                             |
-| newResourceId |    String  |**No**|   기존에 생성된 리소스의 ID를 업데이트하고 싶을 때만 사용 |
+| newResourceId |    String  |**No**|   기존에 생성된 리소스 ID를 업데이트하고 싶을 때만 사용 |
 
 2. Resource 생성
 
@@ -827,8 +827,8 @@ client.deleteResource(resourceId);
 
 
 #### 7. 리소스 계층구조
-> 리소스의 계층구조를 조회한다.
-> uiPath(resourceUiPath)를 기준으로 계층구조가 형성되며, 사용자가 정의한 캐시 시간만큼 캐싱 된다.
+> 리소스의 계층구조를 조회합니다.
+> uiPath(resourceUiPath)를 기준으로 계층구조가 형성되며, 사용자가 정의한 캐시 시간만큼 캐싱됩니다.
 
 1. 리소스 계층 구조 조회
 
@@ -865,8 +865,8 @@ List<ResourceHierarchy> responses = client.getResourceHierarchy(request);
 | resources   | List&lt;ResourceHierarchy> |**No**| 하위 리소스들                                 |
 
 #### 8. 사용자 인가(user authorization)
-> 사용자가 특정한 역할을 가지고 있거나, 리소스에 대한 접근 권한을 가지고 있는지를 확인한다.
-> 리소스의 경우 사용자가 정의한 캐시 시간만큼 캐싱 된다.
+> 사용자가 특정한 역할을 가지고 있거나, 리소스에 대한 접근 권한을 가지고 있는지를 확인합니다.
+> 리소스의 경우 사용자가 정의한 캐시 시간만큼 캐싱됩니다.
 
 1. 특정 리소스의 인가 결과 확인
 
@@ -928,15 +928,15 @@ List<GetResourceAuthorizationResponse> responses = client.hasAuthorizationByReso
 
 **[GetResourceAuthorizationResponse]**
 
-| Key           |    Type | Required |   Description   |
-|--------------|----------------|----|----------|
-| authRequestId | String                          |**No**| 사용자가 정의한 ID 값<br/>요청 시에 보낸 값이 그대로 반환된다       |
-| operationId   | String                          |**Yes**| 오퍼레이션 ID                                 |
-| resourceId    | String                          |**Yes**| 리소스 ID                                       |
-| resourcePath  | String                          |**No**| 리소스 경로                                       |
-| scopeId       | String                          |**Yes**| 범위 ID                                        |
+| Key           |    Type | Required | Description                                 |
+|--------------|----------------|----|---------------------------------------------|
+| authRequestId | String                          |**No**| 사용자가 정의한 ID 값<br/>요청 시에 보낸 값이 그대로 반환된다.     |
+| operationId   | String                          |**Yes**| 오퍼레이션 ID                                    |
+| resourceId    | String                          |**Yes**| 리소스 ID                                      |
+| resourcePath  | String                          |**No**| 리소스 경로                                      |
+| scopeId       | String                          |**Yes**| 범위 ID                                       |
 | permission    | Boolean                         |**Yes**| 인가 결과<br/><br/>true: 권한 있음<br/>false: 권한 없음 |
-| attributes    | List&lt;AuthorizationAttribute> |**No**| 조건 속성 목록                                     |
+| attributes    | List&lt;AuthorizationAttribute> |**No**| 조건 속성 목록                                    |
 
 3. 특정 역할의 인가 결과 확인
 
@@ -994,7 +994,7 @@ List<GetRoleAuthorizationResponse> responses = client.hasAuthorizationByRoles(us
 
 | Key            | Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| authRequestId  | String                          |**No**| 사용자가 정의한 ID 값<br/>요청 시에 보낸 값이 그대로 반환된다        |
+| authRequestId  | String                          |**No**| 사용자가 정의한 ID 값<br/>요청 시에 보낸 값이 그대로 반환된다.        |
 | roleId         | String                          |**Yes**| 역할 ID                                         |
 | scopeId        | String                          |**Yes**| 범위 ID
 | permission     | Boolean                         |**Yes**| 인가 결과<br/><br/>true: 권한 있음<br/>false: 권한 없음 |
@@ -1002,13 +1002,13 @@ List<GetRoleAuthorizationResponse> responses = client.hasAuthorizationByRoles(us
 
 ### 클라이언트 SDK 캐시
 
-클라이언트 SDK에서는 아래 3가지 경우에 대해서 각각 클라이언트 단의 캐시를 사용한다.
+클라이언트 SDK에서는 아래 3가지 경우에 대해서 각각 클라이언트 단의 캐시를 사용합니다.
 
 - Resource ID를 이용한 권한 체크
 - Resource Path를 이용한 권한 체크
 - Resource Hierarchy 조회
 
-LRU로 관리하고 있으며, Cache의 기본값은 300초의 TTL(time to live) 과 1,000,000 개 Size입니다.
+LRU로 관리하고 있으며, 캐시의 기본값은 300초의 TTL(time to live)과 1,000,000개 Size입니다.
 해당 값을 수정하려면 NHN Cloud 콘솔에 접속하여 변경할 수 있습니다.
 NHN Cloud 콘솔에서 변경한 설정은 변경 즉시 반영되며, 변경되는 즉시 기존 캐시는 모두 삭제됩니다.
 
@@ -1089,8 +1089,8 @@ try {
 }
 ```
 
-RoleSession 객체를 사용 시 commit() method를 호출하기 전까지는 어떠한 추가/수정/변경사항도 서버에 반영되지 않기 때문에, commit()하기 전 변경한 데이터를 읽지 않도록 주의해야 합니다.
+RoleSession 객체를 사용 시 commit() 메서드를 호출하기 전까지는 어떠한 추가/수정/변경사항도 서버에 반영되지 않기 때문에, commit() 하기 전 변경한 데이터를 읽지 않도록 주의해야 합니다.
 
-RoleSession 객체를 commit()하거나 rollback() 한 다음 재사용 할 수 있습니다.
+RoleSession 객체를 commit() 하거나 rollback() 한 다음 재사용 할 수 있습니다.
 
 > RoleSession은 `SDK 사용 가이드`에서 정의된 서비스 중 조회를 제외한 등록, 수정, 삭제에 대해서 동일하게 사용 가능합니다.

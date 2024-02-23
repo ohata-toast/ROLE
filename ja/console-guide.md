@@ -6,7 +6,7 @@
 `/board/v1.0/{boardId}` API를 호출하면 게시물을 반환하는 API가 있고, 이 API는 인증된 회원만 호출할 수 있다고 가정하겠습니다.
 먼저 인증된 회원이라는 역할을 만들어야 합니다.
 
-> curl을 사용한 예제에서 "\{Appkey}" 와 "\{SecretKey}" 값은 실제 프로젝트 내의 활성화한 Role 서비스의 Appkey와 SecretKey로 대체해야 합니다.
+> curl을 사용한 예제에서 "\{Appkey}" 와 "\{SecretKey}" 값은 실제 프로젝트 내의 활성화한 ROLE 서비스의 앱키와 비밀 키로 대체해야 합니다.
 
 ### 1) 역할 생성
 
@@ -35,7 +35,7 @@
 <center>[그림 3.1] 리소스 탭으로 이동합니다.</center>
 
 ![role_3.2.png](http://static.toastoven.net/prod_role/role_3.2.png)
-<center>[그림 3.2] 리소스를 추가하고자 하는 부모 노드를 클릭하고, 상단에 **추가** 버튼을 클릭합니다.</center>
+<center>[그림 3.2] 리소스를 추가하고자 하는 부모 노드를 클릭하고, 상단에 <strong>추가</strong> 버튼을 클릭합니다.</center>
 
 ![role_3.3.png](http://static.toastoven.net/prod_role/role_3.3.png)
 <center>[그림 3.3] 리소스 #1 `board`를 추가합니다.</center>
@@ -97,10 +97,10 @@
 
 ### 7) 권한 체크
 
-`userId` 가 Header 의 `'uuid'`로 값이 넘어온다고 가정해 보겠습니다.
+`userId`가 Header 의 `'uuid'`로 값이 넘어온다고 가정해 보겠습니다.
 `12345678-1234-5678-1234-567812345678` 사용자가 `/board/v1.0/1` API를 호출하였을 때, 권한을 체크하면 아래와 같습니다.
 
-#### [RESTFUL API 호출 시]
+#### [RESTful API 호출 시]
 
 ```shell
 curl -X POST -H "Content-Type: application/json" -d '{
@@ -120,7 +120,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 }' "https://role.api.nhncloudservice.com/role/v3.0/appkeys/{Appkey}/users/12345678-1234-5678-1234-567812345678/authorizations/resources"
 ```
 
-응답 예시) 접근 권한이 있는 경우 해당 리소스 내부에 `permission: true`로 응답이 내려온다.
+응답 예시) 접근 권한이 있는 경우 해당 리소스 내부에 `permission: true`로 응답이 내려옵니다.
 
 ```json
 {
@@ -152,7 +152,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 ROLE 서비스를 사용하는 다른 프로젝트가 있다면, 데이터 이관 기능을 이용해서 편리하게 데이터를 동기화 시킬 수 있습니다.
 데이터 동기화의 대상은 `리소스`, `역할`, `오퍼레이션`이며 `범위`와 `사용자`는 동기화되지 않습니다.
 
-관리 탭의 마이그레이션 메뉴 영역에서 데이터를 이관할 프로젝트 혹은 AppKey를 입력해서 진행할 수 있습니다.
+관리 탭의 마이그레이션 메뉴 영역에서 데이터를 이관할 프로젝트 혹은 앱키를 입력해서 진행할 수 있습니다.
 
 ![role_8.1.png](http://static.toastoven.net/prod_role/role_8.1.png)
 <center>[그림 8.1] 관리 탭으로 이동합니다.</center>
@@ -160,16 +160,16 @@ ROLE 서비스를 사용하는 다른 프로젝트가 있다면, 데이터 이�
 ![role_8.2.png](http://static.toastoven.net/prod_role/role_8.2.png)
 <center>[그림 8.2] 마이그레이션 메뉴입니다.</center>
 
-데이터를 이관할 프로젝트를 선택하거나, 직접 AppKey를 입력 할 수 있습니다.
+데이터를 이관할 프로젝트를 선택하거나, 직접 앱키를 입력할 수 있습니다.
 
 ![role_8.3.png](http://static.toastoven.net/prod_role/role_8.3.png)
 <center>[그림 8.3] 프로젝트 선택 드롭다운의 모습입니다.</center>
 
 ![role_8.4.png](http://static.toastoven.net/prod_role/role_8.4.png)
-<center>[그림 8.4] AppKey를 입력하는 모습입니다.</center>
+<center>[그림 8.4] 앱키를 입력하는 모습입니다.</center>
 
 ![role_8.5.png](http://static.toastoven.net/prod_role/role_8.5.png)
-<center>[그림 8.5] **확인** 버튼 클릭 시, 노출되는 확인 모달입니다.</center>
+<center>[그림 8.5] <strong>확인</strong> 버튼 클릭 시, 노출되는 확인 모달입니다.</center>
 
 ## 서버 설정
 
