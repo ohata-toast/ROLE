@@ -4,9 +4,9 @@
 #### 기능 추가
 * [RESTful API] 역할 목록 조회, 역할 단건 조회 API가 확장되었습니다.
   * 연관 관계 역할 목록에 역할 태그 목록이 추가되었습니다.
-    * POST /role/v3.0/appkeys/{appKey}/roles/search : 역할 목록 조회
+    * POST /role/v3.0/appkeys/{appKey}/roles/search: 역할 목록 조회
         * 자세한 사항은 매뉴얼 참고: [링크](https://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-v3-guide/#searchRoles)
-    * GET /role/v3.0/appkeys/{appKey}/roles/{roleId} : 역할 단건 조회
+    * GET /role/v3.0/appkeys/{appKey}/roles/{roleId}: 역할 단건 조회
         * 자세한 사항은 매뉴얼 참고: [링크](https://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-v3-guide/#getRole)
 
 #### 버그 수정
@@ -16,7 +16,7 @@
 ### 2024. 03. 26.
 #### 기능 추가
 * [RESTful API] 사용자 목록 조회 API가 변경되었습니다.
-    * POST /role/v3.0/appkeys/{appKey}/users/search : 사용자 목록 조회
+    * POST /role/v3.0/appkeys/{appKey}/users/search: 사용자 목록 조회
         * 자세한 사항은 매뉴얼 참고: [링크](https://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-v3-guide/#_8)
 
 ### 2024. 02. 27.
@@ -67,8 +67,8 @@
 * [Console] Resource 항목 중 path 에서 antPathPattern 을 지원합니다. 
     * "/admin/**" 설정시 admin 아래의 resource path 로 authorization 체크를 지원할 수 있습니다.
 * [Console] Role 항목 중 관리의 편의성을 위하여 RoleName 과 RoleGroup 이 추가되었습니다.
-    * RoleName : Role에 의미있는 이름을 부여하여 관리할 수 있습니다.
-    * RoleGroup : 그룹을 지정하여 그룹별 검색을 통해 관리할 수 있습니다.
+    * RoleName: Role에 의미있는 이름을 부여하여 관리할 수 있습니다.
+    * RoleGroup: 그룹을 지정하여 그룹별 검색을 통해 관리할 수 있습니다.
 * [Console] Resource 의 Resource ID 의 길이가 64자로 늘었습니다.
 * [RESTful API] Role 항목 중 RoleName, RoleGroup 추가로 Role 관련 API가 확장되었습니다.
     * 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#3-role)
@@ -79,29 +79,29 @@
 ### 2017. 08. 24.
 #### 기능 추가
 * [RESTful API] 각 구성요소의 리스트를 조회할 수 있는 API가 추가되었습니다.
-	* GET /role/v1.0/appkeys/{appKey}/roles : role 리스트 조회
+	* GET /role/v1.0/appkeys/{appKey}/roles: role 리스트 조회
 		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#3-role)
-	* GET /role/v1.0/appkeys/{appKey}/resources : resource 리스트 조회
+	* GET /role/v1.0/appkeys/{appKey}/resources: resource 리스트 조회
 		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#4-resource)
-	* GET /role/v1.0/appkeys/{appKey}/scopes : scope 리스트 조회
+	* GET /role/v1.0/appkeys/{appKey}/scopes: scope 리스트 조회
 		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#2-scope)
-	* GET /role/v1.0/appkeys/{appKey}/operations : operation 리스트 조회
+	* GET /role/v1.0/appkeys/{appKey}/operations: operation 리스트 조회
 		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#5-operation)
 
 #### 기능 개선/변경
 * [Console] Resource name에 한글을 입력 할 수 있습니다. '/'문자를 제외하고 모든 문자 입력이 가능합니다.
 * [Console] Resource, Role, User, Scope 입력, 수정시 필드 유효성 검사 실패시 보여주는 메시지가 수정되었습니다.
 	* Resource의 priority, description 의 유효성 검사시 4XX, 5XX 에러가 아닌 문구를 보여주도록 개선되었습니다.
-		* priority 유효성 검사 실패 문구 : 'Priority 는 숫자(-32768 ~ 32767)만 입력가능합니다.'
-		* description 유효성 검사 실패 문구 : '잘못된 형식의 description 입니다.'
+		* priority 유효성 검사 실패 문구: 'Priority 는 숫자(-32768 ~ 32767)만 입력가능합니다.'
+		* description 유효성 검사 실패 문구: '잘못된 형식의 description 입니다.'
 	* Scope, Role, User 의 description 이 128자 넘어갈 경우 4XX, 5XX 에러가 아닌 문구를 보여주도록 개선되었습니다.
-		* description 유효성 검사 실패 문구 : '잘못된 형식의 description 입니다.'
+		* description 유효성 검사 실패 문구: '잘못된 형식의 description 입니다.'
 	* User 수정 화면에서 없는 Role이나 Scope을 입력한 경우 11001, 13001 에러가 아닌 문구를 보여주도록 개선되었습니다.
-		* 없는 Scope 입력시 문구 : 'Scope ID 를 찾을 수 없습니다.'
-		* 없는 Role 입력시 문구 : 'Role ID 를 찾을 수 없습니다.'
+		* 없는 Scope 입력시 문구: 'Scope ID 를 찾을 수 없습니다.'
+		* 없는 Role 입력시 문구: 'Role ID 를 찾을 수 없습니다.'
 * [Console] Resource 검색 화면에서 Operation 필드에 자동 완성 기능이 추가되었습니다.
 * [Console] Migration 기능의 오용을 방지 하기 위해서 화면에 주의 문구가 추가되었습니다.
-	* 주의 문구 : '※ 주의 : 현재 프로젝트의 Resource, Role, Operation 을 선택한 프로젝트로 복사를 진행합니다. 선택한 프로젝트의 기존 Resource, Role, Operation 은 삭제합니다.'
+	* 주의 문구: '※ 주의: 현재 프로젝트의 Resource, Role, Operation 을 선택한 프로젝트로 복사를 진행합니다. 선택한 프로젝트의 기존 Resource, Role, Operation 은 삭제합니다.'
 * [RESTful API] API 제약 사항이 변경되었습니다.
 	* GET /role/v1.0/appkeys/{appKey}/resources/hierarchy API가 user나 role 을 인자로 주지 않아도 전체 결과를 주도록 변경되었습니다.
 		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#4-resource)

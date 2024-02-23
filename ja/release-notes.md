@@ -54,8 +54,8 @@
 * [Console] Resource項目のpathでantPathPatternをサポートします。 
     * "/admin/**"設定時、adminの下のresource pathでauthorizationチェックをサポートできます。
 * [Console] Role項目のうち、RoleNameとRoleGroupが追加され、管理しやすくなりました。
-    * RoleName : Roleに意味のある名前を付与して管理できます。
-    * RoleGroup : グループを指定し、グループ別検索で管理できます。
+    * RoleName: Roleに意味のある名前を付与して管理できます。
+    * RoleGroup: グループを指定し、グループ別検索で管理できます。
 * [Console] ResourceのResource IDの長さが64文字に増加しました。
 * [RESTful API] Role項目にRoleName、RoleGroupが追加され、Role関連APIが拡張されました。
     * 詳細については、マニュアルを参照：[リンク](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#3-role)
@@ -66,13 +66,13 @@
 ### 2017. 08. 24.
 #### 機能追加
 * [RESTful API] 各コンポーネントのリストを照会できるAPIを追加しました。
-	* GET /role/v1.0/appkeys/{appKey}/roles : roleリストの照会
+	* GET /role/v1.0/appkeys/{appKey}/roles: roleリストの照会
 		* 詳細については、マニュアル参考: [リンク](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#3-role)
-	* GET /role/v1.0/appkeys/{appKey}/resources : resourceリストの照会
+	* GET /role/v1.0/appkeys/{appKey}/resources: resourceリストの照会
 		* 詳細についてはマニュアルを参考：[リンク](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#4-resource)
-	* GET /role/v1.0/appkeys/{appKey}/scopes : scopeリストの照会
+	* GET /role/v1.0/appkeys/{appKey}/scopes: scopeリストの照会
 		* 詳細については、マニュアルを参照：[リンク](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#2-scope)
-	* GET /role/v1.0/appkeys/{appKey}/operations : operationリストの照会
+	* GET /role/v1.0/appkeys/{appKey}/operations: operationリストの照会
 		* 詳細については、マニュアルを参照：[リンク](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#5-operation)
 
 #### 機能改善/変更

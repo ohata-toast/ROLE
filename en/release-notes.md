@@ -3,7 +3,7 @@
 ### March 26, 2024
 #### Added Features
 * [RESTful API] Changed the Get a list of users API.
-    * POST /role/v3.0/appkeys/{appKey}/users/search : Get a list of users
+    * POST /role/v3.0/appkeys/{appKey}/users/search: Get a list of users
         * For more information, see: [link](https://docs.nhncloud.com/en/Application%20Service/ROLE/en/api-v3-guide/#get-a-list-of-users )
 
 ### January 23, 2024.
@@ -54,8 +54,8 @@
 * [Console] Among the resource entries, path supports antiPathPattern. 
     * When setting "/admin/\*\*", you can support authorization checks with the resource path under admin.
 * [Console] For ease of management, RoleName and RoleGroup have been added among Role items.
-    * RoleName : You can give the Role a meaningful name to manage it.
-    * RoleGroup : You can specify a group and manage it through a group-by-group search.
+    * RoleName: You can give the Role a meaningful name to manage it.
+    * RoleGroup: You can specify a group and manage it through a group-by-group search.
 * [Console] Resource ID of the resource has been increased to 64 characters in length.
 * [RESTFUL API] Among the Role entries, RoleName and RoleGroup have been added to extend the Role-related API.
     * For more information, refer to the manual: [link](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#3-role)
@@ -66,13 +66,13 @@
 ### 1.0.1
 #### Added Features
 * [RESTFUL API] Added the API to look up the list of each component.
-	* GET /role/v1.0/appkeys/{appKey}/roles : role list look up
+	* GET /role/v1.0/appkeys/{appKey}/roles: role list look up
 		* For more information, refer to the manual: [link](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#3-role)
-	* GET /role/v1.0/appkeys/{appKey}/resources : resource list lookup
+	* GET /role/v1.0/appkeys/{appKey}/resources: resource list lookup
 		* For more information, refer to the manual: [link](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#4-resource)
-	* GET /role/v1.0/appkeys/{appKey}/scopes : scope list lookup
+	* GET /role/v1.0/appkeys/{appKey}/scopes: scope list lookup
 		* For more information, refer to the manual: [link](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#2-scope)
-	* GET /role/v1.0/appkeys/{appKey}/operations : operation list lookup
+	* GET /role/v1.0/appkeys/{appKey}/operations: operation list lookup
 		* For more information, refer to the manual: [link](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#5-operation)
 
 #### Feature Updates
@@ -88,7 +88,7 @@
 		* When entering a missing Role, phrase: 'Role ID not found'
 * [Console] Added the auto complete feature to the Operation field in Resource search screen.
 * [Console] To prevent misuse of the Migration feature, a cautionary note has been added to the screen.
-	* a cautionary note: '※ caution : Copy the current project's Resources, Role, Operation to the selected project. Delete existing Resources, Role, Operation for the selected project.'
+	* a cautionary note: '※ caution: Copy the current project's Resources, Role, Operation to the selected project. Delete existing Resources, Role, Operation for the selected project.'
 * [RESTFUL API] API constraints has changed.
 	* GET /role/v1.0/appkeys/{appKey}/resources/hierarchy The API has been changed to give full results without having to give users or roles as factors..
 		* For more information, refer to the manual: [link](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#4-resource)
