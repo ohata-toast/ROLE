@@ -5,13 +5,13 @@
 > RESTFUL API 를 호출하거나, Client SDK 를 이용하여야 한다.
 > Spring Framework 을 사용하는 경우, 좀더 편하게 JAVA Client SDK 를 사용할 수 있다.
 
-## AppKey & SecretKey
+## 앱키 & 비밀 키
 
-RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요하다.
+RESTFUL API 와 Client SDK 를 사용하려면 앱키와 비밀 키가 필요하다.
 [CONSOLE] 의 좌측 상단에서 발급된 Key 정보를 확인 할 수 있다.
 
-![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_60.png)
-<center>[그림 1] AppKey & SecretKey 확인</center>
+![[그림 1] 앱키 & 비밀 키 확인](http://static.toastoven.net/prod_role/role_60.png)
+<center>[그림 1] 앱키 & 비밀 키 확인</center>
 
 
 ## Spring Client SDK
@@ -66,9 +66,9 @@ JAVA Client SDK For Spring 을 사용하기 위해선 pom.xml 에 maven reposito
                         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="client" class="com.toast.cloud.tcrole.sdk.TCRoleClientFactory"
 		factory-method="getClient">
-		<!-- TOASTCloud console 에서 발급 받은 AppKey -->
+		<!-- TOASTCloud console 에서 발급 받은 앱키 -->
 		<constructor-arg name="appKey" value="CIxy8T4QdkxoH5wh" />
-		<!-- TOASTCloud console 에서 발급 받은 SecretKey -->
+		<!-- TOASTCloud console 에서 발급 받은 비밀 키 -->
 		<constructor-arg name="secretKey" value="bX67pDaw" />
 	</bean>
 </beans>

@@ -1,23 +1,23 @@
 ## Application Service > ROLE > API 가이드
 
 
-> Role 상품을 이용하여 권한을 체크하기 위해서는
-> RESTFUL API 를 호출하거나, Client SDK 를 이용하여야 한다.
+> ROLE 서비스를 이용해 권한을 체크하기 위해서는
+> RESTful API를 호출하거나, 클라이언트 SDK를 이용하여야 합니다.
 
-## AppKey & SecretKey
+## 앱키 & 비밀 키
 
-RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요하다.
-[CONSOLE] 의 좌측 상단에서 발급된 Key 정보를 확인 할 수 있다.
+RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 필요합니다.
+[CONSOLE] 우측 상단의 **URL & Appkey** 버튼을 클릭하여 발급 키 정보를 확인할 수 있습니다.
 
-![[그림 1] AppKey & SecretKey 확인](http://static.toastoven.net/prod_role/role_60.png)
-<center>[그림 1] AppKey & SecretKey 확인</center>
+![[그림 1] 앱키 & 비밀 키 확인](http://static.toastoven.net/prod_role/role_60.png)
+<center>[그림 1] 앱키 & 비밀 키 확인</center>
 
-## RESTFUL API 가이드
+## RESTful API 가이드
 
 ### Common Response Body
 
-모든 API 요청에 대해 HTTP 응답 코드는 200 으로 응답한다.
-자세한 응답 결과는 Response Body 의 header 항목을 참고한다.
+모든 API 요청에 대해 HTTP 응답 코드는 200으로 응답합니다.
+자세한 응답 결과는 Response Body의 header 항목을 참고합니다.
 
 ```json
 {
@@ -29,12 +29,12 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 }
 ```
 
-|Key|	Type|	Description|
-|---|---|---|
-|header|	Object|	응답헤더|
-|header.isSuccessful|	boolean|	성공 여부|
-|header.resultCode|	int|	응답 코드. 성공 시 0, 실패 시 에러코드 반환|
-|header.resultMessage|	String|	응답 메시지. 성공 시 "SUCCESS", 실패 시 에러메시지 반환|
+|Key|	Type| 	Description                            |
+|---|---|-----------------------------------------|
+|header|	Object| 	응답 헤더                                  |
+|header.isSuccessful|	boolean| 	성공 여부                                  |
+|header.resultCode|	int| 	응답 코드. 성공 시 0, 실패 시 오류 코드 반환           |
+|header.resultMessage|	String| 	응답 메시지. 성공 시 "SUCCESS", 실패 시 오류 메시지 반환 |
 
 ### 1. User
 
@@ -57,7 +57,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Request Body]**
 
@@ -69,9 +69,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 			"relations": [
 				{
 					"roleId": "",
-					"scopeId": "",
-					"validStartDate" : "",
-					"validEndDate" : ""
+					"scopeId": ""
 				}
 			],
 			"userId": ""
@@ -83,13 +81,13 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |Key|	Type|	Required|	Description|
 |---|---|---|---|
 |users|	List|	Yes|	User 등록 정보|
-|users[0].userId|	String|	Yes|	User ID <br/> 최대 48글자까지 등록 가능하다. <br/> -\_@. 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 한다.|
-|users[0].description|	String|	Yes|	User 설명 <br/> 최대 128글자까지 등록 가능하다.|
+|users[0].userId|	String|	Yes|	User ID <br/> 최대 48글자까지 등록 가능합니다. <br/> -\_@. 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 합니다.|
+|users[0].description|	String|	Yes|	User 설명 <br/> 최대 128글자까지 등록 가능합니다.|
 |users[0].relations|	List|	No|	User - Role 관계 리스트|
 |users[0].relations[0].roleId|	String|	Yes|	Role ID|
 |users[0].relations[0].scopeId|	String|	Yes|	Scope ID|
-|users[0].relations[0].validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
-|users[0].relations[0].validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜|
+|users[0].relations[0].validStartDate|	Date|	No| 	User에게 부여된 Role의 유효 기간 시작 날짜(2024-02-27 이후 지원 종료) |
+|users[0].relations[0].validEndDate|	Date|	No| 	User에게 부여된 Role의 유효 기간 종료 날짜(2024-02-27 이후 지원 종료) |
 
 **[Response Body]**
 
@@ -109,11 +107,11 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 }
 ```
 
-|Key|	Type|	Description|
-|---|---|---|
-|errors|	List|	Error 리스트, 에러가 발생하지 않았다면 빈리스트를 반환한다.|
-|errors[0].code|	int|	에러 코드|
-|errors[0].message|	String|	에러 메시지|
+|Key|	Type| 	Description                            |
+|---|---|-----------------------------------------|
+|errors|	List| 	오류 리스트, 오류가 발생하지 않았다면 빈 리스트를 반환합니다. |
+|errors[0].code|	int| 	오류 코드                                  |
+|errors[0].message|	String| 	오류 메시지                                 |
 
 #### 1.2. User 조회
 
@@ -134,7 +132,7 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |userId|	User ID|
 
 **[Response Body]**
@@ -158,15 +156,15 @@ RESTFUL API 와 Client SDK 를 사용하려면 AppKey 와 Secret Key 가 필요�
 |Key|	Type|	Description|
 |---|---|---|
 |user|	Object|	User 정보|
-|user.appKey|	String|	AppKey|
+|user.appKey|	String|	앱키|
 |user.userId|	String|	User ID|
 |user.description|	String|	User 설명|
 |user.regYmdt|	Timestamp|	등록일|
 
 #### 1.3. User 리스트 조회
 
-Scope ID 와 Role ID 를 넘겨주면, 해당 역할을 가진 User 만 반환한다.
-includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 Role 을 가진 User 도 포함하여 반환한다.
+Scope ID와 Role ID를 넘겨주면, 해당 역할을 가진 User만 반환합니다.
+includeRelation 을 true로 설정하면, Role ID와 연관 관계에 있는 Role 을 가진 User도 포함하여 반환합니다.
 
 **[Method, URL]**
 
@@ -185,7 +183,7 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Query Parameter]**
 
@@ -213,9 +211,7 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
             [
                 {
                     "roleId" : "",
-                    "scopeId" : "",
-                    "validStartDate" : "",
-                    "validEndDate" : ""
+                    "scopeId" : ""
                 }
             ],
             "userId" : ""
@@ -227,15 +223,15 @@ includeRelation 을 true 로 설정하면, Role ID 와 연관 관계에 있는 R
 |Key|	Type|	Description|
 |---|---|---|
 |users|	List|	User 정보 리스트|
-|users[0].appKey|	String|	AppKey|
+|users[0].appKey|	String|	앱키|
 |users[0].userId|	String|	User ID|
 |users[0].description|	String|	User 설명|
 |users[0].regYmdt|	Timestamp|	등록일|
-|users[0].relations | List | User 에 할당된 관계 리스트 |
+|users[0].relations | List | User에 할당된 관계 리스트 |
 |users[0].relations[0].roleId | String | Role ID |
 |users[0].relations[0].scopeId | String | Scope ID |
-|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜|
-|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜|
+|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜(2024-02-27 이후 지원 종료)|
+|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜(2024-02-27 이후 지원 종료)|
 
 #### 1.4. 벌크 User 리스트 조회
 
@@ -258,7 +254,7 @@ User 정보를 한번에 조회하는 API
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Request Body]**
 
@@ -289,9 +285,7 @@ User 정보를 한번에 조회하는 API
                 {
                     "userId" : "",
                     "roleId" : "",
-                    "scopeId" : "",
-                    "validStartDate" : "",
-                    "validEndDate" : ""
+                    "scopeId" : ""
                 }
             ],
             "userId" : ""
@@ -303,16 +297,16 @@ User 정보를 한번에 조회하는 API
 |Key|	Type|	Description|
 |---|---|---|
 |users|	List|	User 정보 리스트|
-|users[0].appKey|	String|	AppKey|
+|users[0].appKey|	String|	앱키|
 |users[0].userId|	String|	User ID|
 |users[0].description|	String|	User 설명|
 |users[0].regYmdt|	Timestamp|	등록일|
-|users[0].relations | List | User 에 할당된 관계 리스트 |
+|users[0].relations | List | User에 할당된 관계 리스트 |
 |users[0].relations[0].userId | String | User ID |
 |users[0].relations[0].roleId | String | Role ID |
 |users[0].relations[0].scopeId | String | Scope ID |
-|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜 |
-|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜 |
+|users[0].relations[0].validStartDate | Date | User에게 부여된 Role의 유효 기간 시작 날짜(2024-02-27 이후 지원 종료) |
+|users[0].relations[0].validEndDate | Date | User에게 부여된 Role의 유효 기간 종료 날짜(2024-02-27 이후 지원 종료) |
 
 
 #### 1.5. User 설명 수정
@@ -334,7 +328,7 @@ User 정보를 한번에 조회하는 API
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |userId|	User ID|
 
 **[Request Body]**
@@ -380,7 +374,7 @@ User 정보를 한번에 조회하는 API
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |userId|	User ID|
 
 **[Response Body]**
@@ -413,7 +407,7 @@ User 정보를 한번에 조회하는 API
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |userId|	User ID|
 
 **[Request Body]**
@@ -435,8 +429,8 @@ User 정보를 한번에 조회하는 API
 |---|---|---|---|
 |resources|	List|	Yes|	권한 체크 할 Resource 리스트|
 |resources[0].operationId|	String|	Yes|	Operation ID|
-|resources[0].resourceId|	String|	No|	Resource ID, Resource ID 와 Path 중 하나의 값은 반드시 넣어야 한다.|
-|resources[0].resourcePath|	String|	No|	Resource Path, Resource ID 와 Path 중 하나의 값은 반드시 넣어야 한다.|
+|resources[0].resourceId|	String|	No|	Resource ID, Resource ID와 Path 중 하나의 값은 반드시 넣어야 합니다.|
+|resources[0].resourcePath|	String|	No|	Resource Path, Resource ID와 Path 중 하나의 값은 반드시 넣어야 합니다.|
 |resources[0].scopeId|	String|	Yes|	Scope ID|
 
 **[Response Body]**
@@ -471,7 +465,7 @@ User 정보를 한번에 조회하는 API
 
 #### 1.8. Role 권한 체크
 
-User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따른 Role 도 포함한다.
+User에 Role이 부여됬는지 여부를 반환합니다. 연관 관계에 따른 Role도 포함합니다.
 
 **[Method, URL]**
 
@@ -489,7 +483,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |userId|	User ID|
 
 **[Request Body]**
@@ -537,9 +531,9 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |authorizations[0].roleId|	String|	Role ID|
 |authorizations[0].scopeId|	String|	Scope ID|
 
-#### 1.9. User 에 부여된 Role 조회
+#### 1.9. User에 부여된 Role 조회
 
-직접적으로 부여한 Role 만 반환한다. Role 의 연관 관계에 따른 Role 은 반환하지 않는다.
+직접적으로 부여한 Role만 반환합니다. Role의 연관 관계에 따른 Role은 반환하지 않습니다.
 
 **[Method, URL]**
 
@@ -558,7 +552,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |userId|	User ID|
 |userId|	User ID|
 
@@ -576,9 +570,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 			"appKey": "",
 			"roleId": "",
 			"scopeId": "",
-			"userId": "",
-			"validStartDate" : "",
-			"validEndDate" : ""
+			"userId": ""
 		}
 	]
 }
@@ -587,14 +579,14 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |Key|	Type|	Description|
 |---|---|---|
 |relations|	List|	User - Role 관계 리스트|
-|relations[0].appKey|	String|	Operation ID|
+|relations[0].appKey|	String|	앱키|
 |relations[0].roleId|	String|	Role ID|
 |relations[0].scopeId|	String|	Scope ID|
 |relations[0].userId|	String|	User ID|
-|relations[0].validStartDate|	Date|User에게 부여된 Role의 유효 기간 시작 날짜|
-|relations[0].validEndDate|	Date|User에게 부여된 Role의 유효 기간 종료 날짜|
+|relations[0].validStartDate|	Date|User에게 부여된 Role의 유효 기간 시작 날짜(2024-02-27 이후 지원 종료)|
+|relations[0].validEndDate|	Date|User에게 부여된 Role의 유효 기간 종료 날짜(2024-02-27 이후 지원 종료)|
 
-#### 1.10. User 에 Role 부여
+#### 1.10. User에 Role 부여
 
 **[Method, URL]**
 
@@ -613,7 +605,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |userId|	User ID|
 
 **[Request Body]**
@@ -622,9 +614,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 {
 	"roleId": "",
 	"scopeId": "",
-	"createUserIfNotExist": false,
-	"validStartDate" : "",
-	"validEndDate" : ""
+	"createUserIfNotExist": false
 }
 ```
 
@@ -632,9 +622,9 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |---|---|---|---|
 |roleId|	String|	Yes|	Role ID|
 |scopeId|	String|	Yes|	Scope ID|
-|createUserIfNotExist| Boolean| No| User 가 없을때 User 를 생성할 지 여부|
-|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
-|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜 |
+|createUserIfNotExist| Boolean| No| User가 없을때 User를 생성할 지 여부|
+|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜(2024-02-27 이후 지원 종료)|
+|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜(2024-02-27 이후 지원 종료) |
 
 **[Response Body]**
 
@@ -648,7 +638,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 }
 ```
 
-#### 1.11. User 에 부여된 Role 삭제
+#### 1.11. User에 부여된 Role 삭제
 
 **[Method, URL]**
 
@@ -667,7 +657,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |userId|	User ID|
 
 **[Query Parameter]**
@@ -708,7 +698,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |userId|	User ID|
 
 **[Request Body]**
@@ -761,7 +751,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |userId|	User ID|
 
 **[Request Body]**
@@ -769,9 +759,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 ```json
 {
     "roleId" : "",
-    "scopeId" : "",
-	"validStatDate" : "",
-	"validEndDate" : ""
+    "scopeId" : ""
 }
 ```
 
@@ -779,8 +767,8 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |---|---|---|---|
 |roleId|	String|	Yes|	Role ID|
 |scopeId|	String|	Yes|	Scope ID|
-|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
-|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜|
+|validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜(2024-02-27 이후 지원 종료)|
+|validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜(2024-02-27 이후 지원 종료)|
 
 **[Response Body]**
 
@@ -815,7 +803,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Request Body]**
 
@@ -828,8 +816,8 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Type|	Required|	Description|
 |---|---|---|---|
-|scopeId|	String|	Yes|	Scope ID <br/> 최대 32글자까지 등록 가능하다. </br> -\_ 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 한다. |
-|description|	String|	Yes|	Scope 설명 <br/> 최대 128글자까지 등록 가능하다.|
+|scopeId|	String|	Yes|	Scope ID <br/> 최대 32글자까지 등록 가능합니다. </br> -\_ 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 합니다. |
+|description|	String|	Yes|	Scope 설명 <br/> 최대 128글자까지 등록 가능합니다.|
 
 **[Response Body]**
 
@@ -862,7 +850,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |scopeId|	Scope ID|
 
 **[Response Body]**
@@ -885,7 +873,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 |Key|	Type|	Description|
 |---|---|---|
 |scope|	Object|	Scope 정보|
-|scope.appKey|	String|	AppKey|
+|scope.appKey|	String|	앱키|
 |scope.scopeId|	String|	Scope ID|
 |scope.description|	String|	Scope 설명|
 
@@ -908,7 +896,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |scopeId|	Scope ID|
 
 **[Request Body]**
@@ -954,7 +942,7 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |scopeId|	Scope ID|
 
 **[Response Body]**
@@ -969,9 +957,9 @@ User 에 Role 이 부여됬는지 여부를 반환한다. 연관 관계에 따�
 }
 ```
 
-#### 2.5. Scope 과 연관된 연관 관계 조회
+#### 2.5. Scope과 연관된 연관 관계 조회
 
-Scope ID 와 관련된 연관 관계를 조회한다.
+Scope ID와 관련된 연관 관계를 조회합니다.
 
 **[Method, URL]**
 
@@ -990,7 +978,7 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |scopeId|	Scope ID|
 
 **[Response Body]**
@@ -1016,7 +1004,7 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 |Key|	Type|	Description|
 |---|---|---|
 |relations|	List|	User - Role 관계 리스트|
-|relations[0].appKey|	String|	Operation ID|
+|relations[0].appKey|	String|	앱키|
 |relations[0].roleId|	String|	Role ID|
 |relations[0].scopeId|	String|	Scope ID|
 |relations[0].userId|	String|	User ID|
@@ -1024,8 +1012,8 @@ Scope ID 와 관련된 연관 관계를 조회한다.
 
 #### 2.6. Scope 리스트 조회
 
- 페이지 형태로 리스트를 조회할 수 있다. 
-page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조회한다.  
+페이지 형태로 리스트를 조회할 수 있습니다.
+page에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조회합니다.
 
 **[Method, URL]**
 
@@ -1044,7 +1032,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Query Parameter]**
 
@@ -1102,7 +1090,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Request Body]**
 
@@ -1116,13 +1104,13 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 }
 ```
 
-|Key|	Type|	Required|	Description|
-|---|---|---|---|
-|roleId|	String|	Yes| 	Role ID <br/> 최대 128글자까지 등록 가능하다. <br/> `-`, `_`, `.`, `:` 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 한다. |
-|description|	String|	Yes|	Role 설명 <br/> 최대 128글자까지 등록 가능하다.|
-|roleName|	String|	No|	Role 이름 <br/> 의미 있는 이름을 부여할 수 있다. 최대 128글자까지 등록 가능하다.|
-|roleGroup|	String|	No|	Role Group <br/> Role들을 그룹핑하여 관리 목적으로 사용할 수 있다. 최대 128글자까지 등록 가능하다.|
-|exposureOrder|	int|	No|	노출 순서 <br/> 숫자만 가능하다. 기본값 0|
+|Key|	Type|	Required| 	Description                                                                                                  |
+|---|---|---|---------------------------------------------------------------------------------------------------------------|
+|roleId|	String|	Yes| 	Role ID <br/> 최대 128글자까지 등록 가능합니다. <br/> `-`, `_`, `.`, `:` 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 합니다. |
+|description|	String|	Yes| 	Role 설명 <br/> 최대 128글자까지 등록 가능합니다.                                                                           |
+|roleName|	String|	No| 	Role 이름 <br/> 의미 있는 이름을 부여할 수 있습니다. 최대 128글자까지 등록 가능합니다.                                                     |
+|roleGroup|	String|	No| 	Role Group <br/> Role들을 그룹핑하여 관리 목적으로 사용할 수 있습니다. 최대 128글자까지 등록 가능합니다.                                       |
+|exposureOrder|	int|	No| 	노출 순서 <br/> 숫자만 가능합니다. 기본값은 0입니다.                                                                            |
 
 **[Response Body]**
 
@@ -1155,7 +1143,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |roleId|	Role ID|
 |roleName| Role 이름|
 |roleGroup| Role Group|
@@ -1185,7 +1173,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |Key|	Type|	Description|
 |---|---|---|
 |role|	Object|	Role 정보|
-|role.appKey|	String|	AppKey|
+|role.appKey|	String|	앱키|
 |role.roleId|	String|	Role ID|
 |role.description|	String|	Role 설명|
 |role.roleName|	String|	Role 이름|
@@ -1214,7 +1202,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |roleId|	Role ID|
 
 **[Request Body]**
@@ -1231,8 +1219,8 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |Key|	Type|	Required|	Description|
 |---|---|---|---|
 |description|	String|	Yes|	User 설명|
-|roleName|	String|	No|	Role 이름 <br/> 의미 있는 이름을 부여할 수 있다. 최대 128글자까지 등록 가능하다.|
-|roleGroup|	String|	No|	Role Group <br/> Role들을 그룹핑하여 관리 목적으로 사용할 수 있다. 최대 128글자까지 등록 가능하다.|
+|roleName|	String|	No|	Role 이름 <br/> 의미 있는 이름을 부여할 수 있습니다. 최대 128글자까지 등록 가능합니다.|
+|roleGroup|	String|	No|	Role Group <br/> Role들을 그룹핑하여 관리 목적으로 사용할 수 있습니다. 최대 128글자까지 등록 가능합니다.|
 |exposureOrder|	int | No | 노출 순서|
 
 **[Response Body]**
@@ -1266,7 +1254,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |roleId|	Role ID|
 
 
@@ -1301,7 +1289,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |roleId|	Role ID|
 
 **[Request Body]**
@@ -1347,7 +1335,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |roleId|	Role ID|
 |relatedRoleId|	연관 Role ID|
 
@@ -1363,7 +1351,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 }
 ```
 
-#### 3.7. Role 에 User 할당
+#### 3.7. Role에 User 할당
 
 
 **[Method, URL]**
@@ -1383,7 +1371,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |roleId|	Role ID|
 
 **[Request Body]**
@@ -1394,9 +1382,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 	"users": [
 		{
 			"scopeId": "",
-			"userId": "",
-			"validStartDate" : "",
-			"validEndDate" : ""
+			"userId": ""
 		}
 	]
 }
@@ -1404,12 +1390,12 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Type|	Required|	Description|
 |---|---|---|---|
-|createUserIfNotExist| Boolean| No| User 가 없을때 User 를 생성할 지 여부|
+|createUserIfNotExist| Boolean| No| User 가 없을때 User를 생성할 지 여부|
 |users|	List|	Yes|	User 리스트|
 |users[0].scopeId|	String|	No|	Scope ID, 없을 시 기본값 ALL|
 |users[0].userId|	String|	Yes|	User ID|
-|users[0].validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜|
-|users[0].validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종 날짜|
+|users[0].validStartDate|	Date|	No|	User에게 부여된 Role의 유효 기간 시작 날짜(2024-02-27 이후 지원 종료)|
+|users[0].validEndDate|	Date|	No|	User에게 부여된 Role의 유효 기간 종료 날짜(2024-02-27 이후 지원 종료)|
 
 **[Response Body]**
 
@@ -1425,8 +1411,8 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 #### 3.8. Role 리스트 조회
 
- 페이지 형태로 리스트를 조회할 수 있다. 
-page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조회한다.  
+페이지 형태로 리스트를 조회할 수 있습니다.
+page에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조회합니다.
 
 **[Method, URL]**
 
@@ -1445,7 +1431,7 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Query Parameter]**
 
@@ -1455,14 +1441,14 @@ page 에 1, itemsPerPage에 10을 입력하면 처음 10개의 리스트를 조�
 |description|	설명|	No|
 |roleName|	Role 이름|	No|
 |roleGroup|	Role Group 이름|	No|
-|roleTagIds| Tag Id 조건 (;는 OR, ,는 AND)|	No|
+|roleTagIds| Tag Id 조건(;는 OR, ,는 AND)|	No|
 |page|  검색을 원하는 페이지 번호로 1부터 시작|	No|
-|itemsPerPage|  결과를 원하는 scopes 의 레코드 수|	No|
+|itemsPerPage|  결과를 원하는 scopes의 레코드 수|	No|
 
-roleTagIds 를 통해서 검색시 Role 에 설정 한 Tag 를 AND 나 OR 조건으로 조회할 수 있다.
-예를 들어 Role 에 A 와 B Tag 를 가지고 있는 Role을 검색시에는 A;B 로 조건을 만들수 있고,
-A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을 만들 수 있다.
-(A;B),C 와 같은 조건 생성도 가능하다.  
+roleTagIds를 통해서 검색 시 Role에 설정 한 Tag를 AND 또는 OR 조건으로 조회할 수 있습니다.
+예를 들어 Role에 A와 B Tag를 가지고 있는 Role을 검색 시에는 A;B로 조건을 만들 수 있고,
+A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B로 조건을 만들 수 있습니다.
+(A;B),C와 같은 조건 생성도 가능합니다.
 
 **[Response Body]**
 
@@ -1495,7 +1481,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 |---|---|---|
 |roles|	List|	Role 정보|
 |roles[0].description|	String|	Role 설명|
-|roles[0].relatedRoleIds|	List|	연관 RoleId 들|
+|roles[0].relatedRoleIds|	List|	연관 Role ID 목록|
 |roles[0].roleId|	String|	Role ID|
 |roles[0].roleName|	String|	Role 이름|
 |roles[0].roleGroup|	String|	Role 그룹 이름|
@@ -1525,7 +1511,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |roleId|	Role ID|
 
 **[Request Body]**
@@ -1572,7 +1558,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |roleId|	Role ID|
 |roleTagId|	Tag ID|
 
@@ -1607,7 +1593,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |roleId|	Role ID|
 
 **[Response Body]**
@@ -1650,7 +1636,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Request Body]**
 
@@ -1666,15 +1652,15 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 }
 ```
 
-|Key|	Type|	Required|	Description|
-|---|---|---|---|
-|resourceId|	String|	Yes|	Resource ID <br/> 최대 32글자까지 등록 가능하다. <br/> -\_ 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 한다.|
-|name|	String|	No|	필요 없음.|
-|path|	String|	Yes|	Resource 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> Resource 경로는 '/' 의 조합으로 이루어져야 한다. <br/> 예외적으로 Path Variable 을 표현할 수 있는 {}가 올 수 있다.|
-|description|	String|	Yes|	Resource 설명 <br/> 최대 128글자까지 등록 가능하다.|
-|priority|	smallint|	Yes|	같은 경로에서 보여지는 우선순위 <br/> -32768 ~ 32767 값이 올 수 있으며, 낮을 수록 앞에 보이게 된다.|
-|metadata|	String|	Yes|	사용자 정의 데이터 <br/> 최대 65536글자까지 등록 가능하다.|
-|uiPath|	String|	Yes|	UI Path 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> UI Path 경로는 Resource 이름과 '/' 의 조합으로 이루어져야 한다. |
+|Key|	Type|	Required| 	Description                                                                                                                       |
+|---|---|---|------------------------------------------------------------------------------------------------------------------------------------|
+|resourceId|	String|	Yes| 	Resource ID <br/> 최대 32글자까지 등록 가능합니다. <br/> -\_ 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 합니다.                                  |
+|name|	String|	No| 	필요 없음.                                                                                                                            |야
+|path|	String|	Yes| 	Resource 경로 <br/> 최대 1024글자까지 등록 가능합니다. <br/> Resource 경로는 '/'의 조합으로 이루어져야 합니다. <br/> 예외적으로 Path Variable을 표현할 수 있는 {}가 올 수 있습니다. |
+|description|	String|	Yes| 	Resource 설명 <br/> 최대 128글자까지 등록 가능합니다.                                                                                            |
+|priority|	smallint|	Yes| 	같은 경로에서 보여지는 우선순위 <br/> -32768~32767 값이 올 수 있으며, 낮을수록 앞에 보이게 됩니다.                                                              |
+|metadata|	String|	Yes| 	사용자 정의 데이터 <br/> 최대 65536글자까지 등록 가능합니다.                                                                                           |
+|uiPath|	String|	Yes| 	UI Path 경로 <br/> 최대 1024글자까지 등록 가능합니다. <br/> UI Path 경로는 Resource 이름과 '/'의 조합으로 이루어져야 합니다.                                        |
 
 **[Response Body]**
 
@@ -1706,7 +1692,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Query Parameter]**
 
@@ -1770,7 +1756,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |resourceId|	Resource ID|
 
 **[Response Body]**
@@ -1797,7 +1783,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 |Key|	Type|	Description|
 |---|---|---|
 |resource|	Object|	Resource 정보|
-|resource.appKey|	String|	AppKey|
+|resource.appKey|	String|	앱키|
 |resource.resourceId|	String|	Resource ID|
 |resource.description|	String|	Resource 설명|
 |resource.name|	String|	Resource 이름|
@@ -1824,7 +1810,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |resourceId|	Resource ID|
 
 **[Request Body]**
@@ -1839,14 +1825,14 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 }
 ```
 
-|Key|	Type|	Required|	Description|
-|---|---|---|---|
-|name|	String|	No| 필요 없음. |
-|path|	String|	Yes| 	Resource 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> Resource 경로는 '/' 의 조합으로 이루어져야 한다. <br/> 예외적으로 Path Variable 을 표현할 수 있는 {}가 올 수 있다.|
-|description|	String|	Yes|	Resource 설명 <br/> 최대 128글자까지 등록 가능하다.|
-|priority|	smallint|	Yes|	같은 경로에서 보여지는 우선순위 <br/> -32768 ~ 32767 값이 올 수 있으며, 낮을 수록 앞에 보이게 된다.|
-|metadata|	String|	Yes|	사용자 정의 데이터 <br/> 최대 65536글자까지 등록 가능하다.|
-|uiPath|	String|	Yes| 	UI Path 경로 <br/> 최대 1024글자까지 등록 가능하다. <br/> UI Path 경로는 Resource 이름과 '/' 의 조합으로 이루어져야 한다. |
+|Key|	Type|	Required| 	Description                                                                                                                       |
+|---|---|---|------------------------------------------------------------------------------------------------------------------------------------|
+|name|	String|	No| 필요 없음.                                                                                                                             |
+|path|	String|	Yes| 	Resource 경로 <br/> 최대 1024글자까지 등록 가능합니다. <br/> Resource 경로는 '/'의 조합으로 이루어져야 합니다. <br/> 예외적으로 Path Variable을 표현할 수 있는 {}가 올 수 있습니다. |
+|description|	String|	Yes| 	Resource 설명 <br/> 최대 128글자까지 등록 가능합니다.                                                                                            |
+|priority|	smallint|	Yes| 	같은 경로에서 보여지는 우선순위 <br/> -32768~32767 값이 올 수 있으며, 낮을수록 앞에 보이게 됩니다.                                                               |
+|metadata|	String|	Yes| 	사용자 정의 데이터 <br/> 최대 65536글자까지 등록 가능합니다.                                                                                           |
+|uiPath|	String|	Yes| 	UI Path 경로 <br/> 최대 1024글자까지 등록 가능합니다. <br/> UI Path 경로는 Resource 이름과 '/'의 조합으로 이루어져야 합니다.                                        |
 
 **[Response Body]**
 
@@ -1879,7 +1865,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |resourceId|	Resource ID|
 
 **[Response Body]**
@@ -1894,7 +1880,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 }
 ```
 
-#### 4.6. Resource 와 관련된 권한 조회
+#### 4.6. Resource와 관련된 권한 조회
 
 **[Method, URL]**
 
@@ -1913,7 +1899,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |resourceId|	Resource ID|
 
 **[Response Body]**
@@ -1940,7 +1926,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 |authorizations[0].operationId|	String|	Operation ID|
 |authorizations[0].roleId|	String|	Role ID|
 
-#### 4.7. Resource 에 권한을 추가한다.
+#### 4.7. Resource에 권한을 추가합니다.
 
 **[Method, URL]**
 
@@ -1959,7 +1945,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |resourceId|	Resource ID|
 
 **[Request Body]**
@@ -2007,7 +1993,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Query Parameter]**
 
@@ -2072,7 +2058,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Request Body]**
 
@@ -2085,8 +2071,8 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Type|	Required|	Description|
 |---|---|---|---|
-|operationId|	String|	Yes|	Operation ID <br/> 최대 32글자까지 등록 가능하다. <br/> -\_ 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 한다.|
-|description|	String|	Yes|	Operation 설명 <br/> 최대 128글자까지 등록 가능하다.|
+|operationId|	String|	Yes|	Operation ID <br/> 최대 32글자까지 등록 가능합니다. <br/> -\_ 특수문자를 사용할 수 있으며, ID의 시작과 끝은 반드시 문자 및 숫자가 와야 합니다.|
+|description|	String|	Yes|	Operation 설명 <br/> 최대 128글자까지 등록 가능합니다.|
 
 **[Response Body]**
 
@@ -2119,7 +2105,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |operationId|	Operation ID|
 
 **[Response Body]**
@@ -2142,7 +2128,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 |Key|	Type|	Description|
 |---|---|---|
 |operation|	Object|	Operation 정보|
-|operation.appKey|	String|	AppKey|
+|operation.appKey|	String|	앱키|
 |operation.operationId|	String|	Operation ID|
 |operation.description|	String|	Operation 설명|
 
@@ -2165,7 +2151,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |operationId|	Operation ID|
 
 **[Request Body]**
@@ -2212,7 +2198,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 |operationId|	Operation ID|
 
 **[Response Body]**
@@ -2247,7 +2233,7 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 
 |Key|	Value|
 |---|---|
-|appKey|	[CONSOLE] 에서 발급받은 AppKey|
+|appKey|	[CONSOLE] 에서 발급받은 앱키|
 
 **[Response Body]**
 
@@ -2271,6 +2257,6 @@ A 나 B Tag 중 하나만 있어도 검색을 하고 싶다면 A,B 로 조건을
 |Key|	Type|	Description|
 |---|---|---|
 |operations|	List|	Operation 정보|
-|operations[0].appKey|	String|	AppKey|
+|operations[0].appKey|	String|	앱키|
 |operations[0].description|	String|	Operation 설명|
 |operations[0].operationId|	String|	Operation ID|

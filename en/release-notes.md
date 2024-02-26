@@ -1,5 +1,25 @@
 ## Application Service > ROLE > 릴리스 노트
 
+### 2024. 02. 27.
+#### 기능 추가
+* ABAC(속성 기반 접근 제어) 기능이 추가되었습니다.
+  * [Console] 새로운 디자인이 적용되고 조건 속성 기능이 추가되었습니다.
+      * 역할에 조건 속성을 추가할 수 있습니다.
+      * '조건 속성' 탭이 추가되었습니다.
+      * '관리' 탭이 추가되었습니다.
+  * [RESTful API] Public API v3가 출시되었습니다.
+      * RBAC(역할 기반 접근 제어)과 역할에 대한 ABAC(속성 기반 접근 제어)를 제공합니다.
+      * 특정 역할을 미사용하거나 조건을 설정하여 다양하고 세밀한 사용자 접근제어가 가능합니다.
+  * [SDK] 2.0.0으로 릴리스되었습니다.
+      * RESTful API에서 신규로 제공되는 v3에 맞게 적용하였습니다.
+
+#### 지원 종료
+* [Console] 엑셀 업로드/엑셀 다운로드 기능을 지원하지 않습니다.
+* [RESTful API] Public API v1에서 User에게 Role 부여 시 유효 기간 설정 기능을 지원하지 않습니다.
+	* 해당 기능은 ABAC(속성 기반 접근 제어)을 통해 제공합니다.
+* [SDK] 1.x 버전에서 User에게 Role 부여 시 유효 기간 설정 기능을 지원하지 않습니다.
+	* 해당 기능은 ABAC(속성 기반 접근 제어)를 통해 제공합니다.
+
 ### 2023. 09. 26.
 #### 기능 수정
 * Role 생성 시 Role id 네이밍 규칙이 변경되었습니다.
@@ -31,23 +51,23 @@
     * RoleName : Role에 의미있는 이름을 부여하여 관리할 수 있습니다.
     * RoleGroup : 그룹을 지정하여 그룹별 검색을 통해 관리할 수 있습니다.
 * [Console] Resource 의 Resource ID 의 길이가 64자로 늘었습니다.
-* [RESTFUL API] Role 항목 중 RoleName, RoleGroup 추가로 Role 관련 API 가 확장되었습니다.
-    * 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/en/Application%20Service/ROLE/en/api-guide/#3-role)
+* [RESTful API] Role 항목 중 RoleName, RoleGroup 추가로 Role 관련 API 가 확장되었습니다.
+    * 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#3-role)
 * [SDK] 1.1.7 로 릴리즈되었습니다.
     * 보안 강화를 위해서 commons-colllection 3.2.2 를 적용하였습니다.
     
 
 ### 2017. 08. 24.
 #### 기능 추가
-* [RESTFUL API] 각 구성요소의 리스트를 조회할 수 있는 API 가 추가되었습니다.
+* [RESTful API] 각 구성요소의 리스트를 조회할 수 있는 API 가 추가되었습니다.
 	* GET /role/v1.0/appkeys/{appKey}/roles : role 리스트 조회
-		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/en/Application%20Service/ROLE/en/api-guide/#3-role)
+		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#3-role)
 	* GET /role/v1.0/appkeys/{appKey}/resources : resource 리스트 조회
-		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/en/Application%20Service/ROLE/en/api-guide/#4-resource)
+		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#4-resource)
 	* GET /role/v1.0/appkeys/{appKey}/scopes : scope 리스트 조회
-		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/en/Application%20Service/ROLE/en/api-guide/#2-scope)
+		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#2-scope)
 	* GET /role/v1.0/appkeys/{appKey}/operations : operation 리스트 조회
-		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/en/Application%20Service/ROLE/en/api-guide/#5-operation)
+		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#5-operation)
 
 #### 기능 개선/변경
 * [Console] Resource name에 한글을 입력 할 수 있습니다. '/'문자를 제외하고 모든 문자 입력이 가능합니다.
@@ -63,9 +83,9 @@
 * [Console] Resource 검색 화면에서 Operation 필드에 자동 완성 기능이 추가되었습니다.
 * [Console] Migration 기능의 오용을 방지 하기 위해서 화면에 주의 문구가 추가되었습니다.
 	* 주의 문구 : '※ 주의 : 현재 프로젝트의 Resource, Role, Operation 을 선택한 프로젝트로 복사를 진행합니다. 선택한 프로젝트의 기존 Resource, Role, Operation 은 삭제합니다.'
-* [RESTFUL API] API 제약 사항이 변경되었습니다.
+* [RESTful API] API 제약 사항이 변경되었습니다.
 	* GET /role/v1.0/appkeys/{appKey}/resources/hierarchy API 가 user나 role 을 인자로 주지 않아도 전체 결과를 주도록 변경되었습니다.
-		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/en/Application%20Service/ROLE/en/api-guide/#4-resource)
+		* 자세한 사항은 매뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#4-resource)
 
 #### 버그 수정
 * [Console] Resource 수정 화면에서 하위 리소스를 가진 리소스의 name 변경시 5XX 에러가 발생하는 오류가 수정되었습니다. 
@@ -114,19 +134,19 @@
 ### 2016. 10. 20.
 #### 기능 개선/변경
 * User 목록 조회시, 연관 관계에 있는 Role 을 가진 사용자도 반환 하는 옵션 추가
-	* 자세한 사항은 메뉴얼 참고: [링크](http://docs.nhncloud.com/en/Application%20Service/ROLE/en/api-guide/#1-user)
+	* 자세한 사항은 메뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#1-user)
 
 ### 2016. 09. 29.
 #### 기능 개선/변경
 * User 에 신규 Role 부여시, 기존에 등록된 Role 중 Scope 이 같은 Role 을 삭제하는 API 추가
 * Role 에 User 추가 API 에서 User 가 없으면 User 를 생성 해주는 옵션 추가
-	* 자세한 사항은 메뉴얼 참고: [링크](http://docs.nhncloud.com/en/Application%20Service/ROLE/en/api-guide/#3-role)
+	* 자세한 사항은 메뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-guide/#3-role)
 
 ### 2016. 08. 18.
 #### 기능 개선/변경
 * 떨어지는 사용성으로 인하여, Polling API 지원 deprecate 됨
 * Role 상품을 이용하는 Project 간 데이터를 Migration 하는 기능 추가
-    * 자세한 사항은 메뉴얼 참고: [링크](http://docs.nhncloud.com/en/Application%20Service/ROLE/en/console-guide/#_3)
+    * 자세한 사항은 메뉴얼 참고: [링크](http://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/console-guide/#_3)
 
 #### 버그 수정
 * Role을 삭제했는데 다른 Role의 연관 정보가 삭제되는 버그 수정

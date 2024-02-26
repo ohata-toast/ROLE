@@ -2,384 +2,204 @@
 
 ## 게시판 예제
 
-작은 게시판을 만든다고 가정해보자.
-/board/v1.0/{boardId} API를 호출하면 게시물을 반환하게 되고
-해당 API는 인증된 회원만 호출할 수 있다고 가정하자.
-먼저 인증된 회원이라는 Role을 만들어야 한다.
+작은 게시판을 만드는 상황에서 역할 기반 리소스 접근 제어를 구성하는 예제로 콘솔 사용법을 설명하겠습니다.
+`/board/v1.0/{boardId}` API를 호출하면 게시물을 반환하는 API가 있고, 이 API는 인증된 회원만 호출할 수 있다고 가정하겠습니다.
+먼저 인증된 회원이라는 역할을 만들어야 합니다.
 
-> curl을 사용한 예제에서 "{Appkey}" 와 "{SecretKey}" 값은 실제 프로젝트 내의 활성화한 Role상품의 Appkey와 SecreKey로 대채를 해야 한다. 
+> curl을 사용한 예제에서 "\{Appkey}" 와 "\{SecretKey}" 값은 실제 프로젝트 내의 활성화한 ROLE 서비스의 앱키와 비밀 키로 대체해야 합니다.
 
-### 1) Role 생성
+### 1) 역할 생성
 
-**1-1) [CONSOLE 사용 시]**
+![role_1.1.png](http://static.toastoven.net/prod_role/role_1.1.png)
+<center>[그림 1.1] 역할 탭으로 이동합니다.</center>
 
-![[그림 1.1] Role 탭으로 이동](http://static.toastoven.net/prod_role/role_36.png)
-<center>[그림 1.1] Role 탭으로 이동</center>
+![role_1.2.png](http://static.toastoven.net/prod_role/role_1.2.png)
+<center>[그림 1.2] 역할을 추가합니다.</center>
 
-![[그림 1.2] Role 추가](http://static.toastoven.net/prod_role/role_42.png)
-<center>[그림 1.2] Role 추가</center>
+### 2) 오퍼레이션 생성
 
-**1-2) [RESTFUL API 호출 시]**
+역할을 만들었으면 오퍼레이션을 만들어야 합니다.
 
-```bash
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
-  "description": "인증된 회원",
-  "roleId": "MEMBER"
-}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/roles"
-```
+![role_2.1.png](http://static.toastoven.net/prod_role/role_2.1.png)
+<center>[그림 2.1] 오퍼레이션 탭으로 이동합니다.</center>
 
-**1-3) [Client SDK 이용 시]**
+![role_2.2.png](http://static.toastoven.net/prod_role/role_2.2.png)
+<center>[그림 2.2] 오퍼레이션을 추가합니다.</center>
 
-```java
-// applicationContext.xml 에서 clientFactory 를 bean 으로 등록했다 가정한다.
-TCRoleClient client = clientFactory.getClient();
-client.createRole("MEMBER", "인증된 회원");
-```
+### 3) 리소스 생성
 
-### 2) Operation 생성
+이제 `/board/v1.0/{boardId}`를 리소스로 등록해 보겠습니다.
+`board`, `v1.0`, `{boardId}`로 나누어서 순차적으로 등록해야 합니다.
 
-Role을 만들었으면 Operation을 만들어야 한다.
+![role_3.1.png](http://static.toastoven.net/prod_role/role_3.1.png)
+<center>[그림 3.1] 리소스 탭으로 이동합니다.</center>
 
-**2-1) [CONSOLE 사용 시]**
+![role_3.2.png](http://static.toastoven.net/prod_role/role_3.2.png)
+<center>[그림 3.2] 리소스를 추가하고자 하는 부모 노드를 클릭하고, 상단에 <strong>추가</strong> 버튼을 클릭합니다.</center>
 
-![[그림 2.1] Operation 탭으로 이동](http://static.toastoven.net/prod_role/role_05.png)
-<center>[그림 2.1] Operation 탭으로 이동</center>
+![role_3.3.png](http://static.toastoven.net/prod_role/role_3.3.png)
+<center>[그림 3.3] 리소스 #1 `board`를 추가합니다.</center>
 
-![[그림 2.2] Operation 추가](http://static.toastoven.net/prod_role/role_06.png)
-<center>[그림 2.2] Operation 추가</center>
+![role_3.4.png](http://static.toastoven.net/prod_role/role_3.4.png)
+<center>[그림 3.4] 리소스 #2 `v1.0`를 추가합니다.</center>
 
-**2-2) [RESTFUL API 호출 시]**
+![role_3.5.png](http://static.toastoven.net/prod_role/role_3.5.png)
+<center>[그림 3.5] 리소스 #3 `{boardId}`를 추가합니다.</center>
 
-```bash
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
-  "description": "HTTP GET",
-  "operationId": "GET"
-}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/operations"
-```
+### 4) 역할-리소스 관계 생성
 
-**2-3) [Client SDK 이용 시]**
+리소스까지 등록했다면 역할이 오퍼레이션을 수행할 수 있는 리소스를 지정하기 위해, `역할-리소스` 관계를 설정해야 합니다.
 
-```java
-client.createOperation("GET", "HTTP GET");
-```
+![role_4.1.png](http://static.toastoven.net/prod_role/role_4.1.png)
+<center>[그림 4.1] 사용자-리소스 관계를 추가합니다.</center>
 
-### 3) Resource 생성
+![role_4.2.png](http://static.toastoven.net/prod_role/role_4.2.png)
+<center>[그림 4.2] 사용자-리소스 관계 추가 후 모습입니다.</center>
 
-이제 /board/v1.0/{boardId}를 Resource로 등록해보자.
-board, v1.0, {boardId} 로 나누어서 순차적으로 등록해야 한다.
+### 5) 조건 속성 생성
 
-**3-1) [CONSOLE 사용 시]**
+생성한 역할에 특정 조건에만 오퍼레이션 수행 권한을 부여하기 위해, `역할-조건 속성` 관계를 설정해야 합니다.
+조건 속성은 조건 속성에 미리 추가한 역할에서만 사용할 수 있습니다. 조건 속성을 생성/수정할 때, 앞서 생성해 둔 역할을 조건 속성에 추가해 줍니다.
 
-![[그림 3.1] Resource 탭으로 이동](http://static.toastoven.net/prod_role/role_43.png)
-<center>[그림 3.1] Resource 탭으로 이동</center>
+![role_5.1.png](http://static.toastoven.net/prod_role/role_5.1.png)
+<center>[그림 5.1] 조건 속성 탭으로 이동합니다.</center>
 
-![[그림 3.2] Resource 를 추가하고자하는 부모 Resource Tree 에서 마우스 우클릭](http://static.toastoven.net/prod_role/role_44.png)
-<center>[그림 3.2] Resource 를 추가하고자하는 부모 Resource Tree 에서 마우스 우클릭</center>
+![role_5.2.png](http://static.toastoven.net/prod_role/role_5.2.png)
+<center>[그림 5.2] 조건 속성 추가 화면입니다.</center>
 
-![[그림 3.3] Resource #1 추가](http://static.toastoven.net/prod_role/role_45.png)
-<center>[그림 3.3] Resource #1 추가</center>
+![role_5.3.png](http://static.toastoven.net/prod_role/role_5.3.png)
+<center>[그림 5.3] 조건 속성에 역할을 추가합니다.</center>
 
-![[그림 3.4] Resource #2 추가](http://static.toastoven.net/prod_role/role_46.png)
-<center>[그림 3.4] Resource #2 추가</center>
+### 6) 사용자 생성
 
-![[그림 3.5] Resource #3 추가](http://static.toastoven.net/prod_role/role_47.png)
-<center>[그림 3.5] Resource #3 추가</center>
+마지막으로 게시판 API를 사용할 사용자를 추가하고, 접근 제어를 설정하기 위해 `MEMBER` 역할과 `instance.name`조건 속성을 설정합니다.
 
-**3-2) [RESTFUL API 호출 시]**
+![role_6.1.png](http://static.toastoven.net/prod_role/role_6.1.png)
+<center>[그림 6.1] 사용자 탭으로 이동합니다.</center>
 
-```bash
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
-  "description": "",
-  "metadata": "",
-  "name": "board",
-  "path": "/board",
-  "priority": 0,
-  "resourceId": "API_BOARD"
-}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/resources"
+![role_6.2.png](http://static.toastoven.net/prod_role/role_6.2.png)
+<center>[그림 6.2] 사용자 추가 화면입니다.</center>
 
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
-  "description": "",
-  "metadata": "",
-  "name": "v1.0",
-  "path": "/board/v1.0",
-  "priority": 0,
-  "resourceId": "API_BOARD_VERSION"
-}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/resources"
+![role_6.3.png](http://static.toastoven.net/prod_role/role_6.3.png)
+<center>[그림 6.3] 역할을 추가한 모습입니다.</center>
 
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
-  "description": "",
-  "metadata": "",
-  "name": "{boardId}",
-  "path": "/board/v1.0/{boardId}",
-  "priority": 0,
-  "resourceId": "API_BOARD_ID"
-}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/resources"
-```
+![role_6.4.png](http://static.toastoven.net/prod_role/role_6.4.png)
+<center>[그림 6.4] 추가한 역할 수정 모달입니다.</center>
 
-**3-3) [Client SDK 이용 시]**
+![role_6.5.png](http://static.toastoven.net/prod_role/role_6.5.png)
+<center>[그림 6.5] 역할 수정 모달에서 조건 속성을 추가합니다.</center>
 
-```java
-client.createResource("API_BOARD", "", "board", "/board", 0, "");
-client.createResource("API_BOARD_VERSION", "", "v1.0", "/board/v1.0", 0, "");
-client.createResource("API_BOARD_ID", "", "{boardId}", "/board/v1.0/{boardId}", 0, "");
-```
+![role_6.6.png](http://static.toastoven.net/prod_role/role_6.6.png)
+<center>[그림 6.6] 조건 속성을 추가한 모습입니다.</center>
 
-### 4) Role - Resource 관계 생성
+![role_6.7.png](http://static.toastoven.net/prod_role/role_6.7.png)
+<center>[그림 6.7] 사용자의 역할에 조건 속성까지 추가된 모습입니다.</center>
 
-Resource까지 등록했다면, Role과 Resource의 관계를 설정해야 한다.
-API_BOARD_ID 권한을 부여해보자.
+### 7) 권한 체크
 
-**4-1) [CONSOLE 사용 시]**
+`userId`가 Header 의 `'uuid'`로 값이 넘어온다고 가정해 보겠습니다.
+`12345678-1234-5678-1234-567812345678` 사용자가 `/board/v1.0/1` API를 호출하였을 때, 권한을 체크하면 아래와 같습니다.
 
-![[그림 4.1] Role - Resource 관계 추가](http://static.toastoven.net/prod_role/role_38.png)
-<center>[그림 4.1] Role - Resource 관계 추가</center>
+#### [RESTful API 호출 시]
 
-![[그림 4.2] Role - Resource 관계 추가 후 모습](http://static.toastoven.net/prod_role/role_49.png)
-<center>[그림 4.2] Role - Resource 관계 추가 후 모습</center>
-
-**4-2) [RESTFUL API 호출 시]**
-
-```bash
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
-  "operationId": "GET",
-  "roleId": "MEMBER"
-}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/resources/API_BOARD_ID/authorizations"
-```
-
-**4-3) [Client SDK 이용 시]**
-
-```java
-client.addAuthorization("API_BOARD_ID", "GET", "MEMBER");
-```
-
-### 5) User 생성
-
-마지막으로 User를 추가하고 Role을 부여한다.
-
-**5-1) [CONSOLE 사용 시]**
-
-![[그림 5.1] User 탭으로 이동](http://static.toastoven.net/prod_role/role_50.png)
-<center>[그림 5.1] User 탭으로 이동</center>
-
-![[그림 5.2] User 추가](http://static.toastoven.net/prod_role/role_57.png)
-<center>[그림 5.2] User 추가</center>
-
-**5-2) [RESTFUL API 호출 시]**
-
-```bash
-curl -X POST -H "Content-Type: application/json" -H "X-Secret-Key: {SecretKey}" -d '{
-  "users": [
-    {
-      "description": "홍길동",
-      "relations": [
-        {
-          "roleId": "MEMBER",
-          "scopeId": "ALL"
-        }
-      ],
-      "userId": "12345678-1234-5678-1234-567812345678"
-    }
-  ]
-}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/users"
-```
-
-**5-3) [Client SDK 이용 시]**
-
-```java
-List<UserRoleRelation> relations = new ArrayList<UserRoleRelation>();
-relations.add(new UserRoleRelation("MEMBER", "ALL"));
-client.createUser("12345678-1234-5678-1234-567812345678", "홍길동", relations);
-```
-
-### 6) 권한 체크
-
-userId 가 Header 의 'uuid' 로 값이 넘어 온다고 가정해보자.
-12345678-1234-5678-1234-567812345678 사용자가 /board/v1.0/1 API 를 호출하였을 때, 권한을 체크하면 아래와 같다.
-
-**6-1) [RESTFUL API 호출 시]**
-
-```bash
+```shell
 curl -X POST -H "Content-Type: application/json" -d '{
     "resources": [
         {
+            "attributes": {
+                "attributeId": "instance.name",
+                "attributeValue": "GPU"
+            },
+            "authRequestId": "",
             "operationId": "GET",
             "resourceId": "",
             "resourcePath": "/board/v1.0/1",
             "scopeId": "ALL"
         }
     ]
-}' "https://role.api.nhncloudservice.com/role/v1.0/appkeys/{Appkey}/users/12345678-1234-5678-1234-567812345678/authorizations"
+}' "https://role.api.nhncloudservice.com/role/v3.0/appkeys/{Appkey}/users/12345678-1234-5678-1234-567812345678/authorizations/resources"
 ```
 
-**6-2) [Spring Client SDK 이용 시]**
+응답 예시) 접근 권한이 있는 경우 해당 리소스 내부에 `permission: true`로 응답이 내려옵니다.
 
-```java
-public class BoardController {
-	@Autowired
-	private TCRoleClientFactory clientFactory;
-
-	@RequestMapping(value = "/board/v1.0/{boardId}", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<String> getBoard(
-		@RequestHeader("uuid") String uuid,
-		@PathVariable("boardId") Integer boardId)
-	{
-		TCRoleClient client = clientFactory.getClient();
-
-		// scopeId 는 생략 시 'ALL' 을 사용하게 된다.
-		if (client.hasAuthorizationById(uuid, "/board/v1.0/{boardId}", "GET") == false) {
-			return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
-		}
+```json
+{
+  "authorizations" : [
+    {
+      "attributes" : [
+        {
+          "attributeId" : "instance.name",
+          "attributeValue" : "GPU"
+        }
+      ],
+      "operationId" : "GET",
+      "permission" : true,
+      "resourceId" : "{boardId}",
+      "resourcePath" : "/board/v1.0/1",
+      "scopeId" : "ALL"
+    }
+  ],
+  "header" : {
+    "isSuccessful" : true,
+    "resultCode" : 0,
+    "resultMessage" : ""
+  }
+}
 ```
 
-**[Spring Client SDK @Authorization 이용 시]**
+## 마이그레이션
 
-```java
-public class BoardController {
-	@Autowired
-	private TCRoleClientFactory clientFactory;
+ROLE 서비스를 사용하는 다른 프로젝트가 있다면, 데이터 이관 기능을 이용해서 편리하게 데이터를 동기화 시킬 수 있습니다.
+데이터 동기화의 대상은 `리소스`, `역할`, `오퍼레이션`이며 `범위`와 `사용자`는 동기화되지 않습니다.
 
-	// scopeId 는 생략 시 'ALL' 을 사용하게 된다.
-	@Authorization(
-		userId = @AuthParam(
-			type = AuthParamType.HEADER_PARAM, value = "uuid"))
-	@RequestMapping(value = "/board/v1.0/{boardId}", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<String> getBoard(
-		@RequestHeader("uuid") String uuid,
-		@PathVariable("boardId") Integer boardId)
-	{
-```
+관리 탭의 마이그레이션 메뉴 영역에서 데이터를 이관할 프로젝트 혹은 앱키를 입력해서 진행할 수 있습니다.
 
-userId 가 Query Parameter 의 'uuid' 로 넘어온다고 가정하면 아래와 같다.
+![role_8.1.png](http://static.toastoven.net/prod_role/role_8.1.png)
+<center>[그림 8.1] 관리 탭으로 이동합니다.</center>
 
-**[Spring Client SDK @Authorization 이용 시]**
+![role_8.2.png](http://static.toastoven.net/prod_role/role_8.2.png)
+<center>[그림 8.2] 마이그레이션 메뉴입니다.</center>
 
-```java
-public class BoardController {
-	@Autowired
-	private TCRoleClientFactory clientFactory;
+데이터를 이관할 프로젝트를 선택하거나, 직접 앱키를 입력할 수 있습니다.
 
-	// scopeId 는 생략 시 'ALL' 을 사용하게 된다.
-	@Authorization(
-		userId = @AuthParam(
-			type = AuthParamType.QUERY_PARAM, value = "uuid"))
-	@RequestMapping(value = "/board/v1.0/{boardId}", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<String> getBoard(
-		@PathVariable("boardId") Integer boardId,
-		@ModelAttribute("uuid") String uuid)
-	{
-```
+![role_8.3.png](http://static.toastoven.net/prod_role/role_8.3.png)
+<center>[그림 8.3] 프로젝트 선택 드롭다운의 모습입니다.</center>
 
-userId 가 고정된 값이라고 가정하면 아래와 같다.
+![role_8.4.png](http://static.toastoven.net/prod_role/role_8.4.png)
+<center>[그림 8.4] 앱키를 입력하는 모습입니다.</center>
 
-**[Spring Client SDK @Authorization 이용 시]**
+![role_8.5.png](http://static.toastoven.net/prod_role/role_8.5.png)
+<center>[그림 8.5] <strong>확인</strong> 버튼 클릭 시, 노출되는 확인 모달입니다.</center>
 
-```java
-public class BoardController {
-	@Autowired
-	private TCRoleClientFactory clientFactory;
+## 서버 설정
 
-	// scopeId 는 생략 시 'ALL' 을 사용하게 된다.
-	@Authorization(
-		userId = @AuthParam(
-			type = AuthParamType.STATIC, value = "12345678-1234-5678-1234-567812345678"))
-	@RequestMapping(value = "/board/v1.0/{boardId}", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<String> getBoard(
-		@PathVariable("boardId") Integer boardId,
-		@ModelAttribute("uuid") String uuid)
-	{
-```
+![role_8.1.png](http://static.toastoven.net/prod_role/role_8.1.png)
+<center>[그림 9.1] 관리 탭으로 이동합니다.</center>
 
-## Import / Export
+![role_9.2.png](http://static.toastoven.net/prod_role/role_9.2.png)
+<center>[그림 9.2] 서버 설정 영역입니다.</center>
 
-ROLE 의 데이터를 한번에 다운받거나, 한꺼번에 업로드를 하려면 Import / Export 기능을 이용한다.
+### 클라이언트 SDK 캐시 설정
 
-![[그림 6.1] Import / Export](http://static.toastoven.net/prod_role/role_52.png)
-<center>[그림 6.1] Import / Export</center>
+클라이언트 SDK 캐시 설정을 할 수 있습니다.
+설정할 수 있는 속성은 `TTL`, `ID별 사이즈`, `Path별 사이즈`, `Tree별 사이즈`가 있습니다.
 
-[Excel 다운로드] 를 클릭하면 ROLE 에 등록된 모든 Resource, Role, Operation, Scope, User 정보가 담긴 Excel 파일을 다운 받을 수 있다.
-[Excel 업로드] 를 클릭하면 Excel 에 담긴 데이터를 ROLE 로 업로드 할 수 있다. 이때 사용되는 Excel 파일은 반드시 [Excel 다운로드] 를 클릭하여 다운받은 Excel 파일의 형식과 동일해야 한다.
+### Resource Path Trailing Slash Match
 
-### Resource 등록
+리소스 경로의 마지막 `'/'`에 대해 설정할 수 있습니다.
+`Non Identical Path`로 설정한다면, `'/board/v1.0/{boardId}'` 와 `'/board/v1.0/{boardId}/'`는 서로 다른 경로입니다.
+하지만, `Identical Path`로 설정한다면, `'/board/v1.0/{boardId}'` 와 `'/board/v1.0/{boardId}/'`는 같은 경로입니다.
 
-[Excel 다운로드] 를 통해 받은 Excel 파일을 열고, Resource 시트로 이동 후, 필수 Cell 의 값을 채운다.
+## 캐시 삭제
 
-![[그림 6.2] Resource 시트](http://static.toastoven.net/prod_role/role_19.png)
-<center>[그림 6.2] Resource 시트</center>
+클라이언트 SDK 와 서버의 캐시 때문에 변경된 리소스에 대한 권한 체크 결과가 즉시 반영되지 않을 수 있습니다.
+그럴 경우 관리 탭의 **캐시 삭제** 버튼을 사용해서 명시적으로 캐시를 삭제하면 문제를 해결할 수 있습니다.
 
-Resource 에 권한을 부여하고 싶다면 Operation ID, Role ID 항목을 작성한다.
-동일 Resource 에 여러 권한을 한꺼번에 부여하고 싶다면, Operation ID 와 Role ID 를 제외한 나머지 항목은 모두 동일하게 작성한다.
+![role_8.1.png](http://static.toastoven.net/prod_role/role_8.1.png)
+<center>[그림 10.1] 관리 탭으로 이동합니다.</center>
 
-![[그림 6.3] 동일 Resource 에 여러 권한 부여](http://static.toastoven.net/prod_role/role_20.png)
-<center>[그림 6.3] 동일 Resource 에 여러 권한 부여</center>
+![role_10.2.png](http://static.toastoven.net/prod_role/role_10.2.png)
+<center>[그림 10.2] 캐시 삭제 버튼입니다.</center>
 
-### Role 등록
-
-[Excel 다운로드] 를 통해 받은 Excel 파일을 열고, Role 시트로 이동 후, 필수 Cell 의 값을 채운다.
-
-![[그림 6.4] Role 시트](http://static.toastoven.net/prod_role/role_41.png)
-<center>[그림 6.4] Role 시트</center>
-
-Role 의 연관 관계를 구성하려면 Related ID 를 작성한다.
-하나의 Role 에 여러 연관 관계를 구성하려면, ID 와 Description 항목을 동일하게 작성한다.
-
-![[그림 6.5] 하나의 Role 에 여러 연관 관계를 구성](http://static.toastoven.net/prod_role/role_22.png)
-<center>[그림 6.5] 하나의 Role 에 여러 연관 관계를 구성</center>
-
-### Operation & Scope 등록
-
-[Excel 다운로드] 를 통해 받은 Excel 파일을 열고, Role 혹은 Scope 시트로 이동 후, 필수 Cell 의 값을 채운다.
-
-![[그림 6.6] Role / Scope 시트](http://static.toastoven.net/prod_role/role_23.png)
-<center>[그림 6.4] Role / Scope 시트</center>
-
-### User 등록
-
-[Excel 다운로드] 를 통해 받은 Excel 파일을 열고, User 시트로 이동 후, 필수 Cell 의 값을 채운다.
-
-![[그림 6.7] User 시트](http://static.toastoven.net/prod_role/role_53.png)
-<center>[그림 6.7] User 시트</center>
-
-User에 Role을 부여하고 싶다면, Scope ID와 Role ID 항목을 작성한다.
-이때, User에게 부여된 Role에 유효 기간을 설정하고 싶다면, Valid Start Date, Valid End Date 항목을 작성한다.
-하나의 User에 여러 Role을 부여하고 싶다면, ID와 Description 항목을 동일하게 작성한다.
-
-![[그림 6.8] 하나의 User 에 여러 Role 부여](http://static.toastoven.net/prod_role/role_58.png)
-<center>[그림 6.8] 하나의 User 에 여러 Role 부여</center>
-
-## 데이터 이관
-
-ROLE 을 사용하는 다른 프로젝트가 있다면, 데이터 이관 기능을 이용해서 편리하게 데이터를 동기화 시킬 수 있다.
-데이터 동기화의 대상은 Resource, Role, Operation 이며 Scope 과 User 는 동기화 되지 않는다.
-
-우측 상단의 데이터 이관 버튼을 누르면 데이터를 이관 할 프로젝트 혹은 AppKey 를 입력하는 팝업이 노출된다.
-
-![[그림 7.1] 데이터 이관 버튼](http://static.toastoven.net/prod_role/role_55.png)
-<center>[그림 7.1] 데이터 이관 버튼</center>
-
-![[그림 7.2] 데이터 이관 팝업](http://static.toastoven.net/prod_role/role_33.png)
-<center>[그림 7.2] 데이터 이관 팝업</center>
-
-데이터를 이관 할 프로젝트를 선택하거나, 직접 AppKey 를 입력 할 수 있다.
-
-![[그림 7.3] 프로젝트 선택](http://static.toastoven.net/prod_role/role_34.png)
-<center>[그림 7.3] 프로젝트 선택</center>
-
-![[그림 7.4] AppKey 입력](http://static.toastoven.net/prod_role/role_35.png)
-<center>[그림 7.4] AppKey 입력</center>
-
-## 캐쉬 삭제
-
-Client SDK 와 서버의 Cache 때문에 변경된 Resource 에 대한 권한 체크 결과가 즉시 반영이 안될 수 있다.
-그럴 경우 우측 상단의 서버 설정 파업에서 명시적으로 캐쉬를 삭제 하여 해결 할 수 있다.
-![[그림 8.1] 캐쉬 삭제](http://static.toastoven.net/prod_role/role_56.png)
-
-## Resource Path Trailing Slash Match
-
-Resource Path의 마지막 '/' 에 대한 설정을 할 수 있다.
-Non Identical Path로 설정한다면, '/board/v1.0/{boardId}' 와 '/board/v1.0/{boardId}/' 는 서로 다른 경로이다.
-하지만, Identical Path로 설정한다면, '/board/v1.0/{boardId}' 와 '/board/v1.0/{boardId}/' 는 같은 경로이다.
-![[그림 8.1] 캐쉬 삭제](http://static.toastoven.net/prod_role/role_59.png)
+![role_10.3.png](http://static.toastoven.net/prod_role/role_10.3.png)
+<center>[그림 10.3] 버튼을 클릭한 후 열리는 삭제 확인 모달입니다.</center>
