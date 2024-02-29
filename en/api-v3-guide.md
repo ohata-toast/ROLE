@@ -1,22 +1,22 @@
-## Application Service > ROLE > API v3 가이드
+## Application Service > ROLE > API v3 Guide
 
-> ROLE 서비스를 이용해 권한을 체크하기 위해서는
-> RESTful API를 호출하거나, 클라이언트 SDK를 이용하여야 합니다.
+> To check the permissions to use the ROLE service, call RESTful API or use Client SDK.
+> Call RESTful APIs or use client SDKs.
 
-## 앱키 & 비밀 키
+## AppKey & SecretKey
 
-RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 필요합니다.
-[CONSOLE] 우측 상단의 **URL & Appkey** 버튼을 클릭하여 발급 키 정보를 확인 할 수 있습니다.
+AppKey and Secret Key are required to use RESTful API and Client SDK.
+You can check the issued key information by clicking the **URL & Appkey** button on the top right of the [CONSOLE].
 
-![[그림 1] 앱키 & 비밀 키 확인](http://static.toastoven.net/prod_role/role_60.png)
-<center>[그림 1] 앱키 & 비밀 키 확인</center>
+![[Figure 1] Check AppKey & SecretKey](http://static.toastoven.net/prod_role/role_60.png)
+<center>[Figure 1] Check AppKey &amp; SecretKey</center>
 
-## RESTful API 가이드
+## RESTful API Guide
 
 ### Common Response Body
 
-모든 API 요청에 대해 HTTP 응답 코드는 200으로 응답합니다.
-자세한 응답 결과는 Response Body의 Header 항목을 참고합니다.
+All API requests are responded to with an HTTP response code of 200.
+For detailed response results, see Headers in the Response Body.
 
 ```json
 {
@@ -35,37 +35,37 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 }
 ```
 
-| Key                  |  Type    | Description                            |
-|----------------------|----------|----------------------------------------|
-| header               |  Object  | 응답 헤더                                  |
-| header.isSuccessful  |  boolean | 성공 여부                                  |
-| header.resultCode    |  int     | 응답 코드. 성공 시 0, 실패 시 오류 코드 반환           |
-| header.resultMessage |  String  | 응답 메시지. 성공 시 "SUCCESS", 실패 시 오류 메시지 반환 |
-| cache                | Object   | 캐시                                     |
-| cache.cacheFlushTime | String   | 캐시 삭제 시간                               | 
-| cache.size | int      | 리소스 ID 기반 인증 캐시 크기                     |
-| cache.sizeByPath | int      | 리소스 Path 기반 인증 캐시 크기                   |
-| cache.sizeTree | int      | 리소스 Hierarchy 조회 캐시 크기                 |
-| cache.ttl | int      | 캐시 데이터 유지 시간(초 단위)                     |
+| Key                  |  Type    |   Description                          |
+|----------------------|----------|---------------------------------------|
+| header               |  Object  |   [Response Header]                                 |
+| header.isSuccessful  |  boolean |   Successful or not                                |
+| header.resultCode    |  int     |   Response code. Returns 0 on success or an error code on failure.          |
+| header.resultMessage |  String  |   Response message. Returns "SUCCESS" on success, error message on failure |
+| cache                | Object   |  Cache                                      |
+| cache.cacheFlushTime | String   | Cache clearing time | 
+| cache.size | int      | Authentication cache size based on resource identity |
+| cache.sizeByPath | int      | Resource Path-based authentication cache size |
+| cache.sizeTree | int      | Resource Hierarchy Lookup Cache Size |
+| cache.ttl | int      | Cache data retention time (in seconds) |
 
-## 사용자
+## User
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/users**](#createUsers) | 사용자 생성 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/users/{userId}**](#deleteUser) | 사용자 삭제 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/users**](#deleteUsers) | 사용자 다건 삭제 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/users/id**](#getAllUsers) | 모든 사용자 ID 목록 조회 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/users/{userId}**](#getUser) | 사용자 정보 조회 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/users/{userId}/histories**](#getUserRoleHistories) | 사용자에게 할당된 역할의 변경 내역 목록 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/users/search**](#getUsers) | 사용자 목록 조회 |
-| **PUT** |[**/role/v3.0/appkeys/{appKey}/users/{userId}**](#updateUser) | 사용자 수정 |
-| **PUT** |[**/role/v3.0/appkeys/{appKey}/users/{userId}/scopes/{scopeId}**](#updateUserScope) | 사용자 범위 한정 수정 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/users**](#createUsers) | Create a user |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/users/{userId}**](#deleteUser) | Delete a user |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/users**](#deleteUsers) | Delete users |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/users/id**](#getAllUsers) | Get a list of all user IDs |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/users/{userId}**](#getUser) | Get user information |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/users/{userId}/histories**](#getUserRoleHistories) | View a list of changes to roles assigned to a user |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/users/search**](#getUsers) | Get a list of users |
+| **PUT** |[**/role/v3.0/appkeys/{appKey}/users/{userId}**](#updateUser) | Edit users |
+| **PUT** |[**/role/v3.0/appkeys/{appKey}/users/{userId}/scopes/{scopeId}**](#updateUserScope) | Edit user scopes |
 
 
 <a name="createUsers"></a>
-### **사용자 생성**
+### **Create a user**
 > POST "/role/v3.0/appkeys/{appKey}/users"
 
 #### Parameters
@@ -74,8 +74,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 | Request Body | **CreateUserRequest** | **CreateUserRequest**| **Yes** |  | |
 
 
@@ -87,16 +87,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **users** | **List&lt;CreateUserRequest.UserProtocol>**| **Yes** | 사용자 목록  |
+|   **users** | **List<CreateUserRequest.UserProtocol>**| **Yes** | User list  |
 
 ##### CreateUserRequest.UserProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 사용자 설명  |
-|   **roleRelations** | **List&lt;UserRoleRelationProtocol>**| **No** | 사용자 연관 역할  |
-|   **userId** | **String**| **Yes** | 사용자 ID  |
+|   **description** | **String**| **No** | User description  |
+|   **roleRelations** | **List<UserRoleRelationProtocol>**| **No** | User-related Role  |
+|   **userId** | **String**| **Yes** | User ID  |
 
 
 ##### UserRoleRelationProtocol
@@ -104,19 +104,19 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |------|
-|   **conditions** | **List&lt;ConditionProtocol>**| **No** | 역할 조건 속성 |
+|   **conditions** | **List<ConditionProtocol>**| **No** | Role Condition Attributes |
 |   **roleApplyPolicyCode** | **String**| **No** | ALLOW, DENY |
-|   **roleId** | **String**| **Yes** | 역할 ID |
-|   **scopeId** | **String**| **Yes** |  범위 ID    |
+|   **roleId** | **String**| **Yes** | Role ID |
+|   **scopeId** | **String**| **Yes** |  Scope ID    |
 
 ##### ConditionProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** |   ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값  |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value  |
 
 
 
@@ -163,7 +163,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteUser"></a>
-### **사용자 삭제**
+### **Deleting a user**
 > DELETE "/role/v3.0/appkeys/{appKey}/users/{userId}"
 
 #### Parameters
@@ -172,9 +172,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**userId** | **String**| **Yes** | 사용자 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**userId** | **String**| **Yes** | User ID | 
 
 
 
@@ -198,16 +198,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteUsers"></a>
-### **사용자 다건 삭제**
+### **Delete users**
 > DELETE "/role/v3.0/appkeys/{appKey}/users"
 
 #### Parameters
 
 | ParameterType | Name | Type | Required | Description  |
 |------------- |------------- | ------------- | ------------- | ------------- |
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 |
-| Request Body |**userIds** |  **List&lt;String>**| **Yes** | 사용자 ID 목록 |
+|  Header |**X-Secret-Key** | **String**| **Yes** | Secret key |
+|  Path |**appKey** | **String**| **Yes** | Appkey |
+| Request Body |**userIds** |  **List&lt;String>**| **Yes** | User IDs |
 
 
 #### Response Body
@@ -226,7 +226,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getAllUsers"></a>
-### **모든 사용자 ID 목록 조회**
+### **Get a list of all user IDs**
 > POST "/role/v3.0/appkeys/{appKey}/users/id"
 
 #### Parameters
@@ -235,11 +235,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.userId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.userId,ASC`)|
 | Request Body | **SearchUser.Request** | **SearchUser.Request**| **Yes** |  | |
 
 
@@ -251,16 +251,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **descriptionLike** | **String**| **No** | 사용자 설명(부분 일치)  |
-|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 여부  |
-|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 시 역할 태그 포함 여부  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
-|   **scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치)  |
-|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록(완전 일치)  |
+|   **descriptionLike** | **String**| **No** | User description (partial match)  |
+|   **needRoleRelations** | **Boolean**| **No** | Whether to include role relations in responses  |
+|   **needRoleTags** | **Boolean**| **No** | Whether to include role tags when including role relations in responses  |
+|   **roleIdPreLike** | **String**| **No** | Role ID (forward match)  |
+|   **roleIds** | **List&lt;String>**| **No** | Role ID list (exact match)  |
+|   **scopeIdPreLike** | **String**| **No** | Scope ID (forward match)  |
+|   **scopeIds** | **List&lt;String>**| **No** | List of scope IDs (exact match)  |
 |   **searchRoleOptionCode** | **String**| **No** |   DIRECT_ROLE, INDIRECT_ROLE |
-|   **userIdPreLike** | **String**| **No** | 사용자 ID(전방 일치)  |
-|   **userIds** | **List&lt;String>**| **No** | 사용자 ID 목록(완전 일치)  |
+|   **userIdPreLike** | **String**| **No** | User ID (forward matching)  |
+|   **userIds** | **List&lt;String>**| **No** | List of user IDs (exact match)  |
 
 
 
@@ -301,8 +301,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
-|   **userIds** | **List&lt;String>**| **Yes** | 사용자 목록  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
+|   **userIds** | **List&lt;String>**| **Yes** | User list  |
 
 
 
@@ -315,7 +315,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getUser"></a>
-### **사용자 정보 조회**
+### **Get user information**
 > GET "/role/v3.0/appkeys/{appKey}/users/{userId}"
 
 #### Parameters
@@ -324,12 +324,12 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**userId** | **String**| **Yes** | 사용자 ID | 
-|  Query |**searchRoleOptionCode** | **String**| **No** | 접근 가능한 역할 목록 검색 방식 | [optional] [default to null] [enum: DIRECT_ROLE, INDIRECT_ROLE] |
-|  Query |**roleIds** |  **List&lt;String>**| **No** | 연관 관계 역할 ID |
-|  Query |**scopeIds** |  **List&lt;String>**| **No** | 연관 관계 범위 ID |
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**userId** | **String**| **Yes** | User ID | 
+|  Query |**searchRoleOptionCode** | **String**| **No** | How to search the list of accessible roles | [optional] [default to null] [enum: DIRECT_ROLE, INDIRECT_ROLE] |
+|  Query |**roleIds** |  **List&lt;String>**| **No** | Relationship role ID |
+|  Query |**scopeIds** |  **List&lt;String>**| **No** | Relationship scope ID |
 
 
 
@@ -425,7 +425,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **user** | **UserBundleProtocol**| **Yes** | 사용자         |
+|   **user** | **UserBundleProtocol**| **Yes** | User         |
 
 
 ##### UserBundleProtocol
@@ -433,10 +433,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 설명  |
-|   **regYmdt** | **Date**| **No** | 사용자 생성 일시  |
-|   **roleRelations** | **List&lt;UserBundleProtocol.UserRoleRelationBundleProtocol>**| **No** | 사용자에 할당된 역할 목록  |
-|   **userId** | **String**| **Yes** | 사용자 ID  |
+|   **description** | **String**| **No** | Description  |
+|   **regYmdt** | **Date**| **No** | User Creation Date  |
+|   **roleRelations** | **List<UserBundleProtocol.UserRoleRelationBundleProtocol>**| **No** | List of roles assigned to the user  |
+|   **userId** | **String**| **Yes** | User ID  |
 
 
 
@@ -445,26 +445,26 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **conditions** | **List&lt;ConditionBundleProtocol>**| **No** | 역할 조건 속성  |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **exposureOrder** | **Integer**| **Yes** | 노출 순서  |
-|   **regYmdt** | **Date**| **No** | 등록일시  |
+|   **conditions** | **List<ConditionBundleProtocol>**| **No** | Role Condition Attributes  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **exposureOrder** | **Integer**| **Yes** | Exposure order  |
+|   **regYmdt** | **Date**| **No** | At enrollment  |
 |   **roleApplyPolicyCode** | **String**| **Yes** |   ALLOW, DENY |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **roleName** | **String**| **No** | 역할 이름  |
-|   **roleTags** | **List&lt;UserBundleProtocol.RoleTagProtocol>**| **No** | 역할 태그 목록  |
-|   **scopeId** | **String**| **Yes** | 범위 ID  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **roleName** | **String**| **No** | Role name  |
+|   **roleTags** | **List<UserBundleProtocol.RoleTagProtocol>**| **No** | Role tag list  |
+|   **scopeId** | **String**| **Yes** | Scope ID  |
 
 ##### ConditionBundleProtocol
 
 
 | Name | Type | Required | Description                                                                                                                                                                               | 
 |------------ | ------------- | ------------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|   **attribute** | **AttributeProtocol**| **Yes** | 조건 속성                                                                                                                                                                                     |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID                                                                                                                                                                                  |
+|   **attribute** | **AttributeProtocol**| **Yes** | Condition attribute                                                                                                                                                                                     |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID                                                                                                                                                                                  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** | ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값                                                                                                                                                                                   |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value                                                                                                                                                                                   |
 
 ##### AttributeProtocol
 
@@ -473,9 +473,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -505,7 +505,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roleTagId** | **String**| **No** | 역할 태그 ID  |
+|   **roleTagId** | **String**| **No** | Role Tag ID  |
 
 
 
@@ -530,7 +530,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getUserRoleHistories"></a>
-### **사용자에게 할당된 역할의 변경 내역 목록 조회**
+### **View a list of changes to roles assigned to a user**
 > GET "/role/v3.0/appkeys/{appKey}/users/{userId}/histories"
 
 #### Parameters
@@ -539,17 +539,17 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**userId** | **String**| **Yes** | 사용자 ID | 
-|  Query |**roleId** | **String**| **No** | 역할 ID |
-|  Query |**scopeId** | **String**| **No** | 범위 ID |
-|  Query |**fromDateTime** | **Date**| **No** | 변경 시작일시 |
-|  Query |**toDateTime** | **Date**| **No** | 변경 종료일시 |
-|  Query |**historyType** |  **List&lt;String>**| **No** | 변경 유형 | [optional] [default to null] [enum: USER_ADD, USER_REMOVE, ADD, REMOVE] |
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `seq,DESC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**userId** | **String**| **Yes** | User ID | 
+|  Query |**roleId** | **String**| **No** | Role ID |
+|  Query |**scopeId** | **String**| **No** | Scope ID |
+|  Query |**fromDateTime** | **Date**| **No** | When the change starts |
+|  Query |**toDateTime** | **Date**| **No** | When the change ends |
+|  Query |**historyType** |  **List&lt;String>**| **No** | Change type | [optional] [default to null] [enum: USER_ADD, USER_REMOVE, ADD, REMOVE] |
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `seq,DESC`)|
 
 
 
@@ -634,8 +634,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
-|   **userHistory** | **List&lt;UserHistoryProtocol>**| **Yes** | 사용자 변경 내역 목록  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
+|   **userHistory** | **List<UserHistoryProtocol>**| **Yes** | User change history list  |
 
 
 
@@ -645,14 +645,14 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
 |   **command** | **String**| **Yes** |   USER_ADD, USER_REMOVE, ADD, REMOVE |
-|   **conditions** | **List&lt;ConditionBundleProtocol>**| **No** | 역할 조건 속성  |
-|   **executionTime** | **Date**| **Yes** | 변경 일시  |
-|   **operatorUuid** | **String**| **No** | 작업자 UUID  |
+|   **conditions** | **List<ConditionBundleProtocol>**| **No** | Role Condition Attributes  |
+|   **executionTime** | **Date**| **Yes** | Date of change  |
+|   **operatorUuid** | **String**| **No** | Worker UUID  |
 |   **roleApplyPolicyCode** | **String**| **No** |   ALLOW, DENY |
-|   **roleId** | **String**| **No** | 역할 ID  |
-|   **scopeId** | **String**| **No** | 범위 ID  |
-|   **userHistorySeq** | **Long**| **Yes** | 사용자 변경 이력 일렬번호  |
-|   **userId** | **String**| **Yes** | 사용자 ID  |
+|   **roleId** | **String**| **No** | Role ID  |
+|   **scopeId** | **String**| **No** | Scope ID  |
+|   **userHistorySeq** | **Long**| **Yes** | User change history serial number  |
+|   **userId** | **String**| **Yes** | User ID  |
 
 
 ##### ConditionBundleProtocol
@@ -660,10 +660,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description                                                                                                                                                                               | 
 |------------ | ------------- | ------------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|   **attribute** | **AttributeProtocol**| **Yes** | 조건 속성                                                                                                                                                                                     |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID                                                                                                                                                                                  |
+|   **attribute** | **AttributeProtocol**| **Yes** | Condition attribute                                                                                                                                                                                     |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID                                                                                                                                                                                  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** | ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값                                                                                                                                                                                   |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value                                                                                                                                                                                   |
 
 ##### AttributeProtocol
 
@@ -672,15 +672,15 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
 
 <a name="getUsers"></a>
-### **사용자 목록 조회**
+### **Get a list of users**
 > POST "/role/v3.0/appkeys/{appKey}/users/search"
 
 #### Parameters
@@ -689,11 +689,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.userId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.userId,ASC`)|
 | Request Body | **SearchUser.Request** | **SearchUser.Request**| **Yes** |  | |
 
 
@@ -705,16 +705,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **descriptionLike** | **String**| **No** | 사용자 설명(부분 일치)  |
-|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 여부  |
-|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 시 역할 태그 포함 여부  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
-|   **scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치)  |
-|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록(완전 일치)  |
+|   **descriptionLike** | **String**| **No** | User description (partial match)  |
+|   **needRoleRelations** | **Boolean**| **No** | Whether to include role relations in responses  |
+|   **needRoleTags** | **Boolean**| **No** | Whether to include role tags when including role relations in responses  |
+|   **roleIdPreLike** | **String**| **No** | Role ID (forward match)  |
+|   **roleIds** | **List&lt;String>**| **No** | Role ID list (exact match)  |
+|   **scopeIdPreLike** | **String**| **No** | Scope ID (forward match)  |
+|   **scopeIds** | **List&lt;String>**| **No** | List of scope IDs (exact match)  |
 |   **searchRoleOptionCode** | **String**| **No** |   DIRECT_ROLE, INDIRECT_ROLE |
-|   **userIdPreLike** | **String**| **No** | 사용자 ID(전방 일치)  |
-|   **userIds** | **List&lt;String>**| **No** | 사용자 ID 목록(완전 일치)  |
+|   **userIdPreLike** | **String**| **No** | User ID (forward matching)  |
+|   **userIds** | **List&lt;String>**| **No** | List of user IDs (exact match)  |
 
 
 
@@ -886,8 +886,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
-|   **users** | **List&lt;UserBundleProtocol>**| **Yes** | 사용자 목록  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
+|   **users** | **List<UserBundleProtocol>**| **Yes** | User list  |
 
 
 
@@ -896,10 +896,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 설명  |
-|   **regYmdt** | **Date**| **No** | 사용자 생성 일시  |
-|   **roleRelations** | **List&lt;UserBundleProtocol.UserRoleRelationBundleProtocol>**| **No** | 사용자에 할당된 역할 목록  |
-|   **userId** | **String**| **Yes** | 사용자 ID  |
+|   **description** | **String**| **No** | Description  |
+|   **regYmdt** | **Date**| **No** | User Creation Date  |
+|   **roleRelations** | **List<UserBundleProtocol.UserRoleRelationBundleProtocol>**| **No** | List of roles assigned to the user  |
+|   **userId** | **String**| **Yes** | User ID  |
 
 
 
@@ -908,26 +908,26 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **conditions** | **List&lt;ConditionBundleProtocol>**| **No** | 역할 조건 속성  |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **exposureOrder** | **Integer**| **Yes** | 노출 순서  |
-|   **regYmdt** | **Date**| **No** | 등록일시  |
+|   **conditions** | **List<ConditionBundleProtocol>**| **No** | Role Condition Attributes  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **exposureOrder** | **Integer**| **Yes** | Exposure order  |
+|   **regYmdt** | **Date**| **No** | At enrollment  |
 |   **roleApplyPolicyCode** | **String**| **Yes** |   ALLOW, DENY |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **roleName** | **String**| **No** | 역할 이름  |
-|   **roleTags** | **List&lt;UserBundleProtocol.RoleTagProtocol>**| **No** | 역할 태그 목록  |
-|   **scopeId** | **String**| **Yes** | 범위 ID  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **roleName** | **String**| **No** | Role name  |
+|   **roleTags** | **List<UserBundleProtocol.RoleTagProtocol>**| **No** | Role tag list  |
+|   **scopeId** | **String**| **Yes** | Scope ID  |
 
 ##### ConditionBundleProtocol
 
 
 | Name | Type | Required | Description                                                                                                                                                                               | 
 |------------ | ------------- | ------------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|   **attribute** | **AttributeProtocol**| **Yes** | 조건 속성                                                                                                                                                                                     |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID                                                                                                                                                                                  |
+|   **attribute** | **AttributeProtocol**| **Yes** | Condition attribute                                                                                                                                                                                     |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID                                                                                                                                                                                  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** | ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값                                                                                                                                                                                   |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value                                                                                                                                                                                   |
 
 ##### AttributeProtocol
 
@@ -936,9 +936,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -968,7 +968,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roleTagId** | **String**| **No** | 역할 태그 ID  |
+|   **roleTagId** | **String**| **No** | Role Tag ID  |
 
 
 
@@ -993,7 +993,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="updateUser"></a>
-### **사용자 수정**
+### **Edit users**
 > PUT "/role/v3.0/appkeys/{appKey}/users/{userId}"
 
 #### Parameters
@@ -1002,10 +1002,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description | 
 |------------- |------------- | ------------- | ------------- |-------------| 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키   |
-|  Path |**appKey** | **String**| **Yes** | 앱키          | 
-|  Path |**userId** | **String**| **Yes** | 사용자 ID      | 
-| Request Body | **PutUserRequest** | **PutUserRequest**| **Yes** | 사용자         |
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey   | 
+|  Path |**appKey** | **String**| **Yes** | Appkey          | 
+|  Path |**userId** | **String**| **Yes** | User ID      | 
+| Request Body | **PutUserRequest** | **PutUserRequest**| **Yes** | User         | |
 
 
 
@@ -1015,18 +1015,18 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ##### PutUserRequest
 
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **user** | **PutUserRequest.UserProtocol**| **Yes** | 사용자         |
-| **createUserIfNotExist** | **Boolean** | **No** | 요청 시 존재하지 않는 사용자일 경우 생성 여부 |
+|   **user** | **PutUserRequest.UserProtocol**| **Yes** | User         |
+| **createUserIfNotExist** | **Boolean** | **No** | Whether to create if the user doesn't exist at the time of the request |
 
 ##### PutUserRequest.UserProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 사용자 설명  |
-|   **roleRelations** | **List&lt;UserRoleRelationProtocol>**| **No** | 사용자 연관 역할  |
+|   **description** | **String**| **No** | User description  |
+|   **roleRelations** | **List<UserRoleRelationProtocol>**| **No** | User-related Role  |
 
 
 ##### UserRoleRelationProtocol
@@ -1034,19 +1034,19 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **conditions** | **List&lt;ConditionProtocol>**| **No** | 역할 조건 속성    |
+|   **conditions** | **List<ConditionProtocol>**| **No** | Role Condition Attributes    |
 |   **roleApplyPolicyCode** | **String**| **No** | ALLOW, DENY |
-|   **roleId** | **String**| **Yes** | 역할 ID       |
-|   **scopeId** | **String**| **Yes** | 범위 ID       |
+|   **roleId** | **String**| **Yes** | Role ID       |
+|   **scopeId** | **String**| **Yes** | Scope ID       |
 
 ##### ConditionProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** |   ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값  |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value  |
 
 
 
@@ -1088,32 +1088,32 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="updateUserScope"></a>
-### **사용자 범위 한정 수정**
+### **Edit user scopes**
 > PUT "/role/v3.0/appkeys/{appKey}/users/{userId}/scopes/{scopeId}"
 
 #### Parameters
 
 | ParameterType | Name | Type | Required | Description |
 |------------- |------------- | ------------- | ------------- |-------------|
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키   |
-|  Path |**appKey** | **String**| **Yes** | 앱키 |
-|  Path |**userId** | **String**| **Yes** | 사용자 ID |
-|  Path |**scopeId** | **String**| **Yes** | 범위 ID |
-| Request Body | **putUserScopeRequest** | **PutUserScopeRequest**| **Yes** | 사용자 |
+|  Header |**X-Secret-Key** | **String**| **Yes** | Secretkey   |
+|  Path |**appKey** | **String**| **Yes** | Appkey |
+|  Path |**userId** | **String**| **Yes** | User ID |
+|  Path |**scopeId** | **String**| **Yes** | Scope ID |
+| Request Body | **putUserScopeRequest** | **PutUserScopeRequest**| **Yes** | User |
 
 ##### PutUserScopeRequest
 
 | Name | Type | Required | Description |
 |------------ | ------------- | ------------- |-------------|
-|   **user** | **PutUserScopeRequest.UserProtocol**| **Yes** | 사용자 |
-| **createUserIfNotExist** | **Boolean** | **No** | 요청 시 존재하지 않는 사용자일 경우 생성 여부 |
+|   **user** | **PutUserScopeRequest.UserProtocol**| **Yes** | User |
+| **createUserIfNotExist** | **Boolean** | **No** | Whether to create if the user doesn't exist at the time of the request |
 
 ##### PutUserScopeRequest.UserProtocol
 
 | Name | Type | Required | Description |
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 사용자 설명  |
-|   **roleRelations** | **List&lt;UserScopeRoleRelationProtocol>**| **No** | 사용자 연관 역할  |
+|   **description** | **String**| **No** | User description  |
+|   **roleRelations** | **List&lt;UserScopeRoleRelationProtocol>**| **No** | Roles related to users  |
 
 
 ##### UserScopeRoleRelationProtocol
@@ -1121,18 +1121,18 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description |
 |------------ | ------------- | ------------- |-------------|
-|   **conditions** | **List&lt;ConditionProtocol>**| **No** | 역할 조건 속성 |
+|   **conditions** | **List&lt;ConditionProtocol>**| **No** | Role condition attributes |
 |   **roleApplyPolicyCode** | **String**| **No** | ALLOW, DENY |
-|   **roleId** | **String**| **Yes** | 역할 ID |
+|   **roleId** | **String**| **Yes** | Role ID |
 
 ##### ConditionProtocol
 
 
 | Name | Type | Required | Description |
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
+|   **attributeId** | **String**| **Yes** | Attribute ID  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** |   ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값  |
+|   **attributeValues** | **List&lt;String>**| **No** | Attributre value  |
 
 #### Response Body
 
@@ -1146,17 +1146,17 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 }
 ```
 
-## 사용자 인증
+## User authentication
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/users/{userId}/authorizations/resources**](#checkResource) | 사용자가 리소스에 접근 권한이 있는지 검사 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/users/{userId}/authorizations/roles**](#checkRole) | 사용자가 역할에 대한 접근 권한이 있는지 검사 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/users/{userId}/authorizations/resources**](#checkResource) | Check if a user is authorized to access a resource |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/users/{userId}/authorizations/roles**](#checkRole) | Check if a user has access to a role |
 
 
 <a name="checkResource"></a>
-### **사용자가 리소스에 접근 권한이 있는지 검사**
+### **Check if a user is authorized to access a resource**
 > POST "/role/v3.0/appkeys/{appKey}/users/{userId}/authorizations/resources"
 
 #### Parameters
@@ -1165,10 +1165,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description | 
 |------------- |------------- | ------------- | ------------- |-------------| 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키   |
-|  Path |**appKey** | **String**| **Yes** | 앱키          | 
-|  Path |**userId** | **String**| **Yes** | 사용자 ID      | 
-| Request Body | **PostAuthorizationResource.Request** | **PostAuthorizationResource.Request**| **Yes** | 리소스 목록      | |
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey   | 
+|  Path |**appKey** | **String**| **Yes** | Appkey          | 
+|  Path |**userId** | **String**| **Yes** | User ID      | 
+| Request Body | **PostAuthorizationResource.Request** | **PostAuthorizationResource.Request**| **Yes** | Resource List      | |
 
 
 
@@ -1180,27 +1180,27 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **resources** | **List&lt;PostAuthorizationResource.ResourceProtocol>**| **Yes** | 리소스 목록      |
+|   **Resources** | **List<PostAuthorizationResource.ResourceProtocol>**| **Yes** | Resource List      |
 
 ##### PostAuthorizationResource.ResourceProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributes** | **List&lt;PostAuthorizationResource.AttributeProtocol>**| **No** | 조건 속성 ID  |
-|   **authRequestId** | **String**| **No** | 요청 인증 식별키  |
-|   **operationId** | **String**| **Yes** | 오퍼레이션 ID  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **resourcePath** | **String**| **No** | 리소스 Path  |
-|   **scopeId** | **String**| **No** | 범위 ID  |
+|   **attributes** | **List<PostAuthorizationResource.AttributeProtocol>**| **No** | Condition attribute ID  |
+|   **authRequestId** | **String**| **No** | Request Authentication Identification Key  |
+|   **operationId** | **String**| **Yes** | Operation ID  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **resourcePath** | **String**| **No** | Resource Path  |
+|   **scopeId** | **String**| **No** | Scope ID  |
 
 ##### PostAuthorizationResource.AttributeProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeValue** | **String**| **Yes** | 조건 속성 값  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeValue** | **String**| **Yes** | Condition attribute value  |
 
 
 
@@ -1272,28 +1272,28 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **authorizations** | **List&lt;PostAuthorizationResource.AuthorizationWithResourceProtocol>**| **No** | 권한 체크 결과 목록  |
+|   **authorizations** | **List<PostAuthorizationResource.AuthorizationWithResourceProtocol>**| **No** | List of permission check results  |
 
 ##### PostAuthorizationResource.AuthorizationWithResourceProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributes** | **List&lt;PostAuthorizationResource.AttributeProtocol>**| **Yes** | 조건 속성 ID  |
-|   **authRequestId** | **String**| **No** | 요청 인증 식별키  |
-|   **operationId** | **String**| **Yes** | 오퍼레이션 ID  |
-|   **permission** | **Boolean**| **Yes** | 권한 여부  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **resourcePath** | **String**| **No** | 리소스 Path  |
-|   **scopeId** | **String**| **Yes** | 범위 ID  |
+|   **attributes** | **List<PostAuthorizationResource.AttributeProtocol>**| **Yes** | Condition attribute ID  |
+|   **authRequestId** | **String**| **No** | Request Authentication Identification Key  |
+|   **operationId** | **String**| **Yes** | Operation ID  |
+|   **permission** | **Boolean**| **Yes** | Authorization status  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **resourcePath** | **String**| **No** | Resource Path  |
+|   **scopeId** | **String**| **Yes** | Scope ID  |
 
 ##### PostAuthorizationResource.AttributeProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeValue** | **String**| **Yes** | 조건 속성 값  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeValue** | **String**| **Yes** | Condition attribute value  |
 
 
 
@@ -1320,7 +1320,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="checkRole"></a>
-### **사용자가 역할에 대한 접근 권한이 있는지 검사**
+### **Check if a user has access to a role**
 > POST "/role/v3.0/appkeys/{appKey}/users/{userId}/authorizations/roles"
 
 #### Parameters
@@ -1329,9 +1329,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**userId** | **String**| **Yes** | 사용자 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**userId** | **String**| **Yes** | User ID | 
 | Request Body | **PostAuthorizationRole.Request** | **PostAuthorizationRole.Request**| **Yes** |  | |
 
 
@@ -1344,25 +1344,25 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roles** | **List&lt;PostAuthorizationRole.AuthRoleProtocol>**| **Yes** | 인증 요청 목록  |
+|   **roles** | **List<PostAuthorizationRole.AuthRoleProtocol>**| **Yes** | Authentication request list  |
 
 ##### PostAuthorizationRole.AuthRoleProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributes** | **List&lt;PostAuthorizationRole.AttributeProtocol>**| **No** | 조건 속성  |
-|   **authRequestId** | **String**| **No** | 인증 요청 식별키  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **scopeId** | **String**| **No** | 범위 ID  |
+|   **attributes** | **List<PostAuthorizationRole.AttributeProtocol>**| **No** | Condition attribute  |
+|   **authRequestId** | **String**| **No** | Authentication request identification key  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **scopeId** | **String**| **No** | Scope ID  |
 
 ##### PostAuthorizationRole.AttributeProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeValue** | **String**| **Yes** | 조건 속성 값  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeValue** | **String**| **Yes** | Condition attribute value  |
 
 
 
@@ -1428,26 +1428,26 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **authorizations** | **List&lt;PostAuthorizationRole.AuthorizationProtocol>**| **No** | 권한 체크 결과 목록  |
+|   **authorizations** | **List<PostAuthorizationRole.AuthorizationProtocol>**| **No** | List of permission check results  |
 
 ##### PostAuthorizationRole.AuthorizationProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributes** | **List&lt;PostAuthorizationRole.AttributeProtocol>**| **Yes** | 조건 속성 ID  |
-|   **authRequestId** | **String**| **No** | 요청 인증 식별키  |
-|   **permission** | **Boolean**| **Yes** | 권한 여부  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **scopeId** | **String**| **Yes** | 범위 ID  |
+|   **attributes** | **List<PostAuthorizationRole.AttributeProtocol>**| **Yes** | Condition attribute ID  |
+|   **authRequestId** | **String**| **No** | Request Authentication Identification Key  |
+|   **permission** | **Boolean**| **Yes** | Authorization status  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **scopeId** | **String**| **Yes** | Scope ID  |
 
 ##### PostAuthorizationRole.AttributeProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeValue** | **String**| **Yes** | 조건 속성 값  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeValue** | **String**| **Yes** | Condition attribute value  |
 
 
 
@@ -1470,24 +1470,24 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 
-## 역할
+## Roles
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/roles**](#createRole) | 역할 생성 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}**](#deleteRole) | 역할 삭제 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/roles**](#deleteRoles) | 역할 다건 삭제 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}/deniable**](#getDeniable) | 역할 사용여부 DENY(미사용)로 변경가능 여부 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}**](#getRole) | 역할 단건 조회 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/roles/id**](#searchAllRoleIds) | 모든 역할 ID 목록 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}/attributes/search**](#searchAttributesByRoleId) | 역할에서 설정 가능한 모든 조건 속성 목록 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/roles/search**](#searchRoles) | 역할 목록 조회 |
-| **PUT** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}**](#updateRole) | 역할 수정 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/roles**](#createRole) | Create a role |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}**](#deleteRole) | Delete a role |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/roles**](#deleteRoles) | Delete roles |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}/deniable**](#getDeniable) | Whether the role is enabled or can be changed to DENY (not enabled) |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}**](#getRole) | Single role lookup |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/roles/id**](#searchAllRoleIds) | Get a list of all role IDs |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}/attributes/search**](#searchAttributesByRoleId) | Get a list of all condition attributes that can be set in a role |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/roles/search**](#searchRoles) | Get a list of roles |
+| **PUT** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}**](#updateRole) | Modify roles |
 
 
 <a name="createRole"></a>
-### **역할 생성**
+### **Create a role**
 > POST "/role/v3.0/appkeys/{appKey}/roles"
 
 #### Parameters
@@ -1496,8 +1496,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 | Request Body | **CreateRoleRequest** | **CreateRoleRequest**| **Yes** |  | |
 
 
@@ -1509,20 +1509,20 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description      | 
 |------------ | ------------- | ------------- |------------------|
-|   **role** | **RoleProtocol**| **No** | 역할 |
-|   **roleRelations** | **List&lt;CreateRoleRequest.RoleRelationProtocol>**| **No** | 조건 속성과 연관된 역할 ID 목록 |
-|   **roleTags** | **List&lt;CreateRoleRequest.RoleTagProtocol>**| **No** | 역할 태그 목록         |
+|   **role** | **RoleProtocol**| **No** | Roles |
+|   **roleRelations** | **List<CreateRoleRequest.RoleRelationProtocol>**| **No** | List of role IDs associated with the condition attribute |
+|   **roleTags** | **List<CreateRoleRequest.RoleTagProtocol>**| **No** | Role tag list         |
 
 ##### RoleProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **exposureOrder** | **Integer**| **Yes** | 노출 순서  |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **roleName** | **String**| **No** | 역할 이름  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **exposureOrder** | **Integer**| **Yes** | Exposure order  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **roleName** | **String**| **No** | Role name  |
 
 
 
@@ -1538,8 +1538,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **conditions** | **List&lt;ConditionProtocol>**| **No** | 역할 조건 속성  |
-|   **relatedRoleId** | **String**| **Yes** | 조건 속성과 연관된 역할 ID  |
+|   **conditions** | **List<ConditionProtocol>**| **No** | Role Condition Attributes  |
+|   **relatedRoleId** | **String**| **Yes** | Role ID associated with the condition attribute  |
 |   **roleApplyPolicyCode** | **String**| **No** |   ALLOW, DENY |
 
 ##### ConditionProtocol
@@ -1547,9 +1547,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** |   ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값  |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value  |
 
 
 
@@ -1569,7 +1569,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roleTagId** | **String**| **Yes** | 역할 태그 ID  |
+|   **roleTagId** | **String**| **Yes** | Role Tag ID  |
 
 
 
@@ -1602,7 +1602,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteRole"></a>
-### **역할 삭제**
+### **Deleting roles**
 > DELETE "/role/v3.0/appkeys/{appKey}/roles/{roleId}"
 
 #### Parameters
@@ -1611,9 +1611,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**roleId** | **String**| **Yes** | 역할 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**roleId** | **String**| **Yes** | Role ID | 
 
 
 
@@ -1637,16 +1637,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteRoles"></a>
-### **역할 다건 삭제**
+### **Delete roles**
 > DELETE "/role/v3.0/appkeys/{appKey}/roles/{roleId}"
 
 #### Parameters
 
 | ParameterType | Name | Type | Required | Description  |
 |------------- |------------- | ------------- | ------------- | ------------- |
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 |
-| Request Body |**roleIds** |  **List&lt;String>**| **Yes** | 역할 ID 목록 |
+|  Header |**X-Secret-Key** | **String**| **Yes** | Secretkey |
+|  Path |**appKey** | **String**| **Yes** | Appkey |
+| Request Body |**roleIds** |  **List&lt;String>**| **Yes** | Role IDs |
 
 
 #### Response Body
@@ -1665,7 +1665,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getDeniable"></a>
-### **역할 사용여부 DENY(미사용)로 변경가능 여부**
+### **Whether the role is enabled or can be changed to DENY (not enabled)**
 > GET "/role/v3.0/appkeys/{appKey}/roles/{roleId}/deniable"
 
 #### Parameters
@@ -1674,9 +1674,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**roleId** | **String**| **Yes** | 역할 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**roleId** | **String**| **Yes** | Role ID | 
 
 
 
@@ -1706,7 +1706,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **deniable** | **Boolean**| **No** | 역할 사용여부 DENY(미사용)로 변경가능 여부  |
+|   **deniable** | **Boolean**| **No** | Whether the role is enabled or can be changed to DENY (not enabled)  |
 
 
 
@@ -1718,7 +1718,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getRole"></a>
-### **역할 단건 조회**
+### **Single role lookup**
 > GET "/role/v3.0/appkeys/{appKey}/roles/{roleId}"
 
 #### Parameters
@@ -1727,9 +1727,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**roleId** | **String**| **Yes** | 역할 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**roleId** | **String**| **Yes** | Role ID | 
 
 
 
@@ -1828,7 +1828,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **role** | **RoleBundleProtocol**| **Yes** | 역할 |
+|   **role** | **RoleBundleProtocol**| **Yes** | Roles |
 
 
 ##### RoleBundleProtocol
@@ -1836,16 +1836,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **appKey** | **String**| **Yes** | 앱키  |
-|   **attributes** | **List&lt;AttributeProtocol>**| **No** | 조건 속성 목록  |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **exposureOrder** | **Integer**| **Yes** | 노출 순서  |
-|   **regDateTime** | **Date**| **Yes** | 역할 생성 일시  |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **roleName** | **String**| **No** | 역할 이름  |
-|   **roleRelations** | **List&lt;RoleBundleProtocol.RoleRelationProtocol>**| **No** | 연관 관계 역할 목록  |
-|   **roleTags** | **List&lt;RoleBundleProtocol.RoleTagProtocol>**| **No** | 역할 태그 목록  |
+|   **appKey** | **String**| **Yes** | Appkey  |
+|   **attributes** | **List&lt;AttributeProtocol>**| **No** | Condition attributes  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **exposureOrder** | **Integer**| **Yes** | Exposure order  |
+|   **regDateTime** | **Date**| **Yes** | When the role was created  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **roleName** | **String**| **No** | Role name  |
+|   **roleRelations** | **List<RoleBundleProtocol.RoleRelationProtocol>**| **No** | List of relations roles  |
+|   **roleTags** | **List<RoleBundleProtocol.RoleTagProtocol>**| **No** | Role tag list  |
 
 
 ##### AttributeProtocol
@@ -1855,9 +1855,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -1879,23 +1879,23 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **conditions** | **List&lt;ConditionBundleProtocol>**| **No** | 역할 조건 속성  |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **regDateTime** | **Date**| **Yes** | 역할 생성 일시  |
+|   **conditions** | **List<ConditionBundleProtocol>**| **No** | Role Condition Attributes  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **regDateTime** | **Date**| **Yes** | When the role was created  |
 |   **roleApplyPolicyCode** | **String**| **Yes** |   ALLOW, DENY |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **roleName** | **String**| **No** | 역할 이름  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **roleName** | **String**| **No** | Role name  |
 
 ##### ConditionBundleProtocol
 
 
 | Name | Type | Required | Description                                                                                                                                                                               | 
 |------------ | ------------- | ------------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|   **attribute** | **AttributeProtocol**| **Yes** | 조건 속성                                                                                                                                                                                     |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID                                                                                                                                                                                  |
+|   **attribute** | **AttributeProtocol**| **Yes** | Condition attribute                                                                                                                                                                                     |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID                                                                                                                                                                                  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** | ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값                                                                                                                                                                                   |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value                                                                                                                                                                                   |
 
 ##### AttributeProtocol
 
@@ -1904,9 +1904,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -1939,7 +1939,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roleTagId** | **String**| **No** | 역할 태그 ID  |
+|   **roleTagId** | **String**| **No** | Role Tag ID  |
 
 
 
@@ -1958,7 +1958,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchAllRoleIds"></a>
-### **모든 역할 ID 목록 조회**
+### **Get a list of all role IDs**
 > GET "/role/v3.0/appkeys/{appKey}/roles/id"
 
 #### Parameters
@@ -1967,12 +1967,12 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치) |
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.roleId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**roleIdPreLike** | **String**| **No** | Role ID (forward match) |
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.roleId,ASC`)|
 
 
 
@@ -2005,8 +2005,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roleIds** | **List&lt;String>**| **Yes** | 역할 ID 목록  |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
+|   **roleIds** | **List&lt;String>**| **Yes** | List of role IDs  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
 
 
 
@@ -2019,22 +2019,22 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchAttributesByRoleId"></a>
-### **역할에서 설정 가능한 모든 조건 속성 목록 조회**
+### **Get a list of all condition attributes that can be set in a role**
 > POST "/role/v3.0/appkeys/{appKey}/roles/{roleId}/attributes/search"
 
 #### Parameters
 
 
 
-| ParameterType | Name | Type | Required | Description                                                | 
-|------------- |------------- | ------------- | ------------- |------------------------------------------------------------| 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키                                                  |
-|  Path |**appKey** | **String**| **Yes** | 앱키                                                         | 
-|  Path |**roleId** | **String**| **Yes** | 역할 ID                                                      | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1)                                      | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10)                                 |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `attributeCreationTypeCode,ASC&quot;,&quot;id.attributeId,ASC`)|
-| Request Body | **SearchRoleAttributes.Request** | **SearchRoleAttributes.Request**| **Yes** |                                                            | |
+| ParameterType | Name | Type | Required | Description  | 
+|------------- |------------- | ------------- | ------------- | ------------- | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**roleId** | **String**| **Yes** | Role ID | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `attributeCreationTypeCode,ASC&quot;,&quot;id.attributeId,ASC&quot`)|
+| Request Body | **SearchRoleAttributes.Request** | **SearchRoleAttributes.Request**| **Yes** |  | |
 
 
 
@@ -2046,9 +2046,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
-|   **attributeNameLike** | **String**| **No** | 조건 속성 이름(부분 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
+|   **attributeIds** | **List&lt;String>**| **No** | Condition attribute ID list (exact match)  |
+|   **attributeNameLike** | **String**| **No** | Condition attribute name (partial match)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | Condition attribute tag ID list (exact match)  |
 
 
 
@@ -2091,8 +2091,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributes** | **List&lt;AttributeProtocol>**| **Yes** | 역할에 부여 가능한 조건 속성 목록  |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
+|   **attributes** | **List&lt;AttributeProtocol>**| **Yes** | List of condition attributes that can be assigned to roles  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
 
 ##### AttributeProtocol
 
@@ -2101,9 +2101,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -2124,21 +2124,21 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchRoles"></a>
-### **역할 목록 조회**
+### **Get a list of roles**
 > POST "/role/v3.0/appkeys/{appKey}/roles/search"
 
 #### Parameters
 
 
 
-| ParameterType | Name | Type | Required | Description                                   | 
-|------------- |------------- | ------------- | ------------- |-----------------------------------------------| 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키                                     |
-|  Path |**appKey** | **String**| **Yes** | 앱키                                            | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1)                         | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10)                    |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서 (기본값 `exposureOrder,ASC&quot;,&quot;id.roleId,ASC`)|
-| Request Body | **GetRoles.Request** | **GetRoles.Request**| **Yes** |                                               | |
+| ParameterType | Name | Type | Required | Description  | 
+|------------- |------------- | ------------- | ------------- | ------------- | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `exposureOrder,ASC&quot;,&quot;id.roleId,ASC&quot`)|
+| Request Body | **GetRoles.Request** | **GetRoles.Request**| **Yes** |  | |
 
 
 
@@ -2149,20 +2149,20 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
-|   **descriptionLike** | **String**| **No** | 역할 설명(부분 일치)  |
-|   **needAttributes** | **Boolean**| **No** | 응답 시 조건 속성 정보 포함 여부  |
-|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관 관계 ID 목록 포함 여부  |
-|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 태그 ID 목록 포함 여부  |
-|   **relatedRoleIds** | **List&lt;String>**| **No** | 연관 관계 역할 ID 목록(완전 일치)  |
-|   **roleGroup** | **String**| **No** | 역할 그룹(완전 일치)  |
-|   **roleGroupLike** | **String**| **No** | 역할 그룹(부분 일치)  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
-|   **roleNameLike** | **String**| **No** | 역할 이름(부분 일치)  |
-|   **roleTagIdExpr** | **String**| **No** | 역할 태그 조건(구분자 &#39;;&#39;:OR, &#39;,&#39;:AND)  |
-|   **roleTagIds** | **List&lt;String>**| **No** | 역할 태그 ID 목록(완전 일치)  |
+|   **attributeIds** | **List&lt;String>**| **No** | Condition attribute ID list (exact match)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | Condition attribute tag ID list (exact match)  |
+|   **descriptionLike** | **String**| **No** | Role description (partial match)  |
+|   **needAttributes** | **Boolean**| **No** | Whether to include condition attribute information in the response  |
+|   **needRoleRelations** | **Boolean**| **No** | Whether to include a list of role association IDs in the response  |
+|   **needRoleTags** | **Boolean**| **No** | Whether to include a list of role tag IDs in the response  |
+|   **relatedRoleIds** | **List&lt;String>**| **No** | List of related role IDs (exact match)  |
+|   **roleGroup** | **String**| **No** | Role group(exact match)  |
+|   **roleGroupLike** | **String**| **No** | Role groups (partial match)  |
+|   **roleIdPreLike** | **String**| **No** | Role ID (forward match)  |
+|   **roleIds** | **List&lt;String>**| **No** | Role ID list (exact match)  |
+|   **roleNameLike** | **String**| **No** | Role name (partial match)  |
+|   **roleTagIdExpr** | **String**| **No** | Role tag conditions (separator ';':OR, ',':AND)  |
+|   **roleTagIds** | **List&lt;String>**| **No** | List of role tag IDs (exact match)  |
 
 
 
@@ -2345,8 +2345,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roles** | **List&lt;RoleBundleProtocol>**| **Yes** | 역할 목록  |
-|   **totalItems** | **Long**| **Yes** | 역할 전체 개수  |
+|   **roles** | **List<RoleBundleProtocol>**| **Yes** | Roles list  |
+|   **totalItems** | **Long**| **Yes** | Total number of roles  |
 
 
 ##### RoleBundleProtocol
@@ -2354,16 +2354,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **appKey** | **String**| **Yes** | 앱키  |
-|   **attributes** | **List&lt;AttributeProtocol>**| **No** | 조건 속성 목록  |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **exposureOrder** | **Integer**| **Yes** | 노출 순서  |
-|   **regDateTime** | **Date**| **Yes** | 역할 생성 일시  |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **roleName** | **String**| **No** | 역할 이름  |
-|   **roleRelations** | **List&lt;RoleBundleProtocol.RoleRelationProtocol>**| **No** | 연관 관계 역할 목록  |
-|   **roleTags** | **List&lt;RoleBundleProtocol.RoleTagProtocol>**| **No** | 역할 태그 목록  |
+|   **appKey** | **String**| **Yes** | Appkey  |
+|   **attributes** | **List&lt;AttributeProtocol>**| **No** | Condition attributes  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **exposureOrder** | **Integer**| **Yes** | Exposure order  |
+|   **regDateTime** | **Date**| **Yes** | When the role was created  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **roleName** | **String**| **No** | Role name  |
+|   **roleRelations** | **List<RoleBundleProtocol.RoleRelationProtocol>**| **No** | List of related roles  |
+|   **roleTags** | **List<RoleBundleProtocol.RoleTagProtocol>**| **No** | Role tag list  |
 
 
 ##### AttributeProtocol
@@ -2373,9 +2373,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -2397,23 +2397,23 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **conditions** | **List&lt;ConditionBundleProtocol>**| **No** | 역할 조건 속성  |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **regDateTime** | **Date**| **Yes** | 역할 생성 일시  |
+|   **conditions** | **List<ConditionBundleProtocol>**| **No** | Role Condition Attributes  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **regDateTime** | **Date**| **Yes** | When the role was created  |
 |   **roleApplyPolicyCode** | **String**| **Yes** |   ALLOW, DENY |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **roleName** | **String**| **No** | 역할 이름  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **roleName** | **String**| **No** | Role name  |
 
 ##### ConditionBundleProtocol
 
 
 | Name | Type | Required | Description                                                                                                                                                                               | 
 |------------ | ------------- | ------------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|   **attribute** | **AttributeProtocol**| **Yes** | 조건 속성                                                                                                                                                                                     |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID                                                                                                                                                                                  |
+|   **attribute** | **AttributeProtocol**| **Yes** | Condition attribute                                                                                                                                                                                     |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID                                                                                                                                                                                  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** | ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값                                                                                                                                                                                   |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value                                                                                                                                                                                   |
 
 ##### AttributeProtocol
 
@@ -2422,9 +2422,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -2457,7 +2457,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roleTagId** | **String**| **No** | 역할 태그 ID  |
+|   **roleTagId** | **String**| **No** | Role Tag ID  |
 
 
 
@@ -2477,7 +2477,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="updateRole"></a>
-### **역할 수정**
+### **Modify roles**
 > PUT "/role/v3.0/appkeys/{appKey}/roles/{roleId}"
 
 #### Parameters
@@ -2486,9 +2486,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**roleId** | **String**| **Yes** | 역할 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**roleId** | **String**| **Yes** | Role ID | 
 | Request Body | **UpdateRoleRequest** | **UpdateRoleRequest**| **Yes** |  | |
 
 
@@ -2501,19 +2501,19 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description         | 
 |------------ | ------------- | ------------- |---------------------|
-|   **role** | **RoleMetadataProtocol**| **No** | 역할                  |
-|   **roleRelations** | **List&lt;UpdateRoleRequest.RoleRelationProtocol>**| **No** | 조건 속성과 연관된 역할 ID 목록 |
-|   **roleTags** | **List&lt;UpdateRoleRequest.RoleTagProtocol>**| **No** | 역할 태그 목록            |
+|   **role** | **RoleMetadataProtocol**| **No** | Roles                  |
+|   **roleRelations** | **List<UpdateRoleRequest.RoleRelationProtocol>**| **No** | List of role IDs associated with the condition attribute |
+|   **roleTags** | **List<UpdateRoleRequest.RoleTagProtocol>**| **No** | Role tag list            |
 
 ##### RoleMetadataProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **exposureOrder** | **Integer**| **Yes** | 노출 순서  |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleName** | **String**| **No** | 역할 이름  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **exposureOrder** | **Integer**| **Yes** | Exposure order  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleName** | **String**| **No** | Role name  |
 
 
 
@@ -2528,8 +2528,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **conditions** | **List&lt;ConditionProtocol>**| **No** | 역할 조건 속성  |
-|   **relatedRoleId** | **String**| **Yes** | 조건 속성과 연관된 역할 ID  |
+|   **conditions** | **List<ConditionProtocol>**| **No** | Role Condition Attributes  |
+|   **relatedRoleId** | **String**| **Yes** | Role ID associated with the condition attribute  |
 |   **roleApplyPolicyCode** | **String**| **No** |   ALLOW, DENY |
 
 ##### ConditionProtocol
@@ -2537,9 +2537,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** |   ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값  |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value  |
 
 
 
@@ -2559,7 +2559,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roleTagId** | **String**| **Yes** | 역할 태그 ID  |
+|   **roleTagId** | **String**| **Yes** | Role Tag ID  |
 
 
 
@@ -2586,16 +2586,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ```
 
 
-## 역할 태그
+## Role tags
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **GET** |[**/role/v3.0/appkeys/{appKey}/roles/tags/id**](#getAllRoleTagIds) | 모든 역할 태그 ID 목록 조회 |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/roles/tags/id**](#getAllRoleTagIds) | Get a list of all role tag IDs |
 
 
 <a name="getAllRoleTagIds"></a>
-### **모든 역할 태그 ID 목록 조회**
+### **Get a list of all role tag IDs**
 > GET "/role/v3.0/appkeys/{appKey}/roles/tags/id"
 
 #### Parameters
@@ -2604,12 +2604,12 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**roleTagIdPreLike** | **String**| **No** | 역할 태그 ID(전방 일치) |
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.roleTagId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**roleTagIdPreLike** | **String**| **No** | Role Tag ID (forward match) |
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.roleTagId,ASC`)|
 
 
 
@@ -2642,56 +2642,56 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roleTagIds** | **List&lt;String>**| **No** | 역할 태그 ID 목록  |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
+|   **roleTagIds** | **List&lt;String>**| **No** | List of role tag IDs  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
 
 
 
 
-## 역할 연관 관계
+## Role-related relations
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}/relations**](#createRoleRelations) | 역할 연관 관계 다건 생성 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}/relations}**](#deleteRoleRelations) | 역할 연관 관계 다건 삭제 |
-| **PUT** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}/relations**](#updateRoleRelations) | 역할 연관 관계 다건 수정 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}/relations**](#createRoleRelations) | Create role-related relations |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}/relations}**](#deleteRoleRelations) | Delete role-related relations |
+| **PUT** |[**/role/v3.0/appkeys/{appKey}/roles/{roleId}/relations**](#updateRoleRelations) | Edit role-related relations |
 
 <a name="createRoleRelations"></a>
-### **역할 연관 관계 다건 생성**
+### **Create role-related relations**
 > POST "/role/v3.0/appkeys/{appKey}/roles/{roleId}/relations"
 
 #### Parameters
 
 | ParameterType | Name | Type | Required | Description  |
 |------------- |------------- | ------------- | ------------- | ------------- |
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 |
-|  Path |**roleId** | **String**| **Yes** | 역할 ID |
+|  Header |**X-Secret-Key** | **String**| **Yes** | Secretkey |
+|  Path |**appKey** | **String**| **Yes** | Appkey |
+|  Path |**roleId** | **String**| **Yes** | Role ID |
 | Request Body | **CreateRoleRelationRequest** | **CreateRoleRelationRequest**| **Yes** |  | |
 
 ##### CreateRoleRelationRequest
 
 | Name | Type | Required | Description      |
 |------------ | ------------- | ------------- |------------------|
-|   **roleRelations** | **List&lt;RoleRelationProtocol>**| **Yes** | 역할 연관 관계 목록 |
+|   **roleRelations** | **List&lt;RoleRelationProtocol>**| **Yes** | role-related relations |
 
 
 ##### RoleRelationProtocol
 
 | Name | Type | Required | Description |
 |------------ | ------------- | ------------- | ------------ |
-|   **conditions** | **List&lt;ConditionProtocol>**| **No** | 역할 조건 속성  |
-|   **relatedRoleId** | **String**| **Yes** | 조건 속성과 연관된 역할 ID  |
+|   **conditions** | **List&lt;ConditionProtocol>**| **No** | Role condition attribute  |
+|   **relatedRoleId** | **String**| **Yes** | Role ID related to condition attribute  |
 |   **roleApplyPolicyCode** | **String**| **No** |   ALLOW, DENY |
 
 ##### ConditionProtocol
 
 | Name | Type | Required | Description |
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** |   ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값  |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value  |
 
 
 #### Response Body
@@ -2707,23 +2707,23 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ```
 
 <a name="deleteRoleRelations"></a>
-### **역할 연관 관계 다건 삭제**
+### **Delete role realated relations**
 > DELETE "/role/v3.0/appkeys/{appKey}/roles/{roleId}/relations"
 
 #### Parameters
 
 | ParameterType | Name | Type | Required | Description  |
 |------------- |------------- | ------------- | ------------- | ------------- |
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 |
-|  Path |**roleId** | **String**| **Yes** | 역할 ID |
+|  Header |**X-Secret-Key** | **String**| **Yes** | Secretkey |
+|  Path |**appKey** | **String**| **Yes** | Appkey |
+|  Path |**roleId** | **String**| **Yes** | Role ID |
 | Request Body | **DeleteRoleRelationRequest** | **DeleteRoleRelationRequest**| **Yes** |  | |
 
 ##### DeleteRoleRelationRequest
 
 | Name | Type | Required | Description      |
 |------------ | ------------- | ------------- |------------------|
-|   **relatedRoleIds** | **List&lt;String>**| **Yes** | 연관 관계 역할 ID 목록 |
+|   **relatedRoleIds** | **List&lt;String>**| **Yes** | Role-related relation IDs |
 
 
 #### Response Body
@@ -2740,40 +2740,40 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="updateRoleRelations"></a>
-### **역할 연관 관계 다건 수정**
+### **Edit role-related relations**
 > PUT "/role/v3.0/appkeys/{appKey}/roles/{roleId}/relations"
 
 #### Parameters
 
 | ParameterType | Name | Type | Required | Description  |
 |------------- |------------- | ------------- | ------------- | ------------- |
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 |
-|  Path |**roleId** | **String**| **Yes** | 역할 ID |
+|  Header |**X-Secret-Key** | **String**| **Yes** | Secretkey |
+|  Path |**appKey** | **String**| **Yes** | Appkey |
+|  Path |**roleId** | **String**| **Yes** | Role ID |
 | Request Body | **UpdateRoleRelationRequest** | **UpdateRoleRelationRequest**| **Yes** |  | |
 
 ##### UpdateRoleRelationRequest
 
 | Name | Type | Required | Description      |
 |------------ | ------------- | ------------- |------------------|
-|   **roleRelations** | **List&lt;RoleRelationProtocol>**| **Yes** | 역할 연관 관계 목록 |
+|   **roleRelations** | **List&lt;RoleRelationProtocol>**| **Yes** | Role-related realtions |
 
 
 ##### RoleRelationProtocol
 
 | Name | Type | Required | Description |
 |------------ | ------------- | ------------- | ------------ |
-|   **conditions** | **List&lt;ConditionProtocol>**| **No** | 역할 조건 속성  |
-|   **relatedRoleId** | **String**| **Yes** | 조건 속성과 연관된 역할 ID  |
+|   **conditions** | **List&lt;ConditionProtocol>**| **No** | Role condition attribute  |
+|   **relatedRoleId** | **String**| **Yes** | Role ID related to condition attribute  |
 |   **roleApplyPolicyCode** | **String**| **No** |   ALLOW, DENY |
 
 ##### ConditionProtocol
 
 | Name | Type | Required | Description |
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** |   ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값  |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value  |
 
 
 #### Response Body
@@ -2790,22 +2790,22 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 
-## 범위
+## Scope
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/scopes**](#createScope) | 범위 생성 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/scopes/{scopeId}**](#deleteScope) | 범위 삭제 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/scopes**](#deleteScopes) | 범위 다건 삭제 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/scopes/id**](#getAllScopeIds) | 모든 범위 ID 목록 조회 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/scopes/{scopeId}**](#getScope) | 범위 단건 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/scopes/search**](#postSearchScopes) | 범위 목록 조회 |
-| **PUT** |[**/role/v3.0/appkeys/{appKey}/scopes/{scopeId}**](#updateScope) | 범위 수정 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/scopes**](#createScope) | Create a scope |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/scopes/{scopeId}**](#deleteScope) | Delete a scope |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/scopes**](#deleteScopes) | Delete scopes |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/scopes/id**](#getAllScopeIds) | Get a list of all scope IDs |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/scopes/{scopeId}**](#getScope) | Get a single scope |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/scopes/search**](#postSearchScopes) | Get a list of scopes |
+| **PUT** |[**/role/v3.0/appkeys/{appKey}/scopes/{scopeId}**](#updateScope) | Modify scope |
 
 
 <a name="createScope"></a>
-### **범위 생성**
+### **Create a scope**
 > POST "/role/v3.0/appkeys/{appKey}/scopes"
 
 #### Parameters
@@ -2814,8 +2814,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 | Request Body | **CreateScope.Request** | **CreateScope.Request**| **Yes** |  | |
 
 
@@ -2827,8 +2827,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 범위 설명  |
-|   **scopeId** | **String**| **Yes** | 범위 ID  |
+|   **description** | **String**| **No** | Scope description  |
+|   **scopeId** | **String**| **Yes** | Scope ID  |
 
 
 
@@ -2858,7 +2858,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteScope"></a>
-### **범위 삭제**
+### **Delete a scope**
 > DELETE "/role/v3.0/appkeys/{appKey}/scopes/{scopeId}"
 
 #### Parameters
@@ -2867,9 +2867,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**scopeId** | **String**| **Yes** | 범위 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** |  | 
+|  Path |**scopeId** | **String**| **Yes** |  | 
 
 
 
@@ -2893,16 +2893,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteScopes"></a>
-### **범위 다건 삭제**
+### **Delete scopes**
 > DELETE "/role/v3.0/appkeys/{appKey}/scopes"
 
 #### Parameters
 
 | ParameterType | Name | Type | Required | Description  |
 |------------- |------------- | ------------- | ------------- | ------------- |
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 |
-| Request Body |**scopeIds** |  **List&lt;String>**| **Yes** | 범위 ID 목록 |
+|  Header |**X-Secret-Key** | **String**| **Yes** | Secretkey |
+|  Path |**appKey** | **String**| **Yes** | Appkey |
+| Request Body |**scopeIds** |  **List&lt;String>**| **Yes** | Scope IDs |
 
 
 #### Response Body
@@ -2921,7 +2921,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getAllScopeIds"></a>
-### **모든 범위 ID 목록 조회**
+### **Get a list of all scope IDs**
 > GET "/role/v3.0/appkeys/{appKey}/scopes/id"
 
 #### Parameters
@@ -2930,12 +2930,12 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치) |
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.scopeId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** |  | 
+|  Query |**scopeIdPreLike** | **String**| **No** | Scope ID (forward match) |
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.scopeId,ASC`)|
 
 
 
@@ -2968,8 +2968,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록  |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
+|   **scopeIds** | **List&lt;String>**| **No** | List of Scope IDs  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
 
 
 
@@ -2982,7 +2982,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getScope"></a>
-### **범위 단건 조회**
+### **Get a single scope**
 > GET "/role/v3.0/appkeys/{appKey}/scopes/{scopeId}"
 
 #### Parameters
@@ -2991,9 +2991,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**scopeId** | **String**| **Yes** | 범위 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** |  | 
+|  Path |**scopeId** | **String**| **Yes** |  | 
 
 
 
@@ -3026,7 +3026,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **scope** | **ScopeProtocol**| **No** | 범위          |
+|   **scope** | **ScopeProtocol**| **No** | Scope          |
 
 
 ##### ScopeProtocol
@@ -3034,8 +3034,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 범위 설명  |
-|   **scopeId** | **String**| **Yes** | 범위 ID  |
+|   **description** | **String**| **No** | Scope description  |
+|   **scopeId** | **String**| **Yes** | Scope ID  |
 
 
 
@@ -3051,7 +3051,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="postSearchScopes"></a>
-### **범위 목록 조회**
+### **Get a list of scopes**
 > POST "/role/v3.0/appkeys/{appKey}/scopes/search"
 
 #### Parameters
@@ -3060,11 +3060,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.scopeId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** |  | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.scopeId,ASC`)|
 | Request Body | **PostSearchScopes.Request** | **PostSearchScopes.Request**| **Yes** |  | |
 
 
@@ -3076,9 +3076,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **descriptionLike** | **String**| **No** | 범위 설명(부분 일치)  |
-|   **scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치)  |
-|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록(완전 일치)  |
+|   **descriptionLike** | **String**| **No** | Scope description (partial match)  |
+|   **scopeIdPreLike** | **String**| **No** | Scope ID (forward match)  |
+|   **scopeIds** | **List&lt;String>**| **No** | List of scope IDs (exact match)  |
 
 
 
@@ -3119,8 +3119,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **scopes** | **List&lt;ScopeProtocol>**| **No** | 범위 목록  |
-|   **totalItems** | **Long**| **No** | 범위 총 개수  |
+|   **scopes** | **List<ScopeProtocol>**| **No** | Scope list  |
+|   **totalItems** | **Long**| **No** | Total number of scopes  |
 
 
 ##### ScopeProtocol
@@ -3128,8 +3128,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 범위 설명  |
-|   **scopeId** | **String**| **Yes** | 범위 ID  |
+|   **description** | **String**| **No** | Scope description  |
+|   **scopeId** | **String**| **Yes** | Scope ID  |
 
 
 
@@ -3146,7 +3146,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="updateScope"></a>
-### **범위 수정**
+### **Modify scope**
 > PUT "/role/v3.0/appkeys/{appKey}/scopes/{scopeId}"
 
 #### Parameters
@@ -3155,9 +3155,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**scopeId** | **String**| **Yes** | 범위 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** |  | 
+|  Path |**scopeId** | **String**| **Yes** |  | 
 | Request Body | **UpdateScope.Request** | **UpdateScope.Request**| **Yes** |  | |
 
 
@@ -3170,7 +3170,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 설명  |
+|   **description** | **String**| **No** | Description  |
 
 
 
@@ -3192,24 +3192,23 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 }
 ```
 
-## 리소스
+## Resource
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/resources**](#createResource) | 리소스 생성 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}**](#deleteResource) | 리소스 삭제 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/resources**](#deleteResources) | 리소스 다건 삭제 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}**](#getResource) | 리소스 단건 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/id**](#getResourceIds) | 리소스 ID 목록 조회 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/resources**](#getResources) | 리소스 목록 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/attributes/search**](#searchAttributesByResource) | 리소스에서 설정 가능한 모든 조건 속성 목록 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/search**](#searchResources) | 리소스 목록 조회 |
-| **PUT** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}**](#updateResource) | 리소스 수정 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/resources**](#createResource) | Create Resources |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}**](#deleteResource) | Delete Resource |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}**](#getResource) | Single resource lookup |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/id**](#getResourceIds) | Get a list of resource IDs |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/resources**](#getResources) | Get a list of resources |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/attributes/search**](#searchAttributesByResource) | Get a list of all condition attributes that can be set in a role |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/search**](#searchResources) | Get a list of resources |
+| **PUT** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}**](#updateResource) | Modify Resources |
 
 
 <a name="createResource"></a>
-### **리소스 생성**
+### **Create Resources**
 > POST "/role/v3.0/appkeys/{appKey}/resources"
 
 #### Parameters
@@ -3218,8 +3217,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 | Request Body | **CreateResource.Request** | **CreateResource.Request**| **Yes** |  | |
 
 
@@ -3231,13 +3230,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 리소스 설명  |
-|   **metadata** | **String**| **No** | 메타데이터  |
-|   **name** | **String**| **No** | 리소스 이름  |
-|   **path** | **String**| **Yes** | 리소스 Path  |
-|   **priority** | **Integer**| **Yes** | 우선순위  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **uiPath** | **String**| **Yes** | 리소스 UI Path  |
+|   **description** | **String**| **No** | Resource descriptions  |
+|   **metadata** | **String**| **No** | Metadata  |
+|   **name** | **String**| **No** | Resource name  |
+|   **path** | **String**| **Yes** | Resource Path  |
+|   **priority** | **Integer**| **Yes** | Priority  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **uiPath** | **String**| **Yes** | Resource UI Path  |
 
 
 
@@ -3272,7 +3271,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteResource"></a>
-### **리소스 삭제**
+### **Delete Resource**
 > DELETE "/role/v3.0/appkeys/{appKey}/resources/{resourceId}"
 
 #### Parameters
@@ -3281,9 +3280,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**resourceId** | **String**| **Yes** | 리소스 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**resourceId** | **String**| **Yes** | Resource ID | 
 
 
 
@@ -3307,16 +3306,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteResources"></a>
-### **리소스 다건 삭제**
+### **Delete resources**
 > DELETE "/role/v3.0/appkeys/{appKey}/resources"
 
 #### Parameters
 
 | ParameterType | Name | Type | Required | Description  |
 |------------- |------------- | ------------- | ------------- | ------------- |
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 |
-| Request Body |**resourceIds** |  **List&lt;String>**| **Yes** | 리소스 ID 목록 |
+|  Header |**X-Secret-Key** | **String**| **Yes** | Secretkey |
+|  Path |**appKey** | **String**| **Yes** | Appkey |
+| Request Body |**resourceIds** |  **List&lt;String>**| **Yes** | Resource IDs |
 
 
 #### Response Body
@@ -3335,7 +3334,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getResource"></a>
-### **리소스 단건 조회**
+### **Single resource lookup**
 > GET "/role/v3.0/appkeys/{appKey}/resources/{resourceId}"
 
 #### Parameters
@@ -3344,9 +3343,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**resourceId** | **String**| **Yes** | 리소스 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**resourceId** | **String**| **Yes** | Resource ID | 
 
 
 
@@ -3384,7 +3383,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **resource** | **ResourceProtocol**| **No** | 리소스         |
+|   **resource** | **ResourceProtocol**| **No** | Resource         |
 
 
 ##### ResourceProtocol
@@ -3392,13 +3391,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 리소스 설명  |
-|   **metadata** | **String**| **No** | 메타데이터  |
-|   **name** | **String**| **No** | 리소스 이름  |
-|   **path** | **String**| **Yes** | 리소스 Path  |
-|   **priority** | **Integer**| **Yes** | 우선순위  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **uiPath** | **String**| **Yes** | 리소스 UI Path  |
+|   **description** | **String**| **No** | Resource descriptions  |
+|   **metadata** | **String**| **No** | Metadata  |
+|   **name** | **String**| **No** | Resource name  |
+|   **path** | **String**| **Yes** | Resource Path  |
+|   **priority** | **Integer**| **Yes** | Priority  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **uiPath** | **String**| **Yes** | Resource UI Path  |
 
 
 
@@ -3419,7 +3418,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getResourceIds"></a>
-### **리소스 ID 목록 조회**
+### **Get a list of resource IDs**
 > POST "/role/v3.0/appkeys/{appKey}/resources/id"
 
 #### Parameters
@@ -3428,11 +3427,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.resourceId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.resourceId,ASC`)|
 | Request Body | **GetAllResourceIds.Request** | **GetAllResourceIds.Request**| **Yes** |  | |
 
 
@@ -3444,10 +3443,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **operationIds** | **List&lt;String>**| **No** | 리소스 ID(전방 일치)      |
-|   **resourceIdPreLike** | **String**| **No** | 리소스에 접근 가능한 사용자 ID      |
-|   **roleIds** | **List&lt;String>**| **No** | 리소스에 부여된 역할 ID      |
-|   **userIds** | **List&lt;String>**| **No** | 리소스에 부여된 Operation ID      |
+|   **operationIds** | **List&lt;String>**| **No** | Resource ID (forward matching)      |
+|   **resourceIdPreLike** | **String**| **No** | User IDs that have access to the resource      |
+|   **roleIds** | **List&lt;String>**| **No** | Role ID assigned to the resource      |
+|   **userIds** | **List&lt;String>**| **No** | Operation ID assigned to the resource      |
 
 
 
@@ -3483,8 +3482,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **resourceIds** | **List&lt;String>**| **Yes** | 리소스 ID 목록  |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
+|   **resourceIds** | **List&lt;String>**| **Yes** | Resource ID list  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
 
 
 
@@ -3497,7 +3496,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getResources"></a>
-### **리소스 목록 조회**
+### **Get a list of resources**
 > GET "/role/v3.0/appkeys/{appKey}/resources"
 
 #### Parameters
@@ -3506,11 +3505,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**userId** | **String**| **No** | 리소스에 접근 가능한 사용자 ID |
-|  Query |**roleId** | **String**| **No** | 리소스에 부여된 역할 ID |
-|  Query |**operationId** | **String**| **No** | 리소스에 부여된 Operation ID |
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**userId** | **String**| **No** | User IDs that have access to the resource |
+|  Query |**roleId** | **String**| **No** | Role ID assigned to the resource |
+|  Query |**operationId** | **String**| **No** | Operation ID assigned to the resource |
 
 
 
@@ -3558,7 +3557,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **resources** | **List&lt;ResourceProtocol>**| **No** | 리소스 목록  |
+|   **Resources** | **List<ResourceProtocol>**| **No** | Resource List  |
 
 
 ##### ResourceProtocol
@@ -3566,13 +3565,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 리소스 설명  |
-|   **metadata** | **String**| **No** | 메타데이터  |
-|   **name** | **String**| **No** | 리소스 이름  |
-|   **path** | **String**| **Yes** | 리소스 Path  |
-|   **priority** | **Integer**| **Yes** | 우선순위  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **uiPath** | **String**| **Yes** | 리소스 UI Path  |
+|   **description** | **String**| **No** | Resource descriptions  |
+|   **metadata** | **String**| **No** | Metadata  |
+|   **name** | **String**| **No** | Resource name  |
+|   **path** | **String**| **Yes** | Resource Path  |
+|   **priority** | **Integer**| **Yes** | Priority  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **uiPath** | **String**| **Yes** | Resource UI Path  |
 
 
 
@@ -3593,7 +3592,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchAttributesByResource"></a>
-### **리소스에서 설정 가능한 모든 조건 속성 목록 조회**
+### **Get a list of all condition attributes that can be set in a role**
 > POST "/role/v3.0/appkeys/{appKey}/resources/attributes/search"
 
 #### Parameters
@@ -3602,11 +3601,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.attributeId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.attributeId,ASC`)|
 | Request Body | **SearchResourceAttributes.Request** | **SearchResourceAttributes.Request**| **Yes** |  | |
 
 
@@ -3618,9 +3617,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **operationId** | **String**| **Yes** | 오퍼레이션 ID  |
-|   **resourceId** | **String**| **No** | 리소스 ID, ID와 Path 가 둘다 있을 경우 ID 기준으로만 제공  |
-|   **resourcePath** | **String**| **No** | 리소스 Path  |
+|   **operationId** | **String**| **Yes** | Operation ID  |
+|   **resourceId** | **String**| **No** | Resource ID, or by ID only if both ID and Path are present  |
+|   **resourcePath** | **String**| **No** | Resource Path  |
 
 
 
@@ -3663,8 +3662,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributes** | **List&lt;AttributeProtocol>**| **Yes** | 리소스에 부여 가능한 조건 속성 목록  |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
+|   **attributes** | **List&lt;AttributeProtocol>**| **Yes** | List of condition attributes that can be assigned to resources  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
 
 ##### AttributeProtocol
 
@@ -3673,9 +3672,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -3696,7 +3695,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchResources"></a>
-### **리소스 목록 조회**
+### **Get a list of resources**
 > POST "/role/v3.0/appkeys/{appKey}/resources/search"
 
 #### Parameters
@@ -3705,11 +3704,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `uiPath,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `uiPath,ASC`)|
 | Request Body | **PostSearchResources.Request** | **PostSearchResources.Request**| **Yes** |  | |
 
 
@@ -3721,18 +3720,18 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **operationIds** | **List&lt;String>**| **No** | 리소스에 부여된 Operation ID 목록  |
-|   **resourceIdPreLike** | **String**| **No** | 리소스 ID(전방 일치)  |
-|   **resourceIds** | **List&lt;String>**| **No** | 리소스 ID 목록  |
-|   **resourcePath** | **String**| **No** | 리소스 Path(완전 일치)  |
-|   **resourcePathLike** | **String**| **No** | 리소스 Path(전방 일치)  |
-|   **resourcePaths** | **List&lt;String>**| **No** | 리소스 Path 목록(완전 일치)  |
-|   **resourceUiPath** | **String**| **No** | 리소스 UI Path(완전 일치)  |
-|   **resourceUiPaths** | **List&lt;String>**| **No** | 리소스 UI Path 목록(완전 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 리소스에 부여된 역할 ID 목록  |
-|   **scopeIds** | **List&lt;String>**| **No** | 리소스에 접근 가능한 범위 ID 목록  |
-|   **searchRoleOptionCode** | **String**| **No** | 접근 가능한 역할 목록 검색 방식  DIRECT_ROLE, INDIRECT_ROLE |
-|   **userIds** | **List&lt;String>**| **No** | 리소스에 접근 가능한 사용자 ID 목록  |
+|   **operationIds** | **List&lt;String>**| **No** | List of Operation IDs assigned to resources  |
+|   **resourceIdPreLike** | **String**| **No** | Resource ID (forward matching)  |
+|   **resourceIds** | **List&lt;String>**| **No** | Resource ID list  |
+|   **resourcePath** | **String**| **No** | Resource Path (exact match)  |
+|   **resourcePathLike** | **String**| **No** | Resource Path (forward matching)  |
+|   **resourcePaths** | **List&lt;String>**| **No** | Resource Path list (exact match)  |
+|   **resourceUiPath** | **String**| **No** | Resource UI Path (exact match)  |
+|   **resourceUiPaths** | **List&lt;String>**| **No** | Resource UI Path list (exact match)  |
+|   **roleIds** | **List&lt;String>**| **No** | List of role IDs assigned to the resource  |
+|   **scopeIds** | **List&lt;String>**| **No** | List of scope IDs accessible to the resource  |
+|   **searchRoleOptionCode** | **String**| **No** | How to retrieve the list of accessible roles DIRECT_ROLE, INDIRECT_ROLE |
+|   **userIds** | **List&lt;String>**| **No** | List of user IDs that have access to the resource  |
 
 
 
@@ -3792,8 +3791,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **resources** | **List&lt;ResourceProtocol>**| **Yes** | 리소스 목록  |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
+|   **Resources** | **List<ResourceProtocol>**| **Yes** | Resource List  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
 
 
 ##### ResourceProtocol
@@ -3801,13 +3800,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 리소스 설명  |
-|   **metadata** | **String**| **No** | 메타데이터  |
-|   **name** | **String**| **No** | 리소스 이름  |
-|   **path** | **String**| **Yes** | 리소스 Path  |
-|   **priority** | **Integer**| **Yes** | 우선순위  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **uiPath** | **String**| **Yes** | 리소스 UI Path  |
+|   **description** | **String**| **No** | Resource descriptions  |
+|   **metadata** | **String**| **No** | Metadata  |
+|   **name** | **String**| **No** | Resource name  |
+|   **path** | **String**| **Yes** | Resource Path  |
+|   **priority** | **Integer**| **Yes** | Priority  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **uiPath** | **String**| **Yes** | Resource UI Path  |
 
 
 
@@ -3829,7 +3828,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="updateResource"></a>
-### **리소스 수정**
+### **Modify Resources**
 > PUT "/role/v3.0/appkeys/{appKey}/resources/{resourceId}"
 
 #### Parameters
@@ -3838,9 +3837,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**resourceId** | **String**| **Yes** | 리소스 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**resourceId** | **String**| **Yes** | Resource ID | 
 | Request Body | **UpdateResource.Request** | **UpdateResource.Request**| **Yes** |  | |
 
 
@@ -3853,13 +3852,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 리소스 설명  |
-|   **metadata** | **String**| **No** | 메타데이터  |
-|   **name** | **String**| **No** | 리소스 이름  |
-|   **newResourceId** | **String**| **No** | 변경할 리소스 ID  |
-|   **path** | **String**| **Yes** | 리소스 Path  |
-|   **priority** | **Integer**| **Yes** | 우선순위  |
-|   **uiPath** | **String**| **Yes** | 리소스 UI Path  |
+|   **description** | **String**| **No** | Resource descriptions  |
+|   **metadata** | **String**| **No** | Metadata  |
+|   **name** | **String**| **No** | Resource name  |
+|   **newResourceId** | **String**| **No** | Resource ID to change  |
+|   **path** | **String**| **Yes** | Resource Path  |
+|   **priority** | **Integer**| **Yes** | Priority  |
+|   **uiPath** | **String**| **Yes** | Resource UI Path  |
 
 
 
@@ -3887,17 +3886,17 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 }
 ```
 
-## 리소스 계층 구조
+## Resource hierarchy
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **GET** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/sub-resources**](#getSubResources) | ui path 상의 하위 리소스 페이지 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/hierarchy/search**](#searchAllResourceHierarchy) | 리소스 Hierarchy 조회 |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/sub-resources**](#getSubResources) | Viewing child resource pages on a UI PATH |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/hierarchy/search**](#searchAllResourceHierarchy) | Get Resource Hierarchy |
 
 
 <a name="getSubResources"></a>
-### **ui path 상의 하위 리소스 페이지 조회**
+### **Viewing child resource pages on a UI PATH**
 > GET "/role/v3.0/appkeys/{appKey}/resources/{resourceId}/sub-resources"
 
 #### Parameters
@@ -3906,16 +3905,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**resourceId** | **String**| **Yes** | 리소스 ID | 
-|  Query |**userId** | **String**| **No** | 사용자 ID |
-|  Query |**roleId** | **String**| **No** | 역할 ID |
-|  Query |**operationId** | **String**| **No** | 오퍼레이션 ID |
-|  Query |**scopeId** | **String**| **No** | 범위 ID |
-|  Query |**depth** | **Integer**| **No** | 리소스 UI Path에서 하위의 계층 깊이 |
-|  Query |**limit** | **Integer**| **No** | 반환할 목록의 위치. default: INT_MAX |
-|  Query |**offset** | **Integer**| **No** | 반환할 목록의 시작 위치. default: 0 |
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**resourceId** | **String**| **Yes** | Resource ID | 
+|  Query |**userId** | **String**| **No** | User ID |
+|  Query |**roleId** | **String**| **No** | Role ID |
+|  Query |**operationId** | **String**| **No** | Operation ID |
+|  Query |**scopeId** | **String**| **No** | Scope ID |
+|  Query |**depth** | **Integer**| **No** | Hierarchy depth of children in the Resource UI Path |
+|  Query |**limit** | **Integer**| **No** | The position of the list to return. default: INT_MAX |
+|  Query |**offset** | **Integer**| **No** | The starting position of the list to return. default: 0 |
 
 
 
@@ -3969,8 +3968,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **resources** | **List&lt;ResourceProtocol>**| **No** | 리소스 목록  |
-|   **totalItemCount** | **Long**| **No** | 리소스 전체 개수  |
+|   **Resources** | **List<ResourceProtocol>**| **No** | Resource List  |
+|   **totalItemCount** | **Long**| **No** | Total number of resources  |
 
 
 ##### ResourceProtocol
@@ -3978,13 +3977,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 리소스 설명  |
-|   **metadata** | **String**| **No** | 메타데이터  |
-|   **name** | **String**| **No** | 리소스 이름  |
-|   **path** | **String**| **Yes** | 리소스 Path  |
-|   **priority** | **Integer**| **Yes** | 우선순위  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **uiPath** | **String**| **Yes** | 리소스 UI Path  |
+|   **description** | **String**| **No** | Resource descriptions  |
+|   **metadata** | **String**| **No** | Metadata  |
+|   **name** | **String**| **No** | Resource name  |
+|   **path** | **String**| **Yes** | Resource Path  |
+|   **priority** | **Integer**| **Yes** | Priority  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **uiPath** | **String**| **Yes** | Resource UI Path  |
 
 
 
@@ -4006,7 +4005,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchAllResourceHierarchy"></a>
-### **리소스 Hierarchy 조회**
+### **Get Resource Hierarchy**
 > POST "/role/v3.0/appkeys/{appKey}/resources/hierarchy/search"
 
 #### Parameters
@@ -4015,9 +4014,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 | Request Body | **SearchResourceHierarchy.Request** | **SearchResourceHierarchy.Request**| **Yes** |  | |
+
 
 
 
@@ -4028,13 +4028,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-| **operationIds** | **List&lt;String>**| **No** | 리소스에 할당된 오퍼레이션 ID 목록 |
-| **resourceIds** | **List&lt;String>**| **No** | 계층 구조의 Root Resource ID 목록 |
-| **resourcePath** | **String**| **No** | 계층 구조의 Root Resource Path |
-| **resourceUiPath** | **String**| **No** | 계층 구조의 Root Resource Ui Path |
-| **roleIds** | **List&lt;String>**| **No** | 리소스에 할당된 역할 ID 목록 |
-| **scopeIds** | **List&lt;String>**| **No** | 사용자에게 할당된 범위 ID 목록 |
-| **userIds** | **List&lt;String>**| **No** | 리소스에 접근 가능한 사용자 ID 목록 |
+|   **operationIds** | **List&lt;String>**| **No** | List of user IDs that have access to the resource            |
+|   **resourceIds** | **List&lt;String>**| **No** | List of role IDs assigned to the resource            |
+|   **resourcePath** | **String**| **No** | List of operation IDs assigned to the resource            |
+|   **resourceUiPath** | **String**| **No** | List of scope IDs assigned to the user            |
+|   **roleIds** | **List&lt;String>**| **No** | List of Root Resource IDs in the hierarchy            |
+|   **scopeIds** | **List&lt;String>**| **No** | Root Resource Path in the hierarchy            |
+|   **userIds** | **List&lt;String>**| **No** | Root Resource Ui Path in Hierarchy            |
 
 
 
@@ -4088,7 +4088,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | 리소스 계층 구조 목록  |
+|   **Resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | Resource hierarchy list  |
 
 
 ##### SearchResourceHierarchy.ResourceHierarchyProtocol
@@ -4096,34 +4096,14 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 리소스 설명  |
-|   **metadata** | **String**| **No** | 메타데이터  |
-|   **name** | **String**| **No** | 리소스 이름  |
-|   **path** | **String**| **Yes** | 리소스 Path  |
-|   **priority** | **Integer**| **Yes** | 우선순위  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | 자식 계층의 리소스 목록  |
-|   **uiPath** | **String**| **Yes** | 리소스 UI Path  |
-
-
-
-
-
-
-
-##### SearchResourceHierarchy.ResourceHierarchyProtocol
-
-
-| Name | Type | Required | Description | 
-|------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 리소스 설명  |
-|   **metadata** | **String**| **No** | 메타데이터  |
-|   **name** | **String**| **No** | 리소스 이름  |
-|   **path** | **String**| **Yes** | 리소스 Path  |
-|   **priority** | **Integer**| **Yes** | 우선순위  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | 자식 계층의 리소스 목록  |
-|   **uiPath** | **String**| **Yes** | 리소스 UI Path  |
+|   **description** | **String**| **No** | Resource descriptions  |
+|   **metadata** | **String**| **No** | Metadata  |
+|   **name** | **String**| **No** | Resource name  |
+|   **path** | **String**| **Yes** | Resource Path  |
+|   **priority** | **Integer**| **Yes** | Priority  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **Resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | List of resources in the child hierarchy  |
+|   **uiPath** | **String**| **Yes** | Resource UI Path  |
 
 
 
@@ -4136,14 +4116,14 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 리소스 설명  |
-|   **metadata** | **String**| **No** | 메타데이터  |
-|   **name** | **String**| **No** | 리소스 이름  |
-|   **path** | **String**| **Yes** | 리소스 Path  |
-|   **priority** | **Integer**| **Yes** | 우선순위  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | 자식 계층의 리소스 목록  |
-|   **uiPath** | **String**| **Yes** | 리소스 UI Path  |
+|   **description** | **String**| **No** | Resource descriptions  |
+|   **metadata** | **String**| **No** | Metadata  |
+|   **name** | **String**| **No** | Resource name  |
+|   **path** | **String**| **Yes** | Resource Path  |
+|   **priority** | **Integer**| **Yes** | Priority  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **Resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | List of resources in the child hierarchy  |
+|   **uiPath** | **String**| **Yes** | Resource UI Path  |
 
 
 
@@ -4156,14 +4136,34 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 리소스 설명  |
-|   **metadata** | **String**| **No** | 메타데이터  |
-|   **name** | **String**| **No** | 리소스 이름  |
-|   **path** | **String**| **Yes** | 리소스 Path  |
-|   **priority** | **Integer**| **Yes** | 우선순위  |
-|   **resourceId** | **String**| **No** | 리소스 ID  |
-|   **resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | 자식 계층의 리소스 목록  |
-|   **uiPath** | **String**| **Yes** | 리소스 UI Path  |
+|   **description** | **String**| **No** | Resource descriptions  |
+|   **metadata** | **String**| **No** | Metadata  |
+|   **name** | **String**| **No** | Resource name  |
+|   **path** | **String**| **Yes** | Resource Path  |
+|   **priority** | **Integer**| **Yes** | Priority  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **Resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | List of resources in the child hierarchy  |
+|   **uiPath** | **String**| **Yes** | Resource UI Path  |
+
+
+
+
+
+
+
+##### SearchResourceHierarchy.ResourceHierarchyProtocol
+
+
+| Name | Type | Required | Description | 
+|------------ | ------------- | ------------- | ------------ |
+|   **description** | **String**| **No** | Resource descriptions  |
+|   **metadata** | **String**| **No** | Metadata  |
+|   **name** | **String**| **No** | Resource name  |
+|   **path** | **String**| **Yes** | Resource Path  |
+|   **priority** | **Integer**| **Yes** | Priority  |
+|   **resourceId** | **String**| **No** | Resource ID  |
+|   **Resources** | **Set<SearchResourceHierarchy.ResourceHierarchyProtocol>**| **No** | List of resources in the child hierarchy  |
+|   **uiPath** | **String**| **Yes** | Resource UI Path  |
 
 
 
@@ -4198,18 +4198,18 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 
-## 리소스 연관 역할
+## User-related Role
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#addAuthorization) | 리소스 역할 연관 관계 추가 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#getAuthorizations) | 리소스 역할 연관 관계 목록 조회 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#removeAuthorization) | 리소스 역할 연관 관계 삭제 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#addAuthorization) | Add a resource role relation |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#getAuthorizations) | Get a list of resource role relations |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations**](#removeAuthorization) | Delete a resource role relation |
 
 
 <a name="addAuthorization"></a>
-### **리소스 역할 연관 관계 추가**
+### **Add a resource role relation**
 > POST "/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations"
 
 #### Parameters
@@ -4218,9 +4218,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**resourceId** | **String**| **Yes** | 리소스 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**resourceId** | **String**| **Yes** | Resource ID | 
 | Request Body | **AddAuthorization.Request** | **AddAuthorization.Request**| **Yes** |  | |
 
 
@@ -4233,9 +4233,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **operationId** | **String**| **Yes** | 오퍼레이션 ID  |
-|   **propagation** | **Boolean**| **No** | Root를 제외한 모든 상위 Path에 지정한 역할을 동일하게 적용할지 여부  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
+|   **operationId** | **String**| **Yes** | Operation ID  |
+|   **propagation** | **Boolean**| **No** | Whether to apply the specified role equally to all parent paths except Root.  |
+|   **roleId** | **String**| **Yes** | Role ID  |
 
 
 
@@ -4266,7 +4266,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getAuthorizations"></a>
-### **리소스 역할 연관 관계 목록 조회**
+### **Get a list of resource role relations**
 > GET "/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations"
 
 #### Parameters
@@ -4275,9 +4275,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**resourceId** | **String**| **Yes** | 리소스 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**resourceId** | **String**| **Yes** | Resource ID | 
 
 
 
@@ -4315,16 +4315,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **authorizations** | **List&lt;ResourceAuthorizationProtocol>**| **No** | 리소스 역할 연관 관계 목록  |
+|   **authorizations** | **List<ResourceAuthorizationProtocol>**| **No** | Resource role relation list  |
 
 ##### ResourceAuthorizationProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **operationId** | **String**| **Yes** | 오퍼레이션 ID  |
-|   **resourceId** | **String**| **Yes** | 리소스 ID  |
-|   **roleId** | **String**| **Yes** | 역할 Id  |
+|   **operationId** | **String**| **Yes** | Operation ID  |
+|   **resourceId** | **String**| **Yes** | Resource ID  |
+|   **roleId** | **String**| **Yes** | Role Id  |
 
 
 
@@ -4342,7 +4342,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="removeAuthorization"></a>
-### **리소스 역할 연관 관계 삭제**
+### **Delete a resource role relation**
 > DELETE "/role/v3.0/appkeys/{appKey}/resources/{resourceId}/authorizations"
 
 #### Parameters
@@ -4351,11 +4351,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**resourceId** | **String**| **Yes** | 리소스 ID | 
-|  Query |**operationId** | **String**| **Yes** | 오퍼레이션 ID | 
-|  Query |**roleId** | **String**| **Yes** | 역할 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**resourceId** | **String**| **Yes** | Resource ID | 
+|  Query |**operationId** | **String**| **Yes** | Operation ID | 
+|  Query |**roleId** | **String**| **Yes** | Role ID | 
 
 
 
@@ -4379,22 +4379,22 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 }
 ```
 
-## 오퍼레이션
+## Operations
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/operations**](#createOperation) | 오퍼레이션 생성 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/operations/{operationId}**](#deleteOperation) | 오퍼레이션 삭제 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/operations**](#deleteOperations) | 오퍼레이션 다건 삭제 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/operations/{operationId}**](#getOperation) | 오퍼레이션 단건 조회 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/operations/id**](#getOperationIdByPageable) | 모든 오퍼레이션 ID 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/operations/search**](#postSearchOperation) | 오퍼레이션 목록 조회(조건/페이징) |
-| **PUT** |[**/role/v3.0/appkeys/{appKey}/operations/{operationId}**](#updateOperation) | 오퍼레이션 수정 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/operations**](#createOperation) | Create an operation |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/operations/{operationId}**](#deleteOperation) | Delete operations |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/operations**](#deleteOperations) | Delete operations |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/operations/{operationId}**](#getOperation) | Single operation lookup |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/operations/id**](#getOperationIdByPageable) | Get all operation IDs |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/operations/search**](#postSearchOperation) | Get Operations List (Conditions/Paging) |
+| **PUT** |[**/role/v3.0/appkeys/{appKey}/operations/{operationId}**](#updateOperation) | Modifying operations |
 
 
 <a name="createOperation"></a>
-### **오퍼레이션 생성**
+### **Create an operation**
 > POST "/role/v3.0/appkeys/{appKey}/operations"
 
 #### Parameters
@@ -4403,8 +4403,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 | Request Body | **CreateOperation.Request** | **CreateOperation.Request**| **Yes** |  | |
 
 
@@ -4416,8 +4416,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 오퍼레이션 설명  |
-|   **operationId** | **String**| **Yes** | 오퍼레이션 ID  |
+|   **description** | **String**| **No** | Operation description  |
+|   **operationId** | **String**| **Yes** | Operation ID  |
 
 
 
@@ -4447,7 +4447,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteOperation"></a>
-### **오퍼레이션 삭제**
+### **Delete operations**
 > DELETE "/role/v3.0/appkeys/{appKey}/operations/{operationId}"
 
 #### Parameters
@@ -4456,9 +4456,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**operationId** | **String**| **Yes** | 오퍼레이션 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** |  | 
+|  Path |**operationId** | **String**| **Yes** |  | 
 
 
 
@@ -4482,16 +4482,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteOperations"></a>
-### **오퍼레이션 다건 삭제**
+### **Delete operatios**
 > DELETE "/role/v3.0/appkeys/{appKey}/operations"
 
 #### Parameters
 
 | ParameterType | Name | Type | Required | Description  |
 |------------- |------------- | ------------- | ------------- | ------------- |
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 |
-| Request Body |**operationIds** |  **List&lt;String>**| **Yes** | 오퍼레이션 ID 목록 |
+|  Header |**X-Secret-Key** | **String**| **Yes** | Secretkey |
+|  Path |**appKey** | **String**| **Yes** | Appkey |
+| Request Body |**operationIds** |  **List&lt;String>**| **Yes** | Operation IDs |
 
 
 #### Response Body
@@ -4510,7 +4510,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getOperation"></a>
-### **오퍼레이션 단건 조회**
+### **Single operation lookup**
 > GET "/role/v3.0/appkeys/{appKey}/operations/{operationId}"
 
 #### Parameters
@@ -4519,9 +4519,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**operationId** | **String**| **Yes** | 오퍼레이션 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** |  | 
+|  Path |**operationId** | **String**| **Yes** |  | 
 
 
 
@@ -4555,7 +4555,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **operation** | **OperationResponseProtocol**| **Yes** | 오퍼레이션       |
+|   **operation** | **OperationResponseProtocol**| **Yes** | Operations       |
 
 
 ##### OperationResponseProtocol
@@ -4563,9 +4563,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **appKey** | **String**| **No** | 앱키  |
-|   **description** | **String**| **No** | 오퍼레이션 설명  |
-|   **operationId** | **String**| **Yes** | 오퍼레이션 ID  |
+|   **appKey** | **String**| **No** | Appkey  |
+|   **description** | **String**| **No** | Operation description  |
+|   **operationId** | **String**| **Yes** | Operation ID  |
 
 
 
@@ -4582,7 +4582,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getOperationIdByPageable"></a>
-### **모든 오퍼레이션 ID 조회**
+### **Get all operation IDs**
 > GET "/role/v3.0/appkeys/{appKey}/operations/id"
 
 #### Parameters
@@ -4591,12 +4591,12 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**operationIdPreLike** | **String**| **No** | 오퍼레이션 ID(전방 일치) |
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.operationId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** |  | 
+|  Query |**operationIdPreLike** | **String**| **No** | Operation ID (forward matching) |
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.operationId,ASC`)|
 
 
 
@@ -4629,8 +4629,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **operationIds** | **List&lt;String>**| **Yes** | 오퍼레이션 ID 목록  |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
+|   **operationIds** | **List&lt;String>**| **Yes** | Operation ID list  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
 
 
 
@@ -4643,7 +4643,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="postSearchOperation"></a>
-### **오퍼레이션 목록 조회(조건/페이징)**
+### **Get Operations List (Conditions/Paging)**
 > POST "/role/v3.0/appkeys/{appKey}/operations/search"
 
 #### Parameters
@@ -4652,11 +4652,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.operationId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.operationId,ASC`)|
 | Request Body | **PostSearchOperations.Request** | **PostSearchOperations.Request**| **Yes** |  | |
 
 
@@ -4668,9 +4668,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **descriptionLike** | **String**| **No** | 오퍼레이션 설명(부분 일치)  |
-|   **operationIdPreLike** | **String**| **No** | 오퍼레이션 ID(전방 일치)  |
-|   **operationIds** | **List&lt;String>**| **No** | 오퍼레이션 ID 목록(완전 일치)  |
+|   **descriptionLike** | **String**| **No** | Operation description (partial match)  |
+|   **operationIdPreLike** | **String**| **No** | Operation ID (forward matching)  |
+|   **operationIds** | **List&lt;String>**| **No** | Operation ID list (exact match)  |
 
 
 
@@ -4713,8 +4713,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **operations** | **List&lt;OperationResponseProtocol>**| **Yes** | 오퍼레이션 목록  |
-|   **totalItems** | **Long**| **Yes** | 전체 개수  |
+|   **operations** | **List<OperationResponseProtocol>**| **Yes** | List of operations  |
+|   **totalItems** | **Long**| **Yes** | Total number  |
 
 
 ##### OperationResponseProtocol
@@ -4722,9 +4722,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **appKey** | **String**| **No** | 앱키  |
-|   **description** | **String**| **No** | 오퍼레이션 설명  |
-|   **operationId** | **String**| **Yes** | 오퍼레이션 ID  |
+|   **appKey** | **String**| **No** | Appkey  |
+|   **description** | **String**| **No** | Operation description  |
+|   **operationId** | **String**| **Yes** | Operation ID  |
 
 
 
@@ -4742,7 +4742,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="updateOperation"></a>
-### **오퍼레이션 수정**
+### **Modifying operations**
 > PUT "/role/v3.0/appkeys/{appKey}/operations/{operationId}"
 
 #### Parameters
@@ -4751,9 +4751,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**operationId** | **String**| **Yes** | 오퍼레이션 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** |  | 
+|  Path |**operationId** | **String**| **Yes** |  | 
 | Request Body | **UpdateOperation.Request** | **UpdateOperation.Request**| **Yes** |  | |
 
 
@@ -4766,7 +4766,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 오퍼레이션 설명  |
+|   **description** | **String**| **No** | Operation description  |
 
 
 
@@ -4788,22 +4788,22 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 }
 ```
 
-## 조건 속성
+## Condition attribute
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes**](#createAttribute) | 조건 속성 생성 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}**](#deleteAttribute) | 조건 속성 삭제 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/attributes**](#deleteAttributes) | 조건 속성 다건 삭제 |
-| **GET** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}**](#getAttribute) | 조건 속성 단건 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/id**](#searchAttributeIds) | 조건 속성 ID 목록 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/search**](#searchAttributes) | 조건 속성 목록 조회 |
-| **PUT** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}**](#updateAttribute) | 조건 속성 수정 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes**](#createAttribute) | Create condition attribute |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}**](#deleteAttribute) | Delete condition attribute |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/attributes**](#deleteAttributes) | Delete condition attributes |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}**](#getAttribute) | Single lookup of condition attribute |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/id**](#searchAttributeIds) | Get a list of condition attributes IDs |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/search**](#searchAttributes) | Get a list of condition attributes |
+| **PUT** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}**](#updateAttribute) | Modify condition attributes |
 
 
 <a name="createAttribute"></a>
-### **조건 속성 생성**
+### **Create condition attribute**
 > POST "/role/v3.0/appkeys/{appKey}/attributes"
 
 #### Parameters
@@ -4812,8 +4812,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 | Request Body | **CreateAttribute.Request** | **CreateAttribute.Request**| **Yes** |  | |
 
 
@@ -4826,11 +4826,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **attributeRoleRelationIds** | **List&lt;String>**| **No** | 조건 속성과 연관된 역할 ID 목록  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **attributeRoleRelationIds** | **List&lt;String>**| **No** | List of role IDs associated with the condition attribute  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | List of condition attribute tag IDs  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -4864,7 +4864,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteAttribute"></a>
-### **조건 속성 삭제**
+### **Delete condition attribute**
 > DELETE "/role/v3.0/appkeys/{appKey}/attributes/{attributeId}"
 
 #### Parameters
@@ -4873,10 +4873,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**attributeId** | **String**| **Yes** | 조건 속성 ID | 
-|  Query |**forceDelete** | **Boolean**| **No** | 강제 삭제, 기본값(false) |
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**attributeId** | **String**| **Yes** | Condition attribute ID | 
+|  Query |**forceDelete** | **Boolean**| **No** | Force delete, default (false) |
 
 
 
@@ -4901,17 +4901,17 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteAttributes"></a>
-### **조건 속성 다건 삭제**
+### **Delete condition attributes**
 > DELETE "/role/v3.0/appkeys/{appKey}/attributes"
 
 #### Parameters
 
 | ParameterType | Name | Type | Required | Description  |
 |------------- |------------- | ------------- | ------------- | ------------- |
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 |
-| Request Body |**attributeIds** |  **List&lt;String>**| **Yes** | 조건 속성 ID 목록 |
-| Request Body |**forceDelete** | **Boolean**| **No** | 강제 삭제, 기본값(false) |
+|  Header |**X-Secret-Key** | **String**| **Yes** | Secret key |
+|  Path |**appKey** | **String**| **Yes** | Appkey |
+| Request Body |**attributeIds** |  **List&lt;String>**| **Yes** | Condition attribute IDs |
+| Request Body |**forceDelete** | **Boolean**| **No** | Force delete, default value (false) |
 
 #### Response Body
 
@@ -4929,7 +4929,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getAttribute"></a>
-### **조건 속성 단건 조회**
+### **Single lookup of condition attribute**
 > GET "/role/v3.0/appkeys/{appKey}/attributes/{attributeId}"
 
 #### Parameters
@@ -4938,9 +4938,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 |
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**attributeId** | **String**| **Yes** | 조건 속성 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**attributeId** | **String**| **Yes** | Condition attribute ID | 
 
 
 
@@ -5001,8 +5001,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- |-------------|
-|   **attribute** | **AttributeBundleProtocol**| **Yes** | 조건 속성       |
-|   **attributeInUse** | **Boolean**| **Yes** | 조건 속성 사용 여부 |
+|   **attribute** | **AttributeBundleProtocol**| **Yes** | Condition attribute       |
+|   **attributeInUse** | **Boolean**| **Yes** | Whether to use condition attributes |
 
 ##### AttributeBundleProtocol
 
@@ -5011,11 +5011,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **attributeRoleRelations** | **List&lt;AttributeRoleRelationProtocol>**| **Yes** | 조건 속성과 연관된 역할 ID 목록  |
-|   **attributeTags** | **List&lt;AttributeTagProtocol>**| **Yes** | 조건 속성 태그 ID  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **attributeRoleRelations** | **List&lt;AttributeRoleRelationProtocol>**| **Yes** | List of role IDs associated with the condition attribute  |
+|   **attributeTags** | **List&lt;AttributeTagProtocol>**| **Yes** | Condition attribute tag ID  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -5026,13 +5026,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **exposureOrder** | **Integer**| **Yes** | 노출 순서  |
-|   **regYmdt** | **Date**| **Yes** | 조건 속성과 연관된 역할 ID 생성 일시  |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **roleName** | **String**| **No** | 역할 이름  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **exposureOrder** | **Integer**| **Yes** | Exposure order  |
+|   **regYmdt** | **Date**| **Yes** | When the role ID associated with the condition attribute was created  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **roleName** | **String**| **No** | Role name  |
 
 
 
@@ -5048,11 +5048,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ##### AttributeTagProtocol
 
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeTagId** | **String**| **Yes** | 조건 속성 태그 ID  |
-|   **regYmdt** | **Date**| **Yes** | 조건 속성 태그 생성 일시  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeTagId** | **String**| **Yes** | Condition attribute tag ID  |
+|   **regYmdt** | **Date**| **Yes** | When the condition attribute tag was created  |
 
 
 
@@ -5076,7 +5076,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchAttributeIds"></a>
-### **조건 속성 ID 목록 조회**
+### **Get a list of condition attribute IDs**
 > POST "/role/v3.0/appkeys/{appKey}/attributes/id"
 
 #### Parameters
@@ -5085,11 +5085,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.attributeId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.attributeId,ASC`)|
 | Request Body | **SearchAttributes.Request** | **SearchAttributes.Request**| **Yes** |  | |
 
 
@@ -5099,16 +5099,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ##### SearchAttributes.Request
 
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeCreationTypeCodes** | **List&lt;AttributeCreationTypeCode>**| **No** | 조건 속성 생성 타입 목록  |
-|   **attributeDataTypeCodes** | **List&lt;AttributeDataTypeCode>**| **No** | 조건 속성 데이터 유형  |
-|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID(전방 일치)  |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
-|   **descriptionLike** | **String**| **No** | 조건 속성 설명(부분 일치)  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
+|   **attributeCreationTypeCodes** | **List&lt;AttributeCreationTypeCode>**| **No** | Condition attribute creation types  |
+|   **attributeDataTypeCodes** | **List&lt;AttributeDataTypeCode>**| **No** | Condition attribute data types  |
+|   **attributeIdPreLike** | **String**| **No** | Condition attribute tag ID list (front match)  |
+|   **attributeIds** | **List&lt;String>**| **No** | Condition attribute ID list (exact match)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | Condition attribute tag ID list (exact match)  |
+|   **descriptionLike** | **String**| **No** | Condition attribute descriptions (partial match)  |
+|   **roleIdPreLike** | **String**| **No** | Role ID (forward match)  |
+|   **roleIds** | **List&lt;String>**| **No** | Role ID list (exact match)  |
 
 
 
@@ -5146,10 +5146,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ##### SearchAttributeIds.Response
 
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeIds** | **List&lt;String>**| **Yes** | 조건 속성 ID 목록  |
-|   **totalItems** | **Long**| **Yes** | 역할 전체 개수  |
+|   **attributeIds** | **List&lt;String>**| **Yes** | Condition attribute IDs  |
+|   **totalItems** | **Long**| **Yes** | Total number of roles  |
 
 
 
@@ -5162,7 +5162,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchAttributes"></a>
-### **조건 속성 목록 조회**
+### **Get a list of condition attributes**
 > POST "/role/v3.0/appkeys/{appKey}/attributes/search"
 
 #### Parameters
@@ -5171,11 +5171,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.attributeId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.attributeId,ASC`)|
 | Request Body | **SearchAttributes.Request** | **SearchAttributes.Request**| **Yes** |  | |
 
 
@@ -5185,16 +5185,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ##### SearchAttributes.Request
 
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeCreationTypeCodes** | **List&lt;AttributeCreationTypeCode>**| **No** | 조건 속성 생성 타입 목록  |
-|   **attributeDataTypeCodes** | **List&lt;AttributeDataTypeCode>**| **No** | 조건 속성 데이터 유형  |
-|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID(전방 일치)  |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
-|   **descriptionLike** | **String**| **No** | 조건 속성 설명(부분 일치)  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
+|   **attributeCreationTypeCodes** | **List&lt;AttributeCreationTypeCode>**| **No** | Condition attribute creation types  |
+|   **attributeDataTypeCodes** | **List&lt;AttributeDataTypeCode>**| **No** | Condition attribute data types  |
+|   **attributeIdPreLike** | **String**| **No** | Condition attribute tag ID list (front match)  |
+|   **attributeIds** | **List&lt;String>**| **No** | Condition attribute ID list (exact match)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | Condition attribute tag ID list (exact match)  |
+|   **descriptionLike** | **String**| **No** | Condition attribute descriptions (partial match)  |
+|   **roleIdPreLike** | **String**| **No** | Role ID (forward match)  |
+|   **roleIds** | **List&lt;String>**| **No** | Role ID list (exact match)  |
 
 
 
@@ -5292,23 +5292,23 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ##### SearchAttributes.Response
 
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributes** | **List&lt;AttributeBundleProtocol>**| **Yes** | 조건 속성 목록  |
-|   **totalItems** | **Long**| **Yes** | 역할 전체 개수  |
+|   **attributes** | **List&lt;AttributeBundleProtocol>**| **Yes** | Condition attributes  |
+|   **totalItems** | **Long**| **Yes** | Total number of roles  |
 
 ##### AttributeBundleProtocol
 
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeCreationTypeCode** | **String**| **Yes** |   COMMON_ATTRIBUTE, ROLE_ATTRIBUTE |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **attributeRoleRelations** | **List&lt;AttributeRoleRelationProtocol>**| **Yes** | 조건 속성과 연관된 역할 ID 목록  |
-|   **attributeTags** | **List&lt;AttributeTagProtocol>**| **Yes** | 조건 속성 태그 ID  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **attributeRoleRelations** | **List&lt;AttributeRoleRelationProtocol>**| **Yes** | List of role IDs associated with the condition attribute  |
+|   **attributeTags** | **List&lt;AttributeTagProtocol>**| **Yes** | Condition attribute tag ID  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -5317,15 +5317,15 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ##### AttributeRoleRelationProtocol
 
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **exposureOrder** | **Integer**| **Yes** | 노출 순서  |
-|   **regYmdt** | **Date**| **Yes** | 조건 속성과 연관된 역할 ID 생성 일시  |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **roleName** | **String**| **No** | 역할 이름  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **exposureOrder** | **Integer**| **Yes** | Exposure order  |
+|   **regYmdt** | **Date**| **Yes** | When the role ID associated with the condition attribute was created  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **roleName** | **String**| **No** | Role name  |
 
 
 
@@ -5341,11 +5341,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ##### AttributeTagProtocol
 
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeTagId** | **String**| **Yes** | 조건 속성 태그 ID  |
-|   **regYmdt** | **Date**| **Yes** | 조건 속성 태그 생성 일시  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeTagId** | **String**| **Yes** | Condition attribute tag ID  |
+|   **regYmdt** | **Date**| **Yes** | When the condition attribute tag was created  |
 
 
 
@@ -5369,7 +5369,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="updateAttribute"></a>
-### **조건 속성 수정**
+### **Modify condition attributes**
 > PUT "/role/v3.0/appkeys/{appKey}/attributes/{attributeId}"
 
 #### Parameters
@@ -5378,9 +5378,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**attributeId** | **String**| **Yes** | 조건 속성 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**attributeId** | **String**| **Yes** | Condition attribute ID | 
 | Request Body | **UpdateAttribute.Request** | **UpdateAttribute.Request**| **Yes** |  | |
 
 
@@ -5391,13 +5391,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ##### UpdateAttribute.Request
 
 
-| Name | Type | Required | Description |
+| Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
 |   **attributeDataTypeCode** | **String**| **Yes** |   STRING, NUMERIC, DAY_OF_WEEK, DATETIME, TIME, IPADDRESS, BOOLEAN |
-|   **attributeName** | **String**| **No** | 조건 속성 이름  |
-|   **attributeRoleRelationIds** | **List&lt;String>**| **No** | 조건 속성과 연관된 역할 ID 목록  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록  |
-|   **description** | **String**| **No** | 조건 속성 설명  |
+|   **attributeName** | **String**| **No** | Condition attribute name  |
+|   **attributeRoleRelationIds** | **List&lt;String>**| **No** | List of role IDs associated with the condition attribute  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | List of condition attribute tag IDs  |
+|   **description** | **String**| **No** | Condition attribute description  |
 
 
 
@@ -5423,17 +5423,17 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 }
 ```
 
-## 조건 속성 데이터 타입
+## Condition attribute data types
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/data-types**](#getAttributeDataType) | 조건 속성 데이터 타입 목록 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/condition/validate**](#validateConditionValues) | 조건 값 유효성 체크 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/data-types**](#getAttributeDataType) | Get condition attribute data types |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/condition/validate**](#validateConditionValues) | Validating condition values |
 
 
 <a name="getAttributeDataType"></a>
-### **조건 속성 데이터 타입 목록 조회**
+### **Get condition attribute data types**
 > POST "/role/v3.0/appkeys/{appKey}/attributes/data-types"
 
 #### Parameters
@@ -5442,8 +5442,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 
 
 
@@ -5494,15 +5494,15 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **dataTypes** | **List&lt;GetAttributeDataTypeResponse.AttributeDataTypeProtocol>**| **Yes** | 조건 속성 데이터 타입 목록  |
+|   **dataTypes** | **List&lt;GetAttributeDataTypeResponse.AttributeDataTypeProtocol>**| **Yes** | Condition attribute data types  |
 
 ##### GetAttributeDataTypeResponse.AttributeDataTypeProtocol
 
 
-| Name | Type | Required | Description         | 
-|------------ | ------------- | ------------- |---------------------|
-|   **dataType** | **String**| **Yes** | 조건 속성 데이터 타입        |
-|   **operators** | **List&lt;GetAttributeDataTypeResponse.AttributeOperatorTypeProtocol>**| **Yes** | 조건 속성 사용 가능한 연산자 목록 |
+| Name | Type | Required | Description | 
+|------------ | ------------- | ------------- | ------------ |
+|   **dataType** | **String**| **Yes** | Condition attribute data types  |
+|   **operators** | **List&lt;GetAttributeDataTypeResponse.AttributeOperatorTypeProtocol>**| **Yes** | Operators available for condition attributes  |
 
 
 ##### GetAttributeDataTypeResponse.AttributeOperatorTypeProtocol
@@ -5510,9 +5510,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **max** | **Integer**| **Yes** | 연산자가 사용할수 있는 값의 최대 개수  |
-|   **min** | **Integer**| **Yes** | 연산자가 사용할수 있는 값의 최소 개수  |
-|   **operatorTypeCode** | **String**| **Yes** | 연산자  |
+|   **max** | **Integer**| **Yes** | Maximum number of values an operator can take  |
+|   **min** | **Integer**| **Yes** | Minimum number of values an operator can take  |
+|   **operatorTypeCode** | **String**| **Yes** | Operator  |
 
 
 
@@ -5534,7 +5534,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="validateConditionValues"></a>
-### **조건 값 유효성 체크**
+### **Validating condition values**
 > POST "/role/v3.0/appkeys/{appKey}/attributes/condition/validate"
 
 #### Parameters
@@ -5543,8 +5543,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 | Request Body | **ValidateConditionValuesRequest** | **ValidateConditionValuesRequest**| **Yes** |  | |
 
 
@@ -5556,16 +5556,16 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **conditions** | **List&lt;ConditionProtocol>**| **Yes** | 역할 조건 속성  |
+|   **conditions** | **List<ConditionProtocol>**| **Yes** | Role Condition Attributes  |
 
 ##### ConditionProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
 |   **attributeOperatorTypeCode** | **String**| **Yes** |   ALL_CONTAINS, ANY_CONTAINS, NOT_CONTAINS, ANY_MATCH, NONE_MATCH, BETWEEN, BEYOND, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO, ALLOW, NOT_ALLOW, TRUE, FALSE |
-|   **attributeValues** | **List&lt;String>**| **No** | 조건 속성 값  |
+|   **attributeValues** | **List&lt;String>**| **No** | Condition attribute value  |
 
 
 
@@ -5594,18 +5594,18 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ```
 
 
-## 조건 속성 역할 연관 관계
+## Condition attribute role associations
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/roles**](#createAttributeRoleRelations) | 조건 속성과 연관된 역할 다건 생성 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/roles**](#deleteAttributeRoleRelations) | 조건 속성과 연관된 역할 다건 삭제 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/roles/search**](#searchAttributeRoleRelations) | 조건 속성과 연관된 역할 목록 조회 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/roles**](#createAttributeRoleRelations) | Create multiple roles associated with condition attributes |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/roles**](#deleteAttributeRoleRelations) | Delete multiple roles associated with condition attributes |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/roles/search**](#searchAttributeRoleRelations) | Get roles associated with condition attributes |
 
 
 <a name="createAttributeRoleRelations"></a>
-### **조건 속성과 연관된 역할 다건 생성**
+### **Create multiple roles associated with condition attributes**
 > POST "/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/roles"
 
 #### Parameters
@@ -5614,9 +5614,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**attributeId** | **String**| **Yes** | 조건 속성 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**attributeId** | **String**| **Yes** | Condition attribute ID | 
 | Request Body | **CreateAttributeRoleRelations.Request** | **CreateAttributeRoleRelations.Request**| **Yes** |  | |
 
 
@@ -5629,7 +5629,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeRoleRelationIds** | **List&lt;String>**| **Yes** | 조건 속성과 연관된 역할 ID 목록  |
+|   **attributeRoleRelationIds** | **List&lt;String>**| **Yes** | List of role IDs associated with the condition attribute  |
 
 
 
@@ -5658,7 +5658,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteAttributeRoleRelations"></a>
-### **조건 속성과 연관된 역할 다건 삭제**
+### **Delete multiple roles associated with condition attributes**
 > DELETE "/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/roles"
 
 #### Parameters
@@ -5667,9 +5667,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**attributeId** | **String**| **Yes** | 조건 속성 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**attributeId** | **String**| **Yes** | Condition attribute ID | 
 | Request Body | **DeleteAttributeRoleRelations.Request** | **DeleteAttributeRoleRelations.Request**| **Yes** |  | |
 
 
@@ -5682,7 +5682,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeRoleRelationIds** | **List&lt;String>**| **Yes** | 조건 속성과 연관된 역할 ID 목록  |
+|   **attributeRoleRelationIds** | **List&lt;String>**| **Yes** | List of role IDs associated with the condition attribute  |
 
 
 
@@ -5711,7 +5711,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchAttributeRoleRelations"></a>
-### **조건 속성과 연관된 역할 목록 조회**
+### **Get roles associated with condition attributes**
 > POST "/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/roles/search"
 
 #### Parameters
@@ -5720,12 +5720,12 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**attributeId** | **String**| **Yes** | 조건 속성 ID | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `attribute.id.attributeId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**attributeId** | **String**| **Yes** | Condition attribute ID | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `attribute.id.attributeId,ASC`)|
 | Request Body | **SearchAttributeRoleRelations.Request** | **SearchAttributeRoleRelations.Request**| **Yes** |  | |
 
 
@@ -5738,8 +5738,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **roleIdPreLike** | **String**| **No** | 조건 속성과 연관된 역할 ID(전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 조건 속성과 연관된 역할 ID 목록(완전 일치)  |
+|   **roleIdPreLike** | **String**| **No** | Role ID associated with condition attributes (front match)  |
+|   **roleIds** | **List&lt;String>**| **No** | Role IDs associated with condition attributes (exact match)  |
 |   **searchRoleOptionCode** | **String**| **No** |   DIRECT_ROLE, INDIRECT_ROLE |
 
 
@@ -5791,21 +5791,21 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeRoleRelations** | **List&lt;AttributeRoleRelationProtocol>**| **Yes** | 조건 속성 연관 관계 Role 목록  |
-|   **totalItems** | **Long**| **Yes** | 역할 전체 개수  |
+|   **attributeRoleRelations** | **List&lt;AttributeRoleRelationProtocol>**| **Yes** | Roles associated with condition attributes  |
+|   **totalItems** | **Long**| **Yes** | Total number of roles  |
 
 ##### AttributeRoleRelationProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **description** | **String**| **No** | 역할 설명  |
-|   **exposureOrder** | **Integer**| **Yes** | 노출 순서  |
-|   **regYmdt** | **Date**| **Yes** | 조건 속성과 연관된 역할 ID 생성 일시  |
-|   **roleGroup** | **String**| **No** | 역할 그룹  |
-|   **roleId** | **String**| **Yes** | 역할 ID  |
-|   **roleName** | **String**| **No** | 역할 이름  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **description** | **String**| **No** | Role descriptions  |
+|   **exposureOrder** | **Integer**| **Yes** | Exposure order  |
+|   **regYmdt** | **Date**| **Yes** | When the role ID associated with the condition attribute was created  |
+|   **roleGroup** | **String**| **No** | Role group  |
+|   **roleId** | **String**| **Yes** | Role ID  |
+|   **roleName** | **String**| **No** | Role name  |
 
 
 
@@ -5825,19 +5825,19 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 
-## 조건 속성 태그
+## Condition Attribute Tag
 
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/tags**](#createAttributeTags) | 조건 속성 태그 생성 |
-| **DELETE** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/tags**](#deleteAttributeTags) | 조건 속성 태그 삭제 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/tags/id**](#searchAttributeTagIds) | 조건 속성 태그 ID 목록 조회 |
-| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/tags/search**](#searchAttributeTags) | 조건 속성 태그 목록 조회 |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/tags**](#createAttributeTags) | Create condition attribute tag |
+| **DELETE** |[**/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/tags**](#deleteAttributeTags) | Delete condition attribute tag |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/tags/id**](#searchAttributeTagIds) | Get a list of condition attribute tag IDs |
+| **POST** |[**/role/v3.0/appkeys/{appKey}/attributes/tags/search**](#searchAttributeTags) | Get a list of condition attribute tags |
 
 
 <a name="createAttributeTags"></a>
-### **조건 속성 태그 생성**
+### **Create condition attribute tag**
 > POST "/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/tags"
 
 #### Parameters
@@ -5846,9 +5846,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**attributeId** | **String**| **Yes** | 조건 속성 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**attributeId** | **String**| **Yes** | Condition attribute ID | 
 | Request Body | **CreateAttributeTags.Request** | **CreateAttributeTags.Request**| **Yes** |  | |
 
 
@@ -5861,7 +5861,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeTagIds** | **List&lt;String>**| **Yes** | 조건 속성 태그 ID 목록  |
+|   **attributeTagIds** | **List&lt;String>**| **Yes** | List of condition attribute tag IDs  |
 
 
 
@@ -5890,7 +5890,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="deleteAttributeTags"></a>
-### **조건 속성 태그 삭제**
+### **Delete condition attribute tag**
 > DELETE "/role/v3.0/appkeys/{appKey}/attributes/{attributeId}/tags"
 
 #### Parameters
@@ -5899,9 +5899,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Path |**attributeId** | **String**| **Yes** | 조건 속성 ID | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Path |**attributeId** | **String**| **Yes** | Condition attribute ID | 
 | Request Body | **DeleteAttributeTags.Request** | **DeleteAttributeTags.Request**| **Yes** |  | |
 
 
@@ -5914,7 +5914,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeTagIds** | **List&lt;String>**| **Yes** | 조건 속성 태그 ID 목록  |
+|   **attributeTagIds** | **List&lt;String>**| **Yes** | List of condition attribute tag IDs  |
 
 
 
@@ -5943,7 +5943,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchAttributeTagIds"></a>
-### **조건 속성 태그 ID 목록 조회**
+### **Get a list of condition attribute tag IDs**
 > POST "/role/v3.0/appkeys/{appKey}/attributes/tags/id"
 
 #### Parameters
@@ -5952,11 +5952,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.attributeTagId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.attributeTagId,ASC`)|
 | Request Body | **SearchAttributeTagIds.Request** | **SearchAttributeTagIds.Request**| **Yes** |  | |
 
 
@@ -5968,10 +5968,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID(전방 일치)  |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
-|   **attributeTagIdPreLike** | **String**| **No** | 조건 속성 태그 ID(전방 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
+|   **attributeIdPreLike** | **String**| **No** | Condition attribute tag ID list (front match)  |
+|   **attributeIds** | **List&lt;String>**| **No** | Condition attribute ID list (exact match)  |
+|   **attributeTagIdPreLike** | **String**| **No** | Condition attribute tag ID (front match)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | Condition attribute tag ID list (exact match)  |
 
 
 
@@ -6007,8 +6007,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeTagIds** | **List&lt;String>**| **Yes** | 조건 속성 태그 ID 목록  |
-|   **totalItems** | **Long**| **Yes** | 역할 전체 개수  |
+|   **attributeTagIds** | **List&lt;String>**| **Yes** | List of condition attribute tag IDs  |
+|   **totalItems** | **Long**| **Yes** | Total number of roles  |
 
 
 
@@ -6021,7 +6021,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="searchAttributeTags"></a>
-### **조건 속성 태그 목록 조회**
+### **Get a list of condition attribute tags**
 > POST "/role/v3.0/appkeys/{appKey}/attributes/tags/search"
 
 #### Parameters
@@ -6030,11 +6030,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
-|  Query |**page** | **Integer**| **No** | 검색을 원하는 페이지 번호(기본값 1) | 
-|  Query |**itemsPerPage** | **Integer**| **No** | 결과를 원하는 페이지별 검색 개수(기본값 10) |  
-|  Query |**sort** |  **List&lt;String>**| **No** | 정렬 순서(기본값 `id.attributeTagId,ASC`)|
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
+|  Query |**page** | **Integer**| **No** | The page number you want to search (default 1) | 
+|  Query |**itemsPerPage** | **Integer**| **No** | Number of searches per page for which you want results (default 10) |  
+|  Query |**sort** |  **List&lt;String>**| **No** | Sort order (default `id.attributeTagId,ASC`)|
 | Request Body | **SearchAttributeTags.Request** | **SearchAttributeTags.Request**| **Yes** |  | |
 
 
@@ -6046,10 +6046,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeIdPreLike** | **String**| **No** | 조건 속성 ID(전방 일치)  |
-|   **attributeIds** | **List&lt;String>**| **No** | 조건 속성 ID 목록(완전 일치)  |
-|   **attributeTagIdPreLike** | **String**| **No** | 조건 속성 태그 ID(전방 일치)  |
-|   **attributeTagIds** | **List&lt;String>**| **No** | 조건 속성 태그 ID 목록(완전 일치)  |
+|   **attributeIdPreLike** | **String**| **No** | Condition attribute tag ID list (front match)  |
+|   **attributeIds** | **List&lt;String>**| **No** | Condition attribute ID list (exact match)  |
+|   **attributeTagIdPreLike** | **String**| **No** | Condition attribute tag ID (front match)  |
+|   **attributeTagIds** | **List&lt;String>**| **No** | Condition attribute tag ID list (exact match)  |
 
 
 
@@ -6093,17 +6093,17 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeTags** | **List&lt;AttributeTagProtocol>**| **Yes** | 조건 속성 태그 목록  |
-|   **totalItems** | **Long**| **Yes** | 역할 전체 개수  |
+|   **attributeTags** | **List&lt;AttributeTagProtocol>**| **Yes** | Condition Attribute Tag List  |
+|   **totalItems** | **Long**| **Yes** | Total number of roles  |
 
 ##### AttributeTagProtocol
 
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **attributeId** | **String**| **Yes** | 조건 속성 ID  |
-|   **attributeTagId** | **String**| **Yes** | 조건 속성 태그 ID  |
-|   **regYmdt** | **Date**| **Yes** | 조건 속성 태그 생성 일시  |
+|   **attributeId** | **String**| **Yes** | Condition attribute ID  |
+|   **attributeTagId** | **String**| **Yes** | Condition attribute tag ID  |
+|   **regYmdt** | **Date**| **Yes** | When the condition attribute tag was created  |
 
 
 
@@ -6119,18 +6119,18 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 
-## 설정
+## Settings
 
 
-| Method | HTTP request                                                        | Description                     |
-|------------- |---------------------------------------------------------------------|---------------------------------|
-| **PUT** | [**/role/v3.0/appkeys/{appKey}/config/cache-evict**](#deleteCache) | ROLE 서비스 서버와 클라이언트 SDK의 캐시 제거 |
-| **GET** | [**/role/v3.0/appkeys/{appKey}/config**](#getConfiguration)         | 설정 조회                           |
-| **PUT** | [**/role/v3.0/appkeys/{appKey}/config**](#updateConfig)             | 설정 수정                           |
+| Method | HTTP request | Description                            |
+|------------- | ------------- |----------------------------------------|
+| **PUT** |[**/role/v3.0/appkeys/{appKey}/config/cache-evict**](#deleteCache) | Purge the cache of the Role Service server and the Client SDK |
+| **GET** |[**/role/v3.0/appkeys/{appKey}/config**](#getConfiguration) | Get settings                                  |
+| **PUT** |[**/role/v3.0/appkeys/{appKey}/config**](#updateConfig) | Modify settings                                  |
 
 
 <a name="deleteCache"></a>
-### **서버와 클라이언트 SDK의 캐시 제거**
+### **Purge the cache of the server and client SDKs**
 > PUT "/role/v3.0/appkeys/{appKey}/config/cache-evict"
 
 #### Parameters
@@ -6139,8 +6139,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 
 
 
@@ -6168,7 +6168,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="getConfiguration"></a>
-### **설정 조회**
+### **Get settings**
 > GET "/role/v3.0/appkeys/{appKey}/config"
 
 #### Parameters
@@ -6177,8 +6177,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 
 
 
@@ -6218,7 +6218,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 <a name="updateConfig"></a>
-### **설정 수정**
+### **Modify settings**
 > PUT "/role/v3.0/appkeys/{appKey}/config"
 
 #### Parameters
@@ -6227,8 +6227,8 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | ParameterType | Name | Type | Required | Description  | 
 |------------- |------------- | ------------- | ------------- | ------------- | 
-|  Header |**X-Secret-Key** | **String**| **Yes** | 비밀 키 | 
-|  Path |**appKey** | **String**| **Yes** | 앱키 | 
+|  Header |**X-Secret-Key** | **String**| **Yes** | SecretKey | 
+|  Path |**appKey** | **String**| **Yes** | Appkey | 
 | Request Body | **UpdateConfig.Request** | **UpdateConfig.Request**| **Yes** |  | |
 
 
@@ -6240,10 +6240,10 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
-|   **cacheSize** | **Integer**| **No** | 리소스 ID 기반 인증 캐시 크기  |
-|   **cacheSizeByPath** | **Integer**| **No** | 리소스 Hierarchy 조회 캐시 크기  |
-|   **cacheSizeTree** | **Integer**| **No** | 리소스 Path 기반 인증 캐시 크기  |
-|   **cacheTtl** | **Integer**| **No** |  캐시 데이터 유지 시간(초 단위) |
+|   **cacheSize** | **Integer**| **No** | Authentication cache size based on resource identity  |
+|   **cacheSizeByPath** | **Integer**| **No** | Resource Hierarchy Lookup Cache Size  |
+|   **cacheSizeTree** | **Integer**| **No** | Resource Path-based authentication cache size  |
+|   **cacheTtl** | **Integer**| **No** |  Cache data retention time (in seconds) |
 |   **resourcePathTrailingSlashMatchPolicyCode** | **String**| **No** |   IDENTICAL_PATH, NON_IDENTICAL_PATH |
 
 
