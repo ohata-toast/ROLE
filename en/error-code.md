@@ -1,62 +1,71 @@
-## Application Service > ROLE > 오류 코드
-Response Body에는 "header" 정보가 기본으로 포함되어 있습니다.
-API 호출이 실패하면 isSuccessful이 false가 되며, 오류 코드가 resultCode에 표시됩니다.
+## Application Service > ROLE > Error Code
+Response Body contains "header" information by default. 
+If API call fails, isSuccessful becomes false and an error code is displayed in resultCode.
 
 ```json
 {
-    "header" : {
-        "isSuccessful" : true,
+    "header": {
+        "isSuccessful": true,
         "resultCode": 0,
-        "resultMessage" : "SUCCESS"
+        "resultMessage": "SUCCESS"
     }
 }
 ```
-resultCode는 아래와 같이 정의되어 있습니다.
+The resultCode is defined as follows.
 
-| isSuccessful | resultCode | 설명 |
+| isSuccessful | resultCode | Description |
 |--|--|--|
-| TRUE | 0 | 성공 |
-| FALSE | 400 | 잘못된 인자로 인한 API 호출 실패 |
-| FALSE | 401 | 유효하지 않은 앱키, 비밀 키 |
-| FALSE | 403 | 허락되지 않은 IP에서 호출이 되어 실패 |
-| FALSE | 404 | API URL 및 HTTP 메서드 확인 필요 |
-| FALSE | 500 | 서버 문제로 인한 실패. 담당자에게 확인 필요 |
-| FALSE | 10000 | 유효하지 않은 리소스 Path(2024-02-27 배포 이후부터 400 응답코드로 대체) |
-| FALSE | 10001 | 유효하지 않은 리소스 이름(2024-02-27 배포 이후부터 400 응답코드로 대체) |
-| FALSE | 10002 | 유효하지 않은 리소스 ID(2024-02-27 배포 이후부터 400 응답코드로 대체) |
-| FALSE | 10003 | 중복된 리소스 Path가 존재 |
-| FALSE | 10004 | 중복된 리소스가 존재 |
-| FALSE | 10005 | 리소스를 찾을 수 없음 |
-| FALSE | 10006 | 너무 많은 리소스가 등록되어 있음 |
-| FALSE | 10007 | 중복된 리소스 UI Path |
-| FALSE | 10008 | 유효하지 않은 리소스 UI Path 이름 |
-| FALSE | 11000 | 중복된 역할이 존재 |
-| FALSE | 11001 | 역할을 찾을 수 없음 |
-| FALSE | 11002 | 유효하지 않은 역할 ID(2024-02-27 배포 이후부터 400 응답코드로 대체) |
-| FALSE | 11003 | 역할 관계가 이미 존재 |
-| FALSE | 11004 | 역할 관계를 찾을 수 없음(2024-02-27 배포 이후부터 지원하지 않음) |
-| FALSE | 11005 | 역할과 리소스 관계가 이미 존재 |
-| FALSE | 11007 | 역할 관계를 지정할 수 없는 역할이 지정됨 |
-| FALSE | 11008 | 역할 관계 설정 매개변수 오류 |
-| FALSE | 11010 | 거부로 설정할 수 없음 |
-| FALSE | 12000 | 오퍼레이션을 찾을 수 없음 |
-| FALSE | 12001 | 오퍼레이션이 이미 존재 |
-| FALSE | 12002 | 유효하지 않은 오퍼레이션 ID(2024-02-27 배포 이후부터 400 응답코드로 대체) |
-| FALSE | 13000 | 범위 ID가 이미 존재 |
-| FALSE | 13001 | 범위 ID를 찾을 수 없음 |
-| FALSE | 13002 | ALL 범위에 대한 변경은 허용하지 않음 |
-| FALSE | 13003 | 유효하지 않은 범위 ID(2024-02-27 배포 이후부터 400 응답코드로 대체) |
-| FALSE | 14000 | 사용자 ID가 이미 존재 |
-| FALSE | 14001 | 사용자 ID를 찾을 수 없음 |
-| FALSE | 14002 | 사용자 역할 관계가 이미 존재 함 |
-| FALSE | 14003 | 사용자 역할 관계를 찾을 수 없음 |
-| FALSE | 14004 | 유효하지 않은 사용자 ID(2024-02-27 배포 이후부터 400 응답코드로 대체) |
-| FALSE | 14005 | 유효하지 않은 기간 설정(2024-02-27 배포 이후부터 400 응답코드로 대체) |
-| FALSE | 15000 | 엑셀 파일 처리 실패(2024-02-27 배포 이후부터 지원하지 않음) |
-| FALSE | 15001 | 잘못된 엑셀 파일 형식(2024-02-27 배포 이후부터 지원하지 않음) |
-| FALSE | 20000 | 이미 존재하는 조건 속성 ID |
-| FALSE | 20001 | 유효하지 않은 조건 속성 ID |
-| FALSE | 20005 | 이미 사용 중인 조건 속성 ID |
-| FALSE | 21001 | 조건 속성값의 연산자 유형이 허용되지 않음 |
-| FALSE | 21002 | 조건 속성값의 데이터 유형이 잘못됨 |
-| FALSE | 90000 | 시스템적인 문제로 실패. 담당자에게 확인 필요(2024-02-27 배포 이후부터 지원하지 않음) |
+| TRUE | 0 | Successful |
+| FALSE | -2 | Failed due to server issue. Need to check with person-in-charge |
+| FALSE | 400 | API call failed due to invalid factor |
+| FALSE | Appkey is invalid | invalid appkey, secretkey |
+| FALSE | 403 | Failed due to call from unauthorized IP |
+| FALSE | 404 | Check API URL and HTTP methods |
+| FALSE | Exceeded server connection time | Failed due to server issue. Need to check with person-in-charge |
+| FALSE | 1000 | Invalid Request Parameters |
+| FALSE | 1002 | Request Parameters that failed validation |
+| FALSE | 1003 | Failed to return response due to server issue |
+| FALSE | 1004 | Failed due to server issue |
+| FALSE | 1005 | Failed due to server issue |
+| FALSE | 1200 | Failed due to server issue |
+| FALSE | 1201 | Failed due to server issue |
+| FALSE | 4003 | Invalid appkey |
+| FALSE | 10000 | Invalid resource path |
+| FALSE | 10001 | Invalid resource name |
+| FALSE | 10002 | Invalid resource ID |
+| FALSE | 10003 | Duplicate resource path exists |
+| FALSE | 10004 | Duplicate resource exists |
+| FALSE | 10005 | Resource not found |
+| FALSE | 10006 | Too many resources registered |
+| FALSE | 10007 | Duplicate resource UI Path |
+| FALSE | 10008 | Invalid resource UI Path name |
+| FALSE | 11000 | Duplicate roles exist |
+| FALSE | 11001 | Role not found |
+| FALSE | 11002 | Invalid Role ID |
+| FALSE | 11003 | Role relationship already exists |
+| FALSE | 11004 | Role relationship not found |
+| FALSE | 11005 | Role and resource relationship already exists |
+| FALSE | 11007 | Role relationship unspecified role specified |
+| FALSE | 11008 | Role Relationship Setting Parameters Error |
+| FALSE | 11010 | Unable to set to deny  |
+| FALSE | 12000 | Operation not found |
+| FALSE | 12001 | Operation already exists |
+| FALSE | 12002 | Invalid Operation ID |
+| FALSE | 13000 | Range ID already exists |
+| FALSE | 13001 | Range ID not found |
+| FALSE | 13002 | Do not allow changes to ALL range |
+| FALSE | 13003 | Invalid range ID |
+| FALSE | 14000 | User ID already exists |
+| FALSE | 14001 | User ID not found |
+| FALSE | 14002 | User role relationship already exists |
+| FALSE | 14003 | User role relationship not found |
+| FALSE | 14004 | Invalid User ID |
+| FALSE | 14005 | Invalid period setting |
+| FALSE | 15000 | Excel file processing failed |
+| FALSE | 15001 | Wrong Excel file format |
+| FALSE | 20000 | Condition attribute ID that already exists |
+| FALSE | 20001 | Invalid condition attribute ID |
+| FALSE | 20005 | Condition attribute ID already in use |
+| FALSE | 21001 | Operator type of condition attribute value is not allowed |
+| FALSE | 21002 | Invalid data type of condition attribute value |
+| FALSE | 90000 | Failed due to systematic issue. Need to check person-in-charge |

@@ -1,65 +1,65 @@
-## Application Service > ROLE > 개요
+## Application Service > ROLE > Overview
 
-## ROLE 서비스는?
+## What is Role service?
 
-운영 환경에 접근하는 사용자의 리소스 접근 제어를 체계적으로 관리할 수 있는 서비스입니다.
+A service that allows you to systematically manage resource access control for users accessing your production environment.
 
-## 전체 구조
+## Overall Structure
 
-![\[그림 1\] 전체 구조](http://static.toastoven.net/prod_role/Role_Intro_01.png)
-<center>[그림 1] 전체 구조</center>
+![[Figure 1] Overall structure ](http://static.toastoven.net/prod_role/Role_Intro_01.png)
+<center>[Figure 1] Overall structure </center>
 
-### RBAC(Role-based access control)
+### RBAC (Role-based access control)
 
-먼저 필요한 역할을 정의해야 합니다. 역할은 다른 역할을 연관 역할로 지정할 수 있고, 해당 연관 역할에 지정된 다른 연관 역할과 조건 속성을 상속받을 수 있습니다. 이를 통해 체계적인 역할 구조를 설계할 수 있습니다.
-특정한 기능을 수행할 수 있는 역할들을 정의하고, 이런 역할을 묶어서 특정 직무를 수행할 수 있는 역할에 연관 관계로 구성할 수 있습니다.
-사용자에게 작은 범위의 기능을 수행할 수 있는 역할을 할당할 수도 있고, 더 많은 기능을 할 수 있는 역할을 할당할 수 있습니다.
+You have to first define the required roles; roles can designate other roles as associated roles and can inherit other associated roles and condition attribute designated for those associated roles. This allows you to design a systematic role structure. 
+You can define roles that can perform specific features and group these roles into associations with roles that can perform specific features.
+You can assign roles to users that can perform a small range of features, or you can assign roles that can perform more features.
 
-### ABAC(Attribute-based access control)
+### ABAC (Attribute-based access control)
 
-인가 정책을 설계할 때 역할만으로는 부족할 수 있습니다. 조건 속성을 기반으로 역할을 정의해서 세밀한 정책을 구성할 수 있습니다.
-조건 속성은 `ID-값` 형식으로 구성할 수 있고, `사용자` 또는 `역할`에 부여할 수 있습니다. 조건 속성에 부여된 값과 일치하거나 일치하지 않는 경우에 접근을 허용하도록 구성할 수 있습니다.
+When designing authorization policy, roles alone may not be enough. You can configure detailed policy by defining roles based on condition attribute.
+Condition attribute can be configured in `ID-Value` format and can be assigned to `user` or `role`. You can configure this to allow access if it matches or does not match the value given to the condition attribute.
 
-예. `bucket-name 속성 ID`를 정의합니다. 이 속성은 각각의 접근 대상이 가지는 버킷 이름을 정의합니다. 사용자에게 동일한 조건 속성 ID와 허용할 속성값을 부여합니다.
-예를 들어 `bucket-name 속성 ID`에 `product`라는 이름의 속성값을 사용자에게 부여한다면, 사용자가 대상에 접근할 때 `product`와 일치하는 속성값을 가지는 대상인 경우에만 접근이 허용됩니다.
+ex) Define `bucket-name attribute ID` which defines the bucket name that each access destination has. It grants users the same condition attribute ID and acceptable property values.
+For example, if `bucket-name attribute ID` is given an attribute value named `product` to the user, access is allowed only if the user has an attribute value matching `product` when accessing the target.
 
-위의 예시와 같이 `특정 속성 ID를 가지는 보호 자원에 접근`할 때, 사용자에게 부여한 속성값이 접근하려는 대상의 조건 속성과 일치하는 경우만 자원에 접근을 허용하도록 구성할 수 있습니다.
+When you access a protected resource with a `specific attribute ID ` as in the example above, you can configure the resource to be allowed access only if the attribute value you give matches the condition attribute of the target you want to access.
 
-### 리소스
+### Resource
 
-리소스는 보호 자원을 정의하는 단위입니다. URI 기반 hierarchy 구조로 구성할 수 있으며, 각 리소스에는 리소스 식별 정보와 리소스에 접근할 수 있는 `권한(역할-오퍼레이션 쌍)` 목록을 지정할 수 있습니다.
-리소스 기반으로 인가에 대한 정책을 수립하는 경우에 유용합니다.
-단, 역할 기반으로 접근 제어 정책을 수립하는 경우 리소스 정의는 필요하지 않습니다.
+A resource is a unit that defines a protected resource. It can be configured as a URI-based hierarchy structure, and each resource can designate resource identification information with a list of `permissions (role-operation pairs)` to access resources.
+It is useful when establishing a policy for authorization based on resources. 
+However, if you establish a role-based access control policy, you do not need to define resources.
 
-예. 게시판의 `게시글`을 리소스로 정의하여 `수정`과 `삭제`는 `관리자 역할`만 허용하고, `게스트 역할`은 `보기만 허용`하도록 구성할 수 있습니다. 또한 `관리자` 역할에 `게스트`의 역할을 연관 역할로 지정하면 `보기` 오퍼레이션을 수행할 수 있으므로 중복 적용하지 않고 효율적으로 관리할 수 있습니다.
+Example: You can define `posting` on the bulletin board as a resource so that `modify` and `delete` allow only `administrator role` and `guest role` allow only to `view`. Also, if you designate the role of `guest` to the role of `administrator` as the associated role to perform the `View` operation, enabling efficient management without duplicate application.
 
-### 사용자
+### User
 
-사용자의 접근 권한은 사용자에게 부여된 역할과 그 역할의 연관 역할로 검사합니다.
-사용자에게 역할을 부여할 때, 해당 역할의 유효 범위를 함께 지정할 수 있습니다. 범위는 운영 환경에서 역할 및 조건 속성, 리소스 체계가 동일한 여러 조직이나 대상이 있을 때 유용합니다.
+The user's access rights are examined by the roles assigned to the user and the associated roles of those roles.
+When you assign a role to a user, you can also specify the range of its validity, which is useful when you have multiple organizations or targets with the same role and condition attributes, and resource system in your operation environment.
 
-인가는 역할 기반과 리소스 기반으로 제공됩니다. 역할 기반은 사용자가 지정한 역할에 대한 접근을 허용하는지 검사하며, 사용자나 역할에 부여된 속성이 있으면 속성에 대해서도 함께 검사합니다.
-리소스 기반은 사용자가 지정한 리소스 및 오퍼레이션에 대한 접근을 허용하는지 검사합니다. 마찬가지로, 리소스에 접근 가능한 역할에 속성이 부여되어 있다면 속성에 대해서도 함께 검사합니다.
+Authorization is provided on a role-based and resource-based. The role-based checks to allow access to a role that you specify and also checks for attributes that are assigned to a user or role, if any.
+Resource-based checks to allow access to user-specified resources and operations. Similarly, if a resource is given attributes in an accessible role, the attribute is also examined.
 
-## 주요기능
+## Main Features
 
-![\[그림 2\] 기능 설명](http://static.toastoven.net/prod_role/Role_Intro_02.png)
-<center>[그림 2] 기능 설명</center>
+![[Figure 2] Feature Description](http://static.toastoven.net/prod_role/Role_Intro_02.png)
+<center>[Figure 2] Feature Description</center>
 
-* RBAC와 역할에 대한 ABAC을 제공합니다.
-* 역할 간의 상속이 가능하여 수많은 역할을 체계적으로 관리할 수 있습니다.
-* 특정 역할을 미사용하거나 조건을 설정하여 다양하고 세밀한 사용자 접근 제어가 가능합니다.
-* Path variable을 포함하는 Ant Path 기반의 REST API 리소스를 지원합니다.
-* 역할 기반 및 리소스 기반의 사용자 접근 제어 기능을 제공합니다.
-* REST API 및 SDK를 제공합니다.
+* Provides ABAC for RBAC and roles.
+* Allows for inheritance between roles, enabling you to organize a large number of roles.
+* Allows for diverse and fine-grained user access control by enabling specific roles or conditions.
+* Supports ant-path based REST API resources that contain a path variable.
+* Provides role-based and resource-based user access control.
+* Provides REST APIs and SDKs.
 
-## 서비스 용어
+## Service Terms
 
-| 용어 | 설명                 |
+| Term | Description                 |
 | --- |--------------------|
-| 사용자 | 역할을 가지는 주체         |
-| 역할    | 리소스 접근 제어를 위한 최소 단위  |
-| 범위    | 역할이 가질 수 있는 유효 범위    |
-| 오퍼레이션 | 사용자가 리소스에 행할 수 있는 행위 |
-| 리소스   | 역할이 접근할 수 있는 모든 대상   |
-| 조건 속성 | 역할에 추가할 수 있는 조건 속성   |
+| User | A subject who has a role         |
+| Role    | Minimum unit for resource access control  |
+| Range    | Validity range that a role can have    |
+| operation | Action that a user can do to a resource |
+| Resource   | All objects the role can access   |
+| Condition attribute | Condition attribute that can be added to a role   |
