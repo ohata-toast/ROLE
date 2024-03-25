@@ -117,11 +117,20 @@ RoleClient client = new RoleClient(RoleConfig.builder()
 
 **[User]**
 
-|Key|    Type | Required |   Description   |
-|--------------|----------------|----|----------|
-|userId|     String |**Yes**| 사용자 ID|
-|description|    String  |**No**| 설명|
-|roleRelations|  List&lt;UserRoleRelation> |**No**| 연관 역할|
+|Key|    Type | Required | Description        |
+|--------------|----------------|----|--------------------|
+|userId|     String |**Yes**| 사용자 ID             |
+|description|    String  |**No**| 설명                 |
+|regYmdt|  OffsetDateTime |**No**| 사용자 생성일시. 반환 시 설정됨 |
+|roleCounts|  List&lt;UserRoleCount> |**No**| 사용자에 할당된 역할 개수     |
+|roleRelations|  List&lt;UserRoleRelation> |**No**| 연관 역할              |
+
+**[UserRoleCount]**
+
+| Key       | Type     | Required | Description   |
+|-----------|----------|----------|---------------|
+| scopeId   | String   | **No**   | 범위 ID         |
+| roleCount | Integer  | **No**   | 범위 ID별 역할 개수  |
 
 **[UserRoleRelation]**
 
@@ -186,18 +195,19 @@ User user = client.getUser(request);
 
 **[GetUserRequest]**
 
-| Key                  |     Type | Required |   Description   |
-|--------------|----------------|----|----------|
-| userIds              | List&lt;String>      |**No**|   사용자 ID 목록(완전 일치) |
-| userIdPreLike        | String               |**No**|   사용자 ID(전방 일치) |
-| scopeIds             | List&lt;String>      |**No**|   범위 ID 목록(완전 일치) |
-| scopeIdPreLike       | String               |**No**|   범위 ID(전방 일치) |
-| roleIds              | List&lt;String>      |**No**|   역할 ID 목록(완전 일치) |
-| roleIdPreLike        | String               |**No**|   역할 ID(전방 일치) |
-| descriptionLike      | String               |**No**|   사용자 설명(부분 일치) |
-| searchRoleOptionCode | SearchRoleOptionCode |**No**|   접근 가능한 역할 목록 검색 방식 |
-| needRoleRelations    | Boolean              |**No**|   응답 시 역할 연관관계 포함 여부 |
-| needRoleTags         | Boolean              |**No**|   응답 시 역할 연관관계 포함 시 역할 태그 포함 여부 |
+| Key                  |     Type | Required | Description                               |
+|--------------|----------------|----|-------------------------------------------|
+| userIds              | List&lt;String>      |**No**| 사용자 ID 목록(완전 일치)                          |
+| userIdPreLike        | String               |**No**| 사용자 ID(전방 일치)                             |
+| scopeIds             | List&lt;String>      |**No**| 범위 ID 목록(완전 일치)                           |
+| scopeIdPreLike       | String               |**No**| 범위 ID(전방 일치)                              |
+| roleIds              | List&lt;String>      |**No**| 역할 ID 목록(완전 일치)                           |
+| roleIdPreLike        | String               |**No**| 역할 ID(전방 일치)                              |
+| descriptionLike      | String               |**No**| 사용자 설명(부분 일치)                             |
+| searchRoleOptionCode | SearchRoleOptionCode |**No**| 접근 가능한 역할 목록 검색 방식                        |
+| needRoleRelations    | Boolean              |**No**| 응답 시 역할 연관관계 포함 여부(기본값: true)             |
+| needRoleTags         | Boolean              |**No**| 응답 시 역할 연관관계 포함 시 역할 태그 포함 여부(기본값: false) |
+| needRoleCount         | Boolean              |**No**| 응답 시 사용자가 가진 역할 개수 포함 여부(기본값: false)     |
 
 ```java
 GetUserRequest request = GetUsersRequest.builder()
