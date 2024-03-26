@@ -1,5 +1,11 @@
 ## Application Service > ROLE > Release note
 
+### March 26, 2024
+#### Added Features
+* [RESTful API] Changed the Get a list of users API.
+    * POST /role/v3.0/appkeys/{appKey}/users/search : Get a list of users
+        * For more information, see: [link](https://docs.nhncloud.com/en/Application%20Service/ROLE/en/api-v3-guide/#get-a-list-of-users )
+
 ### January 23, 2024.
 #### Added Features
 * Added attribute-based access control (ABAC) feature. 
