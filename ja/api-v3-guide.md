@@ -252,8 +252,9 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
 |   **descriptionLike** | **String**| **No** | 사용자 설명(부분 일치)  |
-|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 여부  |
-|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 시 역할 태그 포함 여부  |
+|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 여부(기본값: true)  |
+|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 시 역할 태그 포함 여부(기본값: false)  |
+|   **needRoleCount** | **Boolean**| **No** | 응답 시 사용자가 가진 역할 개수 포함 여부(기본값: false)        |
 |   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
 |   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
 |   **scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치)  |
@@ -703,18 +704,19 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 ##### SearchUser.Request
 
 
-| Name | Type | Required | Description | 
-|------------ | ------------- | ------------- | ------------ |
-|   **descriptionLike** | **String**| **No** | 사용자 설명(부분 일치)  |
-|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 여부  |
-|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 시 역할 태그 포함 여부  |
-|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)  |
-|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)  |
-|   **scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치)  |
-|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록(완전 일치)  |
-|   **searchRoleOptionCode** | **String**| **No** |   DIRECT_ROLE, INDIRECT_ROLE |
-|   **userIdPreLike** | **String**| **No** | 사용자 ID(전방 일치)  |
-|   **userIds** | **List&lt;String>**| **No** | 사용자 ID 목록(완전 일치)  |
+| Name | Type | Required | Description                                  | 
+|------------ | ------------- | ------------- |----------------------------------------------|
+|   **descriptionLike** | **String**| **No** | 사용자 설명(부분 일치)                                |
+|   **needRoleRelations** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 여부(기본값: true)            |
+|   **needRoleTags** | **Boolean**| **No** | 응답 시 역할 연관 관계 포함 시 역할 태그 포함 여부(기본값: false) |
+|   **needRoleCount** | **Boolean**| **No** | 응답 시 사용자가 가진 역할 개수 포함 여부(기본값: false)        |
+|   **roleIdPreLike** | **String**| **No** | 역할 ID(전방 일치)                                 |
+|   **roleIds** | **List&lt;String>**| **No** | 역할 ID 목록(완전 일치)                              |
+|   **scopeIdPreLike** | **String**| **No** | 범위 ID(전방 일치)                                 |
+|   **scopeIds** | **List&lt;String>**| **No** | 범위 ID 목록(완전 일치)                              |
+|   **searchRoleOptionCode** | **String**| **No** | DIRECT_ROLE, INDIRECT_ROLE                   |
+|   **userIdPreLike** | **String**| **No** | 사용자 ID(전방 일치)                                |
+|   **userIds** | **List&lt;String>**| **No** | 사용자 ID 목록(완전 일치)                             |
 
 
 
@@ -809,7 +811,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
     } ],
     "description" : "description",
     "regYmdt" : "2000-01-23T04:56:07.000+00:00",
-    "userId" : "userId"
+    "userId" : "userId",
+    "roleCounts": [
+      {
+        "roleCount": 2,
+        "scopeId": "scopeId"
+      }
+    ]
   }, {
     "roleRelations" : [ {
       "scopeId" : "scopeId",
@@ -874,7 +882,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
     } ],
     "description" : "description",
     "regYmdt" : "2000-01-23T04:56:07.000+00:00",
-    "userId" : "userId"
+    "userId" : "userId",
+    "roleCounts": [
+      {
+        "roleCount": 2,
+        "scopeId": "scopeId"
+      }
+    ]
   } ]
 }
 ```
@@ -895,11 +909,12 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 
 
 | Name | Type | Required | Description | 
-|------------ | ------------- | ------------- | ------------ |
-|   **description** | **String**| **No** | 설명  |
-|   **regYmdt** | **Date**| **No** | 사용자 생성 일시  |
-|   **roleRelations** | **List&lt;UserBundleProtocol.UserRoleRelationBundleProtocol>**| **No** | 사용자에 할당된 역할 목록  |
-|   **userId** | **String**| **Yes** | 사용자 ID  |
+|------------ | ------------- |----------| ------------ |
+|   **description** | **String**| **No**   | 설명  |
+|   **regYmdt** | **Date**| **No**   | 사용자 생성 일시  |
+|   **roleRelations** | **List&lt;UserBundleProtocol.UserRoleRelationBundleProtocol>**| **No**   | 사용자에 할당된 역할 목록  |
+|   **userId** | **String**| **Yes**  | 사용자 ID  |
+|   **roleCounts** | **List&lt;UserRoleCountProtocol>**| **No**   | 사용자에 할당된 역할 개수  |
 
 
 
@@ -918,6 +933,13 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |   **roleName** | **String**| **No** | 역할 이름  |
 |   **roleTags** | **List&lt;UserBundleProtocol.RoleTagProtocol>**| **No** | 역할 태그 목록  |
 |   **scopeId** | **String**| **Yes** | 범위 ID  |
+
+##### UserBundleProtocol.UserRoleCountProtocol
+
+| Name | Type | Required | Description | 
+|------------ | ------------ | ------------- | ------------ |
+|   **scopeId** | **String**| **Yes** | 범위 ID  |
+|   **roleCount** | **Long**| **Yes** | 범위 ID별 역할 개수  |
 
 ##### ConditionBundleProtocol
 

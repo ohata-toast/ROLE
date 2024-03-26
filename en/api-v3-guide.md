@@ -252,8 +252,9 @@ For detailed response results, see Headers in the Response Body.
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
 |   **descriptionLike** | **String**| **No** | User description (partial match)  |
-|   **needRoleRelations** | **Boolean**| **No** | Whether to include role relations in responses  |
-|   **needRoleTags** | **Boolean**| **No** | Whether to include role tags when including role relations in responses  |
+|   **needRoleRelations** | **Boolean**| **No** | Whether to include role relations in responses (default: true)  |
+|   **needRoleTags** | **Boolean**| **No** | Whether to include role tags when including role relations in responses (default: false)  |
+|   **needRoleCount** | **Boolean**| **No** | Whether to include the number of roles users have in responses (default: false)        |
 |   **roleIdPreLike** | **String**| **No** | Role ID (forward match)  |
 |   **roleIds** | **List&lt;String>**| **No** | Role ID list (exact match)  |
 |   **scopeIdPreLike** | **String**| **No** | Scope ID (forward match)  |
@@ -706,8 +707,9 @@ For detailed response results, see Headers in the Response Body.
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
 |   **descriptionLike** | **String**| **No** | User description (partial match)  |
-|   **needRoleRelations** | **Boolean**| **No** | Whether to include role relations in responses  |
-|   **needRoleTags** | **Boolean**| **No** | Whether to include role tags when including role relations in responses  |
+|   **needRoleRelations** | **Boolean**| **No** | Whether to include role relations in responses (default: true)  |
+|   **needRoleTags** | **Boolean**| **No** | Whether to include role tags when including role relations in responses (default: false)  |
+|   **needRoleCount** | **Boolean**| **No** | Whether to include the number of roles users have in responses (default: false)        |
 |   **roleIdPreLike** | **String**| **No** | Role ID (forward match)  |
 |   **roleIds** | **List&lt;String>**| **No** | Role ID list (exact match)  |
 |   **scopeIdPreLike** | **String**| **No** | Scope ID (forward match)  |
@@ -809,7 +811,13 @@ For detailed response results, see Headers in the Response Body.
     } ],
     "description" : "description",
     "regYmdt" : "2000-01-23T04:56:07.000+00:00",
-    "userId" : "userId"
+    "userId" : "userId",
+    "roleCounts": [
+      {
+        "roleCount": 2,
+        "scopeId": "scopeId"
+      }
+    ]
   }, {
     "roleRelations" : [ {
       "scopeId" : "scopeId",
@@ -874,7 +882,13 @@ For detailed response results, see Headers in the Response Body.
     } ],
     "description" : "description",
     "regYmdt" : "2000-01-23T04:56:07.000+00:00",
-    "userId" : "userId"
+    "userId" : "userId",
+    "roleCounts": [
+      {
+        "roleCount": 2,
+        "scopeId": "scopeId"
+      }
+    ]
   } ]
 }
 ```
@@ -900,6 +914,7 @@ For detailed response results, see Headers in the Response Body.
 |   **regYmdt** | **Date**| **No** | User Creation Date  |
 |   **roleRelations** | **List<UserBundleProtocol.UserRoleRelationBundleProtocol>**| **No** | List of roles assigned to the user  |
 |   **userId** | **String**| **Yes** | User ID  |
+|   **roleCounts** | **List&lt;UserRoleCountProtocol>**| **No**   | The number of roles assigned to users  |
 
 
 
@@ -918,6 +933,13 @@ For detailed response results, see Headers in the Response Body.
 |   **roleName** | **String**| **No** | Role name  |
 |   **roleTags** | **List<UserBundleProtocol.RoleTagProtocol>**| **No** | Role tag list  |
 |   **scopeId** | **String**| **Yes** | Scope ID  |
+
+##### UserBundleProtocol.UserRoleCountProtocol
+
+| Name | Type | Required | Description | 
+|------------ | ------------ | ------------- | ------------ |
+|   **scopeId** | **String**| **Yes** | Scope ID  |
+|   **roleCount** | **Long**| **Yes** | The number of roles for each scope ID  |
 
 ##### ConditionBundleProtocol
 

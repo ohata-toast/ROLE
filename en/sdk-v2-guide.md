@@ -121,7 +121,16 @@ RoleClient client = new RoleClient(RoleConfig.builder()
 |--------------|----------------|----|----------|
 |userId|     String |**Yes**| User ID|
 |description|    String  |**No**| Description|
+|regYmdt|  OffsetDateTime |**No**| User creatime time. Set on return |
+|roleCounts|  List&lt;UserRoleCount> |**No**| Number of roles assgined to users     |
 |roleRelations|  List<UserRoleRelation> |**No**| An associated role|
+
+**[UserRoleCount]**
+
+| Key       | Type     | Required | Description   |
+|-----------|----------|----------|---------------|
+| scopeId   | String   | **No**   | Scope ID         |
+| roleCount | Integer  | **No**   | Number of roles for each scope ID  |
 
 **[UserRoleRelation]**
 
@@ -196,8 +205,9 @@ User user = client.getUser(request);
 | roleIdPreLike        | String               |**No**|   Role ID (Front matched) |
 | descriptionLike      | String               |**No**|   User Description (Partially matched) |
 | searchRoleOptionCode | SearchRoleOptionCode |**No**|   Accessible Role List Search method |
-| needRoleRelations    | Boolean              |**No**|   Whether or not to include role associations in response or not |
-| needRoleTags         | Boolean              |**No**|   When in response and include role associations, whether to include role tags or not  |
+| needRoleRelations    | Boolean              |**No**|   Whether or not to include role associations in response or not (default: true) |
+| needRoleTags         | Boolean              |**No**|   When in response and include role associations, whether to include role tags or not (default: false)  |
+| needRoleCount         | Boolean              |**No**| Whether or not to include the number of roles users have in responses (default: false)     |
 
 ```java
 GetUserRequest request = GetUsersRequest.builder()
