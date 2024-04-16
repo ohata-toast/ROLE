@@ -117,11 +117,20 @@ RoleClient client = new RoleClient(RoleConfig.builder()
 
 **[User]**
 
-|Key|    Type | Required |   Description   |
-|--------------|----------------|----|----------|
-|userId|     String |**Yes**| ユーザーID|
-|description|    String  |**No**| 説明|
-|roleRelations|  List&lt;UserRoleRelation> |**No**| 関連ロール|
+|Key|    Type | Required | Description        |
+|--------------|----------------|----|--------------------|
+|userId|     String |**Yes**| ユーザーID             |
+|description|    String  |**No**| 説明                |
+|regYmdt|  OffsetDateTime |**No**| ユーザー作成日時。戻り時に設定される。 |
+|roleCounts|  List&lt;UserRoleCount> |**No**| ユーザーに割り当てられたロール数    |
+|roleRelations|  List&lt;UserRoleRelation> |**No**| 関連ロール             |
+
+**[UserRoleCount]**
+
+| Key       | Type     | Required | Description   |
+|-----------|----------|----------|---------------|
+| scopeId   | String   | **No**   | スコープID         |
+| roleCount | Integer  | **No**   | スコープID別のロール数 |
 
 **[UserRoleRelation]**
 
@@ -186,18 +195,19 @@ User user = client.getUser(request);
 
 **[GetUserRequest]**
 
-| Key                  |     Type | Required |   Description   |
-|--------------|----------------|----|----------|
-| userIds              | List&lt;String>      |**No**|  ユーザーIDリスト(完全一致) |
-| userIdPreLike        | String               |**No**|  ユーザーID(前方一致) |
-| scopeIds             | List&lt;String>      |**No**|  スコープIDリスト(完全一致) |
-| scopeIdPreLike       | String               |**No**|  スコープID(前方一致) |
-| roleIds              | List&lt;String>      |**No**|  ロールIDリスト(完全一致) |
-| roleIdPreLike        | String               |**No**|  ロールID(前方一致) |
-| descriptionLike      | String               |**No**|  ユーザー説明(部分一致) |
-| searchRoleOptionCode | SearchRoleOptionCode |**No**|  アクセス可能なロールリストの検索方式 |
-| needRoleRelations    | Boolean              |**No**|  レスポンス時にロール関連関係を含めるかどうか |
-| needRoleTags         | Boolean              |**No**|  レスポンス時にロール関連関係を含める場合、ロールタグを含めるかどうか |
+| Key                  |     Type | Required | Description                               |
+|--------------|----------------|----|-------------------------------------------|
+| userIds              | List&lt;String>      |**No**| ユーザーIDリスト(完全一致)                          |
+| userIdPreLike        | String               |**No**| ユーザーID(前方一致)                             |
+| scopeIds             | List&lt;String>      |**No**| スコープIDリスト(完全一致)                           |
+| scopeIdPreLike       | String               |**No**| スコープID(前方一致)                              |
+| roleIds              | List&lt;String>      |**No**| ロールIDリスト(完全一致)                           |
+| roleIdPreLike        | String               |**No**| ロールID(前方一致)                              |
+| descriptionLike      | String               |**No**| ユーザー説明(部分一致)                             |
+| searchRoleOptionCode | SearchRoleOptionCode |**No**| アクセス可能なロールリストの検索方法                       |
+| needRoleRelations    | Boolean              |**No**| レスポンス時にロール関連関係を含めるかどうか(デフォルト値: true)             |
+| needRoleTags         | Boolean              |**No**| レスポンス時にロール関連関係を含める時、ロールタグを含めるかどうか(デフォルト値: false) |
+| needRoleCount         | Boolean              |**No**| レスポンス時にユーザーが持っているロール数を含めるかどうか(デフォルト値: false)     |
 
 ```java
 GetUserRequest request = GetUsersRequest.builder()

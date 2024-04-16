@@ -1,5 +1,11 @@
 ## Application Service > ROLE > リリースノート
 
+### 2024. 03. 26.
+#### 機能追加
+* [RESTful API]ユーザーリスト照会APIが変更されました。
+    * POST /role/v3.0/appkeys/{appKey}/users/search :ユーザーリスト照会
+        * 詳細については、マニュアルを参照: [リンク](https://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-v3-guide/#_8)
+
 ### 2024. 02. 27.
 #### 機能追加
 * ABAC(属性ベースのアクセス制御)機能が追加されました。
