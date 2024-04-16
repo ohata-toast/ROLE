@@ -1,10 +1,17 @@
 ## Application Service > ROLE > リリースノート
 
-### 2024. 03. 26.
+### 2024. 04. 23.
 #### 機能追加
-* [RESTful API]ユーザーリスト照会APIが変更されました。
-    * POST /role/v3.0/appkeys/{appKey}/users/search :ユーザーリスト照会
-        * 詳細については、マニュアルを参照: [リンク](https://docs.nhncloud.com/ja/Application%20Service/ROLE/ja/api-v3-guide/#_8)
+* [RESTful API]ロールリスト照会、ロール単件照会APIが拡張されました。
+  * 関連関係ロールリストにロールタグリストが追加されました。
+    * POST /role/v3.0/appkeys/{appKey}/roles/search:ロールリスト照会
+        * 詳細については、マニュアルを参照: [リンク](https://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-v3-guide/#searchRoles)
+    * GET /role/v3.0/appkeys/{appKey}/roles/{roleId}:ロール単件照会
+        * 詳細については、マニュアルを参照: [リンク](https://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-v3-guide/#getRole)
+
+#### バグ修正
+* [RESTful API]ロール作成、ロール修正APIリクエスト時にroleApplyPolicyCode(ロール使用有無)項目を反映しないエラーが修正されました。
+* [RESTful API]ロール作成、ロール修正APIリクエスト時にconditions(ロール条件属性)の一部有効性検証が失敗するエラーが修正されました。
 
 ### 2024. 02. 27.
 #### 機能追加

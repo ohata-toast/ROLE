@@ -252,9 +252,8 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
 | Name | Type | Required | Description | 
 |------------ | ------------- | ------------- | ------------ |
 |   **descriptionLike** | **String**| **No** | ユーザーの説明(部分一致)  |
-|   **needRoleRelations** | **Boolean**| **No** | レスポンス時に関連ロール関係を含めるかどうか(デフォルト値: true)  |
-|   **needRoleTags** | **Boolean**| **No** | レスポンス時にロール関連関係を含める場合、ロールタグを含めるかどうか(デフォルト値: false)  |
-|   **needRoleCount** | **Boolean**| **No** | レスポンス時、ユーザーが持つロール数を含めるかどうか(デフォルト値: false)        |
+|   **needRoleRelations** | **Boolean**| **No** | レスポンス時に関連ロール関係を含めるかどうか  |
+|   **needRoleTags** | **Boolean**| **No** | レスポンス時にロール関連関係を含める場合、ロールタグを含めるかどうか  |
 |   **roleIdPreLike** | **String**| **No** | ロールID(前方一致)  |
 |   **roleIds** | **List&lt;String>**| **No** | ロールIDリスト(完全一致)  |
 |   **scopeIdPreLike** | **String**| **No** | スコープID(前方一致)  |
@@ -691,19 +690,19 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
 ##### SearchUser.Request
 
 
-| Name | Type | Required | Description                                  | 
-|------------ | ------------- | ------------- |----------------------------------------------|
-|   **descriptionLike** | **String**| **No** | ユーザーの説明(部分一致)                                |
-|   **needRoleRelations** | **Boolean**| **No** | レスポンス時に関連ロール関係を含めるかどうか(デフォルト値: true)            |
-|   **needRoleTags** | **Boolean**| **No** | レスポンス時にロール関連関係を含める場合、ロールタグを含めるかどうか(デフォルト値: false) |
-|   **needRoleCount** | **Boolean**| **No** | レスポンス時にユーザーが持つロール数を含めるかどうか(デフォルト値: false)        |
-|   **roleIdPreLike** | **String**| **No** | ロールID(前方一致)                                 |
-|   **roleIds** | **List&lt;String>**| **No** | ロールIDリスト(完全一致)                              |
-|   **scopeIdPreLike** | **String**| **No** | スコープID(前方一致)                                 |
-|   **scopeIds** | **List&lt;String>**| **No** | スコープIDリスト(完全一致)                              |
-|   **searchRoleOptionCode** | **String**| **No** | DIRECT_ROLE, INDIRECT_ROLE                   |
-|   **userIdPreLike** | **String**| **No** | ユーザーID(前方一致)                                |
-|   **userIds** | **List&lt;String>**| **No** | ユーザーIDリスト(完全一致)                             |
+| Name | Type | Required | Description | 
+|------------ | ------------- | ------------- | ------------ |
+|   **descriptionLike** | **String**| **No** | ユーザーの説明(部分一致)  |
+|   **needRoleRelations** | **Boolean**| **No** | レスポンス時に関連ロール関係を含めるかどうか  |
+|   **needRoleTags** | **Boolean**| **No** | レスポンス時にロール関連関係を含める場合、ロールタグを含めるかどうか  |
+|   **roleIdPreLike** | **String**| **No** | ロールID(前方一致)  |
+|   **roleIds** | **List&lt;String>**| **No** | ロールIDリスト(完全一致)  |
+|   **scopeIdPreLike** | **String**| **No** | スコープID(前方一致)  |
+|   **scopeIds** | **List&lt;String>**| **No** | スコープIDリスト(完全一致)  |
+|   **searchRoleOptionCode** | **String**| **No** |   DIRECT_ROLE, INDIRECT_ROLE |
+|   **userIdPreLike** | **String**| **No** | ユーザーID(前方一致)  |
+|   **userIds** | **List&lt;String>**| **No** | ユーザーIDリスト(完全一致)  |
+
 
 
 
@@ -884,12 +883,12 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
 
 
 | Name | Type | Required | Description | 
-|------------ | ------------- |----------| ------------ |
-|   **description** | **String**| **No**   | 説明 |
-|   **regYmdt** | **Date**| **No**   | ユーザー作成日時 |
-|   **roleRelations** | **List&lt;UserBundleProtocol.UserRoleRelationBundleProtocol>**| **No**   | ユーザーに割り当てられたロールリスト |
-|   **userId** | **String**| **Yes**  | ユーザーID  |
-|   **roleCounts** | **List&lt;UserRoleCountProtocol>**| **No**   | ユーザーに割り当てられたロール数 |
+|------------ | ------------- | ------------- | ------------ |
+|   **description** | **String**| **No** | 説明 |
+|   **regYmdt** | **Date**| **No** | ユーザー作成日時 |
+|   **roleRelations** | **List&lt;UserBundleProtocol.UserRoleRelationBundleProtocol>**| **No** | ユーザーに割り当てられたロールリスト |
+|   **userId** | **String**| **Yes** | ユーザーID  |
+
 
 
 ##### UserBundleProtocol.UserRoleRelationBundleProtocol
@@ -913,7 +912,7 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
 | Name | Type | Required | Description | 
 |------------ | ------------ | ------------- | ------------ |
 |   **scopeId** | **String**| **Yes** | スコープID  |
-|   **roleCount** | **Long**| **Yes** | スコープID別のロール数 |
+|   **roleCount** | **Long**| **Yes** | スコープID毎のロールの数  |
 
 ##### ConditionBundleProtocol
 
@@ -1769,6 +1768,44 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
       "roleId" : "roleId",
       "roleName" : "roleName",
       "description" : "description",
+      "roleTags" : [ {
+        "roleTagId" : "roleTagId"
+      }, {
+        "roleTagId" : "roleTagId"
+      } ],
+      "conditions" : [ {
+        "attributeId" : "instance.name",
+        "attributeValues" : [ "attributeValues", "attributeValues" ],
+        "attribute" : {
+          "attributeId" : "attributeId",
+          "description" : "description",
+          "attributeName" : "attributeName"
+        }
+      }, {
+        "attributeId" : "instance.name",
+        "attributeValues" : [ "attributeValues", "attributeValues" ],
+        "attribute" : {
+          "attributeId" : "attributeId",
+          "description" : "description",
+          "attributeName" : "attributeName"
+        }
+      } ],
+      "roleGroup" : "roleGroup"
+    } ],
+    "exposureOrder" : 0,
+    "roleTags" : [ {
+      "roleTagId" : "roleTagId"
+    }, {
+      "roleTagId" : "roleTagId"
+    } ],
+    "roleId" : "roleId",
+    "roleName" : "roleName",
+    "description" : "description",
+   "roleTags" : [ {
+        "roleTagId" : "roleTagId"
+      }, {
+        "roleTagId" : "roleTagId"
+      } ],
       "conditions" : [ {
         "attributeId" : "instance.name",
         "attributeValues" : [ "attributeValues", "attributeValues" ],
@@ -1816,8 +1853,6 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
   }
 }
 ```
-
-
 
 ##### GetRoleResponse
 
@@ -1882,6 +1917,7 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
 |   **roleGroup** | **String**| **No** | ロールグループ |
 |   **roleId** | **String**| **Yes** | ロールID  |
 |   **roleName** | **String**| **No** | ロール名 |
+|   **roleTags** | **List&lt;RoleBundleProtocol.RoleTagProtocol>**| **No** | 役割タグリスト |
 
 ##### ConditionBundleProtocol
 
@@ -2194,6 +2230,11 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
       "roleId" : "roleId",
       "roleName" : "roleName",
       "description" : "description",
+      "roleTags" : [ {
+        "roleTagId" : "roleTagId"
+      }, {
+        "roleTagId" : "roleTagId"
+      } ],
       "conditions" : [ {
         "attributeId" : "instance.name",
         "attributeValues" : [ "attributeValues", "attributeValues" ],
@@ -2217,6 +2258,11 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
       "roleId" : "roleId",
       "roleName" : "roleName",
       "description" : "description",
+      "roleTags" : [ {
+        "roleTagId" : "roleTagId"
+      }, {
+        "roleTagId" : "roleTagId"
+      } ],
       "conditions" : [ {
         "attributeId" : "instance.name",
         "attributeValues" : [ "attributeValues", "attributeValues" ],
@@ -2263,6 +2309,11 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
       "roleId" : "roleId",
       "roleName" : "roleName",
       "description" : "description",
+      "roleTags" : [ {
+        "roleTagId" : "roleTagId"
+      }, {
+        "roleTagId" : "roleTagId"
+      } ],
       "conditions" : [ {
         "attributeId" : "instance.name",
         "attributeValues" : [ "attributeValues", "attributeValues" ],
@@ -2400,6 +2451,7 @@ RESTful APIとクライアントSDKを使用するには、アプリケーショ
 |   **roleGroup** | **String**| **No** | ロールグループ |
 |   **roleId** | **String**| **Yes** | ロールID  |
 |   **roleName** | **String**| **No** | ロール名 |
+|   **roleTags** | **List&lt;RoleBundleProtocol.RoleTagProtocol>**| **No** | 役割タグリスト |
 
 ##### ConditionBundleProtocol
 
