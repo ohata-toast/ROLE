@@ -1,34 +1,34 @@
-## Application Service > ROLE > SDK 사용 가이드
+## Application Service > ROLE > SDK使用ガイド
 
-> ROLE 서비스를 이용하여 권한을 체크하기 위해서는
-> RESTful API를 호출하거나, 클라이언트 SDK를 이용해야 합니다.
+> ROLEサービスを利用して権限をチェックするためには
+> RESTful APIを呼び出すか、クライアントSDKを利用する必要があります。
 
-## 앱키 & 비밀 키
+## アプリケーションキー&秘密鍵
 
-RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 필요합니다. 
-[CONSOLE]의 우측 상단에서 발급된 키 정보를 확인할 수 있습니다.
+RESTful APIとクライアントSDKを使用するには、アプリケーションキーと秘密鍵が必要です。 
+[CONSOLE]の右上で発行されたキー情報を確認できます。
 
-![[그림 1] 앱키 & 비밀 키 확인](http://static.toastoven.net/prod_role/role_60.png)
-<center>[그림 1] 앱키 & 비밀 키 확인</center>
+![[図1]アプリケーションキー&秘密鍵の確認](http://static.toastoven.net/prod_role/role_60.png)
+<center>[図1]アプリケーションキー&秘密鍵の確認</center>
 
-## 클라이언트 SDK
+## クライアントSDK
 
-### 클라이언트 SDK 란?
+### クライアントSDKとは？
 
-RESTful API를 손쉽게 호출하기 위한 ROLE 전용 클라이언트 SDK입니다.
-자체 캐시 기능을 가지고 있기 때문에, 좀더 효율적으로 ROLE 서비스를 이용할 수 있습니다.
-현재는 JAVA 언어에 대해서만 지원합니다.
+RESTful APIを簡単に呼び出すためのROLE専用クライアントSDKです。
+独自のキャッシュ機能を持っているため、より効率的にROLEサービスを利用できます。
+現在はJAVA言語のみサポートしています。
 
-### 사용 환경
-`JDK 11` 버전 이상의 환경
+### 使用環境
+`JDK 11`バージョン以上の環境
 
-### Maven을 이용한 JAVA 클라이언트 SDK 사용
+### Mavenを利用したJAVAクライアントSDKの使用方法
 
-JAVA 클라이언트 SDK를 사용하기 위해선 pom.xml에 maven repository 및 depencency 설정이 필요합니다.
+JAVAクライアントSDKを使用するにはpom.xmlにmaven repository及びdepencencyを設定する必要があります。
 
 **[Maven Repository]**
-Maven Central Repository에 저장되어 있어 별도의 설정은 필요 없음.
-만약 다른 저장소를 사용하거나 Maven Central이 참조되지 않는 환경에서는 다음과 같이 설정.
+Maven Central Repositoryに保存されているので別途設定は必要ありません。
+もし、他のリポジトリを使う場合やMaven Centralが参照できない環境では次のように設定。
 
 ```xml
 <repositories>
@@ -50,27 +50,27 @@ Maven Central Repository에 저장되어 있어 별도의 설정은 필요 없�
 </dependencies>
 ```
 
-### JAVA 클라이언트 SDK 사용법
+### JAVAクライアントSDK使用方法
 
-JAVA 클라이언트 SDK를 사용하기 위해서는 먼저 RoleClientFactory 객체를 이용하여 RoleClient 객체의 인스턴스를 생성해야 합니다.
-RoleClient 객체를 생성하였으면, 해당 객체에서 제공하는 메서드를 호출하여 여러 작업들을 처리하면 됩니다.
+JAVAクライアントSDKを使用するには、まずRoleClientFactoryオブジェクトを利用してRoleClientオブジェクトのインスタンスを作成する必要があります。
+RoleClientオブジェクトを作成したら、そのオブジェクトで提供するメソッドを呼び出して様々な作業を処理します。
 
 **[RoleConfig]**
 
 | Key            | Type | Required | Description                                                         |
 |--------------|----------------|----|---------------------------------------------------------------------|
-| appKey         | String  |**Yes**| 서버에서 발급받은 앱키                                                        |
-| secretKey      | String  |**Yes**| 서버에서 발급받은 비밀 키                                                      |
-| domain         | String  |**No**| 도메인 주소<br/>기본으로 설정된 값을 사용하며, 별도로 설정할 필요는 없다                         |
-| connectTimeout | Integer |**No**| 연결 타임아웃을 설정할 수 있으며, 시간 단위는 밀리 세컨드이다.<br/>기본값은 okHttp의 기본값인 10초이다.   |
-| readTimeout    | Integer |**No**| Read 타임아웃을 설정할 수 있으며, 시간 단위는 밀리 세컨드이다.<br/>기본값은 okHttp의 기본값인 10초이다. |
+| appKey         | String  |**Yes**| サーバーから発行されたアプリケーションキー                                                       |
+| secretKey      | String  |**Yes**| サーバーから発行された秘密鍵                                                     |
+| domain         | String  |**No**| ドメインアドレス<br/>デフォルトで設定された値を使用し、別途設定する必要はありません。                         |
+| connectTimeout | Integer |**No**| 接続のタイムアウトを設定することができ、時間単位はミリ秒。<br/>デフォルト値はokHttpのデフォルト値である10秒。   |
+| readTimeout    | Integer |**No**| Readタイムアウトを設定できます。単位はミリ秒で、デフォルトはokHttpのデフォルトである10秒です。 |
 
 ```java
 String appKey = "appKey";
 String secretKey = "secretKey";
 
-// RoleClient 객체를 생성하는 올바른 방법
-// 도메인은 별도로 설정해 주지 않아도 된다.
+// RoleClientオブジェクトを作成する正しい方法
+// ドメインは別途設定する必要はありません。
 RoleClient client = RoleClientFactory.getClient(RoleConfig.builder()
                                                             .appKey(appKey)
                                                             .secretKey(secretKey)
@@ -78,7 +78,7 @@ RoleClient client = RoleClientFactory.getClient(RoleConfig.builder()
                                                             .readTimeout(60_000)
                                                             .build());
 
-// 아래처럼 직접 생성자를 호출하면 안 된다.
+// 以下のように直接コンストラクタを呼び出してはいけません。
 RoleClient client = new RoleClient(RoleConfig.builder()
                                                 .appKey(appKey)
                                                 .secretKey(secretKey)
@@ -87,31 +87,31 @@ RoleClient client = new RoleClient(RoleConfig.builder()
                                                 .build());
 ```
 
-> RoleClient의 생성자를 직접 호출하지 않도록 주의합니다.
+> RoleClientのコンストラクタを直接呼び出さないように注意してください。
 
-### SDK 사용 가이드
+### SDK使用ガイド
 #### Common
-> SDK 공통 기능으로 사용되는 부분
+> SDK共通機能で使う部分
 
-1. 페이징을 위한 요청/응답 모델
+1. ページングのためのリクエスト/レスポンスモデル
 
 **[Pageable]**
 
 | Key          | Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| page         | Integer| **No** | 페이지 번호         |
-| itemsPerPage | Integer | **No** | 목록 당 조회될 아이템 수 |
-| sort              | List&lt;String>      | **No** |    데이터 정렬 기준     |
+| page         | Integer| **No** | ページ番号        |
+| itemsPerPage | Integer | **No** | リストごとに照会されるアイテムの数 |
+| sort              | List&lt;String>      | **No** |   データソート基準    |
 
 **[Page]**
 
 | Key          | Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| totalItems         | Integer    | **Yes** | 전체 개수    |
-| items | List&lt;T> | **Yes** | 조회된 목록     |
+| totalItems         | Integer    | **Yes** | 全体数   |
+| items | List&lt;T> | **Yes** | 照会されたリスト    |
 
-#### 1. 사용자
-> 사용자 정보 등록, 조회, 수정, 삭제 기능 및 사용자 역할 변경 내역 조회
+#### 1. ユーザー
+> ユーザー情報の登録、照会、修正、削除機能及びユーザーロールの変更履歴の照会
 
 1. Model
 
@@ -119,38 +119,38 @@ RoleClient client = new RoleClient(RoleConfig.builder()
 
 |Key|    Type | Required | Description        |
 |--------------|----------------|----|--------------------|
-|userId|     String |**Yes**| 사용자 ID             |
-|description|    String  |**No**| 설명                 |
-|regYmdt|  OffsetDateTime |**No**| 사용자 생성일시. 반환 시 설정됨 |
-|roleCounts|  List&lt;UserRoleCount> |**No**| 사용자에 할당된 역할 개수     |
-|roleRelations|  List&lt;UserRoleRelation> |**No**| 연관 역할              |
+|userId|     String |**Yes**| ユーザーID             |
+|description|    String  |**No**| 説明                |
+|regYmdt|  OffsetDateTime |**No**| ユーザー作成日時。戻り時に設定される。 |
+|roleCounts|  List&lt;UserRoleCount> |**No**| ユーザーに割り当てられたロール数    |
+|roleRelations|  List&lt;UserRoleRelation> |**No**| 関連ロール             |
 
 **[UserRoleCount]**
 
 | Key       | Type     | Required | Description   |
 |-----------|----------|----------|---------------|
-| scopeId   | String   | **No**   | 범위 ID         |
-| roleCount | Integer  | **No**   | 범위 ID별 역할 개수  |
+| scopeId   | String   | **No**   | スコープID         |
+| roleCount | Integer  | **No**   | スコープID別のロール数 |
 
 **[UserRoleRelation]**
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|scopeId|    String            |**Yes**|     적용 대상 ID              |
-|roleId|     String            |**Yes**|     역할 ID                 |
-|roleApplyPolicyCode|    RoleApplyPolicyCode |**No**|   역할 사용 여부: ALLOW, DENY |
-|conditions|     List&lt;Condition>   |**No**|  역할 조건 속성              |
-|regYmdt | Date| **Yes** | 생성일시  |
+|scopeId|    String            |**Yes**|    適用対象ID              |
+|roleId|     String            |**Yes**|    ロールID                 |
+|roleApplyPolicyCode|    RoleApplyPolicyCode |**No**|  ロール使用有無: ALLOW, DENY |
+|conditions|     List&lt;Condition>   |**No**| ロール条件属性             |
+|regYmdt | Date| **Yes** | 作成日時  |
 
 **[Condition]**
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|attributeId| String |**Yes**|   조건 속성 ID          |
-|attributeOperatorType | Required |**Yes**|   조건 속성 연산자 유형  |
-|attributeValues| List&lt;String> |**No**|  조건 속성 값           |
+|attributeId| String |**Yes**|  条件属性ID          |
+|attributeOperatorType | Required |**Yes**|  条件属性演算子タイプ |
+|attributeValues| List&lt;String> |**No**| 条件属性値          |
 
-2. 사용자 생성
+2. ユーザーの作成
 
 ```java
 User user = User.builder()
@@ -170,16 +170,16 @@ User user = User.builder()
 client.createUsers(List.of(user));
 ```
 
-3. 사용자 조회
+3. ユーザーの照会
 
 **[GetUserRequest]**
 
 | Key                  |     Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| userId               | String |**Yes**|    사용자 ID                                             |
-| searchRoleOptionCode | SearchRoleOptionCode    |**No**|   연관관계 권한을 포함해서 검색할지 여부: DIRECT_ROLE, INDIRECT_ROLE |
-| roleIds              | List&lt;String> |**No**|   역할 ID 목록      |
-| scopeIds             | List&lt;String> |**No**|   적용 대상 ID 목록 |
+| userId               | String |**Yes**|   ユーザーID                                             |
+| searchRoleOptionCode | SearchRoleOptionCode    |**No**|   関連関係権限を含めて検索するかどうか： DIRECT_ROLE, INDIRECT_ROLE |
+| roleIds              | List&lt;String> |**No**|  ロールIDリスト     |
+| scopeIds             | List&lt;String> |**No**|  適用対象IDリスト |
 
 ```java
 GetUserRequest request = GetUserRequest.builder()
@@ -189,25 +189,25 @@ GetUserRequest request = GetUserRequest.builder()
 User user = client.getUser(request);
 ```
 
-4. 사용자 목록 조회
+4. ユーザーリストの照会
 
-⚠️ 응답 시 사용되는 모델은 `Common` 참고
+⚠️レスポンス時に使用されるモデルは`Common`を参照
 
 **[GetUserRequest]**
 
 | Key                  |     Type | Required | Description                               |
 |--------------|----------------|----|-------------------------------------------|
-| userIds              | List&lt;String>      |**No**| 사용자 ID 목록(완전 일치)                          |
-| userIdPreLike        | String               |**No**| 사용자 ID(전방 일치)                             |
-| scopeIds             | List&lt;String>      |**No**| 범위 ID 목록(완전 일치)                           |
-| scopeIdPreLike       | String               |**No**| 범위 ID(전방 일치)                              |
-| roleIds              | List&lt;String>      |**No**| 역할 ID 목록(완전 일치)                           |
-| roleIdPreLike        | String               |**No**| 역할 ID(전방 일치)                              |
-| descriptionLike      | String               |**No**| 사용자 설명(부분 일치)                             |
-| searchRoleOptionCode | SearchRoleOptionCode |**No**| 접근 가능한 역할 목록 검색 방식                        |
-| needRoleRelations    | Boolean              |**No**| 응답 시 역할 연관관계 포함 여부(기본값: true)             |
-| needRoleTags         | Boolean              |**No**| 응답 시 역할 연관관계 포함 시 역할 태그 포함 여부(기본값: false) |
-| needRoleCount         | Boolean              |**No**| 응답 시 사용자가 가진 역할 개수 포함 여부(기본값: false)     |
+| userIds              | List&lt;String>      |**No**| ユーザーIDリスト(完全一致)                          |
+| userIdPreLike        | String               |**No**| ユーザーID(前方一致)                             |
+| scopeIds             | List&lt;String>      |**No**| スコープIDリスト(完全一致)                           |
+| scopeIdPreLike       | String               |**No**| スコープID(前方一致)                              |
+| roleIds              | List&lt;String>      |**No**| ロールIDリスト(完全一致)                           |
+| roleIdPreLike        | String               |**No**| ロールID(前方一致)                              |
+| descriptionLike      | String               |**No**| ユーザー説明(部分一致)                             |
+| searchRoleOptionCode | SearchRoleOptionCode |**No**| アクセス可能なロールリストの検索方法                       |
+| needRoleRelations    | Boolean              |**No**| レスポンス時にロール関連関係を含めるかどうか(デフォルト値: true)             |
+| needRoleTags         | Boolean              |**No**| レスポンス時にロール関連関係を含める時、ロールタグを含めるかどうか(デフォルト値: false) |
+| needRoleCount         | Boolean              |**No**| レスポンス時にユーザーが持っているロール数を含めるかどうか(デフォルト値: false)     |
 
 ```java
 GetUserRequest request = GetUsersRequest.builder()
@@ -221,14 +221,14 @@ Pageable pageable = Pageable.builder()
 Page<User> user = client.getUsers(request, pageable);
 ```
 
-5. 사용자 수정
+5. ユーザーの修正
 
 **[PutUserRequest]**
 
 | Key                  |     Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| user                 | User      |**Yes**|   ⚠️ 요청 시 사용되는 모델은 `User` 참고 |
-| createUserIfNotExist | Boolean    |**No**|   요청 시 존재하지 않는 사용자일 경우 생성 여부 |
+| user                 | User      |**Yes**|   ⚠️リクエスト時に使用されるモデルは`User`を参照 |
+| createUserIfNotExist | Boolean    |**No**|  リクエスト時にユーザーが存在しない場合、作成するかどうか |
 
 
 ```java
@@ -254,7 +254,7 @@ PutUserRequest request = PutUserRequest.builder()
 client.updateUser(request);
 ```
 
-6. 사용자 삭제
+6. ユーザーの削除
 
 ```java
 String userId = "";
@@ -262,13 +262,13 @@ String userId = "";
 client.deleteUser(userId);
 ```
 
-7. 사용자 다건 삭제
+7. ユーザーの一括削除
 
 **[DeleteUsersRequest]**
 
 | Key                  |     Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| userIds             | Set&lt;String>      |**Yes**|   사용자 ID 목록 |
+| userIds             | Set&lt;String>      |**Yes**|  ユーザーIDリスト |
 
 ```java
 DeleteUsersRequest request = DeleteUsersRequest.builder()
@@ -278,17 +278,17 @@ DeleteUsersRequest request = DeleteUsersRequest.builder()
 client.deleteUsers(request);
 ```
 
-8. 사용자 역할 변경 내역 리스트 조회
+8. ユーザーロール変更履歴リストの照会
 
 **[GetUserRoleHistoriesRequest]**
 
 | Key                  |     Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| userId               | String |**No**|    사용자 ID      |
-| roleId              | String |**No**|     역할 ID       |
-| scopeId             | String   |**No**| 적용 대상 ID
-| fromDateTime | OffsetDateTime   |**No**|  변경 시작 일시     |
-| toDateTime | OffsetDateTime   |**No**|    변경 종료 일시     |
+| userId               | String |**No**|   ユーザーID      |
+| roleId              | String |**No**|    ロールID       |
+| scopeId             | String   |**No**| 適用対象ID
+| fromDateTime | OffsetDateTime   |**No**| 変更開始日時    |
+| toDateTime | OffsetDateTime   |**No**|   変更終了日時    |
 
 ```java
 GetUserRoleHistoriesRequest request = GetUserRoleHistoriesRequest.builder()
@@ -306,27 +306,27 @@ Page<UserRoleHistory> userRoleHistories = client.getUserRoleHistories(request, P
 
 | Key                  |    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| userHistorySeq               | long           |**Yes**|   순번           |
-| userId               | String         |**Yes**|   사용자 ID      |
-| roleId              | String         |**No**|    역할 ID       |
-| scopeId             | String          |**No**| 적용 대상 ID
-| roleApplyPolicyCode | RoleApplyPolicyCode |**No**|   역할 사용 여부: ALLOW, DENY     |
-| conditions | List&lt;ConditionBundle> |**No**|   역할 조건 속성     |
-| command | UserRoleHistoryCommandCode |**Yes**|    명령     |
-| executionTime | OffsetDateTime |**Yes**|  변경 일시     |
-| operatorUuid | String |**Yes**|   작업자 UUID     |
+| userHistorySeq               | long           |**Yes**|   順番           |
+| userId               | String         |**Yes**|  ユーザーID      |
+| roleId              | String         |**No**|   ロールID       |
+| scopeId             | String          |**No**| 適用対象ID
+| roleApplyPolicyCode | RoleApplyPolicyCode |**No**|  ロール使用有無: ALLOW, DENY     |
+| conditions | List&lt;ConditionBundle> |**No**|  ロール条件属性    |
+| command | UserRoleHistoryCommandCode |**Yes**|   コマンド    |
+| executionTime | OffsetDateTime |**Yes**| 変更日時    |
+| operatorUuid | String |**Yes**|  作業者UUID     |
 
-9. 범위 기반 사용자 수정
+9. スコープベースのユーザー修正
 
 **[PutUserScopeRequest]**
 
 | Key                  |    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| userId               | String         |**Yes**|   사용자 ID      |
-| scopeId             | String          |**Yes**| 적용 대상 ID
-| description|    String  |**No**| 설명|
-| createUserIfNotExist | Boolean    |**No**|   요청 시 존재하지 않는 사용자일 경우 생성 여부 |
-| roleRelations|  List&lt;UserRoleRelation> |**No**| 연관 역할|
+| userId               | String         |**Yes**|  ユーザーID      |
+| scopeId             | String          |**Yes**| 適用対象ID
+| description|    String  |**No**| 説明|
+| createUserIfNotExist | Boolean    |**No**|  リクエスト時にユーザーが存在しない場合、作成するかどうか |
+| roleRelations|  List&lt;UserRoleRelation> |**No**| 関連ロール|
 
 ```java
 PutUserRequest request = PutUserScopeRequest.builder()
@@ -347,8 +347,8 @@ PutUserRequest request = PutUserScopeRequest.builder()
 client.updateUserInScope(request);
 ```
 
-#### 2. 오퍼레이션
-> Operation 정보 등록, 조회, 수정, 삭제
+#### 2. オペレーション
+> Operation情報登録、照会、修正、削除
 
 1. Model
 
@@ -356,10 +356,10 @@ client.updateUserInScope(request);
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|operationId|    String                    |**Yes**| 오퍼레이션 ID|
-|description|    String                    |**No**| 설명|
+|operationId|    String                    |**Yes**| オペレーションID|
+|description|    String                    |**No**| 説明|
 
-2. 오퍼레이션 생성
+2. オペレーション作成
 
 ```java
 Operation operation = Operation.builder()
@@ -370,9 +370,9 @@ Operation operation = Operation.builder()
 client.createOperation(operation);
 ```
 
-3. 오퍼레이션 조회
+3. オペレーション照会
 
-⚠️ 응답 시 사용되는 모델은 `Model` 참고
+⚠️レスポンス時に使われるモデルは`Model`を参照
 
 ```java
 String operationId = "";
@@ -380,17 +380,17 @@ String operationId = "";
 Operation operation = client.getOperation(operationId);
 ```
 
-4. 오퍼레이션 목록 조회
+4. オペレーションリストの照会
 
-⚠️ 응답 시 사용되는 모델은 `Common` 참고
+⚠️レスポンス時に使われるモデルは`Common`を参照
 
 **[GetOperationsRequest]**
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|operationIds|   List&lt;String> |**No**|   오퍼레이션 ID 목록 |
-|operationIdPreLike|     String          |**No**|   오퍼레이션 ID(전방 일치) |
-|descriptionLike|    String          |**No**|   설명(부분 일치)           |
+|operationIds|   List&lt;String> |**No**|  オペレーションIDリスト |
+|operationIdPreLike|     String          |**No**|  オペレーションID(前方一致) |
+|descriptionLike|    String          |**No**|  説明(部分一致)           |
 
 ```java
 GetOperationsRequest request = GetOperationsRequest.builder()
@@ -404,9 +404,9 @@ Pageable pageable = Pageable.builder()
 Page<Operation> operations = client.getOperations(request, pageable);
 ```
 
-5. 오퍼레이션 수정
+5. オペレーション修正
 
-⚠️ 요청 시 사용되는 모델은 `Operation` 참고
+⚠️レスポンス時に使われるモデルは`Operation`を参照
 ```java
 Operation operation = Operation.builder()
                 .operationId("")
@@ -416,7 +416,7 @@ Operation operation = Operation.builder()
 client.updateOperation(operation);
 ```
 
-6. 오퍼레이션 삭제
+6. オペレーションの削除
 
 ```java
 String operationId = "";
@@ -424,13 +424,13 @@ String operationId = "";
 client.deleteOperation(userId);
 ```
 
-7. 오퍼레이션 다건 삭제
+7. オペレーションの一括削除
 
 **[DeleteOperationsRequest]**
 
 | Key                  |     Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| operationIds             | Set&lt;String>      |**Yes**|   오퍼레이션 ID 목록 |
+| operationIds             | Set&lt;String>      |**Yes**|  オペレーションIDリスト |
 
 ```java
 DeleteOperationsRequest request = DeleteOperationsRequest.builder()
@@ -440,8 +440,8 @@ DeleteOperationsRequest request = DeleteOperationsRequest.builder()
 client.deleteOperations(request);
 ```
 
-#### 3. 속성
-> 속성 정보 등록, 조회, 수정, 삭제
+#### 3. 属性
+> 属性情報の登録、照会、修正、削除
 
 1. Model
 
@@ -449,15 +449,15 @@ client.deleteOperations(request);
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|attributeId|    String          |**Yes**|   조건 속성 ID                                 |
-|attributeName|  String          |**No**|   조건 속성 이름                                 |
-|description|    String          |**No**|   설명                                           |
-|attributeDataType | AttributeDataType |**Yes**|   조건 속성 데이터 유형   |
-|attributeCreationType | AttributeCreationType |**No**|   조건 속성 생성 유형   |
-|attributeTagIds|    List&lt;String>    |**No**|    조건 속성 태그 목록                              |
-|attributeRoleRelationIds|   List&lt;String> |**No**|   연관 역할 목록                                     |
+|attributeId|    String          |**Yes**|  条件属性ID                                 |
+|attributeName|  String          |**No**|  条件属性名                                |
+|description|    String          |**No**|  説明                                          |
+|attributeDataType | AttributeDataType |**Yes**|  条件属性データタイプ  |
+|attributeCreationType | AttributeCreationType |**No**|  条件属性作成タイプ  |
+|attributeTagIds|    List&lt;String>    |**No**|   条件属性タグリスト                             |
+|attributeRoleRelationIds|   List&lt;String> |**No**|   関連ロールリスト                                    |
 
-2. 속성 생성
+2. 属性の作成
 
 ```java
 Attribute attribute = Attribute.builder()
@@ -472,7 +472,7 @@ Attribute attribute = Attribute.builder()
 client.createAttribute(attribute);
 ```
 
-3. 속성 조회
+3. 属性の照会
 
 ```java
 String attributeId = "";
@@ -480,21 +480,21 @@ String attributeId = "";
 Attribute attribute = client.getAttribute(attributeId);
 ```
 
-4. 속성 목록 조회
+4. 属性リストの照会
 
-⚠️ 응답 시 사용되는 모델은 `Common` 참고
+⚠️ レスポンス時に使われるモデルは`Common`を参照
 
 **[GetAttributesRequest]**
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|attributeIds|   List&lt;String> |**No**|   조건 속성 ID 목록 |
-|attributeIdPreLike|     String          |**No**|   조건 속성 ID(전방 일치) |
-|roleIds|    List&lt;String> |**No**| 역 ID 목록       |
-|roleIdPreLike|  String          |**No**|   역할 ID(전방 일치)           |
-|attributeTagIds|    List&lt;String> |**No**|   조건 속성 ID 목록 |
-|descriptionLike|    String          |**No**|   설명(부분 일치)           |
-|attributeDataType | AttributeDataType |**No**|   조건 속성 데이터 유형   |
+|attributeIds|   List&lt;String> |**No**|  条件属性IDリスト |
+|attributeIdPreLike|     String          |**No**|  条件属性ID(前方一致) |
+|roleIds|    List&lt;String> |**No**| ロールIDリスト      |
+|roleIdPreLike|  String          |**No**|  ロールID(前方一致)           |
+|attributeTagIds|    List&lt;String> |**No**|  条件属性IDリスト |
+|descriptionLike|    String          |**No**|  説明(部分一致)           |
+|attributeDataType | AttributeDataType |**No**|  条件属性データタイプ  |
 
 ```java
 GetAttributesRequest request = GetAttributesRequest.builder()
@@ -515,14 +515,14 @@ Page<GetAttributeResponse> attributes = client.getAttributes(request, pageable);
 
 | Key                           |   Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| attribute                     |   Attribute                             |**Yes**| 조건 속성 모델          |
-| attributeTagById              |   Map&lt;String, AttributeTag>          |**No**| 조건 속성 태그 정보       |
-| attributeRoleRelationByRoleId |   Map&lt;String, AttributeRoleRelation> |**No**| 조건 속성과 연관된 역할 |
-| attributeInUse                |   Boolean                               |**Yes**| 조건 속성 데이터 타입    |
+| attribute                     |   Attribute                             |**Yes**| 条件属性モデル         |
+| attributeTagById              |   Map&lt;String, AttributeTag>          |**No**| 条件属性タグ情報      |
+| attributeRoleRelationByRoleId |   Map&lt;String, AttributeRoleRelation> |**No**| 条件属性と関連するロール |
+| attributeInUse                |   Boolean                               |**Yes**| 条件属性データ型   |
 
-5. 속성 수정
+5. 属性の修正
 
-   ⚠️ 요청 시 사용되는 모델은 `Attribute` 참고
+   ⚠️ リクエスト時に使用されるモデルは`Attribute`を参照
 
 ```java
 Attribute attribute = Attribute.build()
@@ -534,14 +534,14 @@ Attribute attribute = Attribute.build()
 client.updateAttribute(attribute);
 ```
 
-6. 속성 삭제
+6. 属性の削除
 
 **[DeleteAttributeRequest]**
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|attributeId|    String         |**Yes**|     조건 속성 ID |
-|forceDelete|    boolean        |**No**|     강제 삭제 여부(기본값: false) |
+|attributeId|    String         |**Yes**|    条件属性ID |
+|forceDelete|    boolean        |**No**|    強制削除を行うかどうか(デフォルト値: false) |
 
 ```java
 DeleteAttributeRequest request = DeleteAttributeRequest.build()
@@ -552,14 +552,14 @@ DeleteAttributeRequest request = DeleteAttributeRequest.build()
 client.deleteAttribute(request);
 ```
 
-7. 속성 다건 삭제
+7. 属性一括削除
 
 **[DeleteAttributesRequest]**
 
 | Key                  |     Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|attributeIds| Set&lt;String>      |**Yes**|   조건 속성 ID 목록 |
-|forceDelete|    boolean        |**No**|     강제 삭제 여부(기본값: false) |
+|attributeIds| Set&lt;String>      |**Yes**|  条件属性IDリスト |
+|forceDelete|    boolean        |**No**|    強制削除を行うかどうか(デフォルト値: false) |
 
 ```java
 DeleteAttributesRequest request = DeleteAttributesRequest.builder()
@@ -569,8 +569,8 @@ DeleteAttributesRequest request = DeleteAttributesRequest.builder()
 client.deleteAttributes(request);
 ```
 
-#### 4. 범위
-> 범위 정보 등록, 조회, 수정, 삭제
+#### 4. スコープ
+> スコープ情報の登録、照会、修正、削除
 
 1. Model
 
@@ -578,10 +578,10 @@ client.deleteAttributes(request);
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|scopeId|    String          |**Yes**| 범위 ID|
-|description|    String      |**No**| 설명|
+|scopeId|    String          |**Yes**| スコープID|
+|description|    String      |**No**| 説明|
 
-2. 범위 생성
+2. スコープの作成
 
 ```java
 Scope scope = Scope.builder()
@@ -592,26 +592,26 @@ Scope scope = Scope.builder()
 client.createScope(scope);
 ```
 
-3. 범위 조회
+3. スコープの照会
 
-⚠️ 응답 시 사용되는 모델은 `Model` 참고
+⚠️レスポンス時に使用されるモデルは`Model`を参照
 ```java
 String scopeId = "";
 
 Scope scope = client.getScope(scopeId);
 ```
 
-4. 범위 목록 조회
+4. スコープリストの照会
 
-⚠️ 응답 시 사용되는 모델은 `Common` 참고
+⚠️レスポンス時に使用されるモデルは`Common`を参照
 
 **[GetScopesRequest]**
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|scopeIds|   List&lt;String> |**No**|   범위 ID 목록 |
-|scopeIdPreLike|     String          |**No**|   범위 ID(전방 일치) |
-|descriptionLike|    String          |**No**|   설명(부분 일치)           |
+|scopeIds|   List&lt;String> |**No**|  スコープIDリスト |
+|scopeIdPreLike|     String          |**No**|  スコープID(前方一致) |
+|descriptionLike|    String          |**No**|  説明(部分一致)           |
 
 ```java
 GetScopesRequest request = GetScopesRequest.builder()
@@ -625,9 +625,9 @@ Pageable pageable = Pageable.builder()
 Page<Scope> scopes = client.getScopes(request, pageable);
 ```
 
-5. 범위 수정
+5. スコープの修正
 
-⚠️ 요청 시 사용되는 모델은 `Scope` 참고
+⚠️リクエスト時に使用されるモデルは`Scope`を参照
 
 ```java
 Scope scope = Scope.builder()
@@ -638,7 +638,7 @@ Scope scope = Scope.builder()
 client.updateScope(scope);
 ```
 
-6. 범위 삭제
+6. スコープの削除
 
 ```java
 String scopeId = "";
@@ -646,13 +646,13 @@ String scopeId = "";
 client.deleteScope(userId);
 ```
 
-7. 범위 다건 삭제
+7. スコープの一括削除
 
 **[DeleteScopesRequest]**
 
 | Key                  |     Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|scopeIds| Set&lt;String>      |**Yes**|   범위 ID 목록 |
+|scopeIds| Set&lt;String>      |**Yes**|  スコープIDリスト |
 
 ```java
 DeleteScopesRequest request = DeleteScopesRequest.builder()
@@ -662,8 +662,8 @@ DeleteScopesRequest request = DeleteScopesRequest.builder()
 client.deleteScopes(request);
 ```
 
-#### 5. 역할
-> 역할 정보 등록, 조회, 수정, 삭제 및 등록된 역할의 설정 가능한 Attribute 목록 조회, DENY(미사용)로 변경 가능 여부
+#### 5. ロール
+> ロール情報登録、照会、修正、削除及び登録されたロールの設定可能なAttributeリストの照会、DENY(未使用)に変更可能かどうか
 
 1. Model
 
@@ -671,37 +671,37 @@ client.deleteScopes(request);
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|roleMetaData|   RoleMetaData          |**Yes**|     역할          |
-|roleRelations|  List&lt;RoleRelation>    |**No**|  연관관계 역할 ID 목록 |
-|roleTags|   List&lt;RoleTag> |**No**|  역할 태그 목록        |
+|roleMetaData|   RoleMetaData          |**Yes**|    ロール         |
+|roleRelations|  List&lt;RoleRelation>    |**No**|  関連関係ロールIDリスト |
+|roleTags|   List&lt;RoleTag> |**No**| ロールタグリスト       |
 
 **[RoleMetaData]**
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|roleId|     String          |**Yes**|   역할 ID          |
-|roleName|   String          |**No**|   역할 이름          |
-|roleGroup|  String |**No**|    역할 그룹 |
-|description|    String   |**No**|  설명              |
-|exposureOrder|  Integer   |**No**|     노출 순서       |
+|roleId|     String          |**Yes**|  ロールID          |
+|roleName|   String          |**No**|  ロール名         |
+|roleGroup|  String |**No**|   ロールグループ |
+|description|    String   |**No**| 説明             |
+|exposureOrder|  Integer   |**No**|    表示順序      |
 
 **[RoleRelation]**
 
 |Key|    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|relatedRoleId|  String          |**Yes**|   역할 연관관계 ID          |
-|roleApplyPolicyCode|    RoleApplyPolicyCode |**No**|   역할 사용 여부: ALLOW, DENY |
-|conditions|     List&lt;Condition>   |**No**|  역할 조건 속성              |
+|relatedRoleId|  String          |**Yes**|  ロール関連関係ID          |
+|roleApplyPolicyCode|    RoleApplyPolicyCode |**No**|  ロール使用有無: ALLOW, DENY |
+|conditions|     List&lt;Condition>   |**No**| ロール条件属性             |
 
 **[Condition]**
 
 |Key|    Type | Required |   Description   |
   |--------------|----------------|----|----------|
-|attributeId| String |**Yes**|   조건 속성 ID          |
-|attributeOperatorType | Required |**Yes**|   조건 속성 연산자 유형   |
-|attributeValues| List&lt;String> |**No**|  조건 속성 값           |
+|attributeId| String |**Yes**|  条件属性ID          |
+|attributeOperatorType | Required |**Yes**|  条件属性演算子タイプ  |
+|attributeValues| List&lt;String> |**No**| 条件属性値          |
 
-2. 역할 생성
+2. ロールの作成
 
 ```java
 Role role = Role.builder()
@@ -727,9 +727,9 @@ Role role = Role.builder()
 client.createRole(role);
 ```
 
-3. 역할 조회
+3. ロールの照会
 
-⚠️ 응답 시 사용되는 모델은 `Model` 참고
+⚠️レスポンス時に使用されるモデルは`Model`を参照
 
 ```java
 String roleId = "";
@@ -737,27 +737,27 @@ String roleId = "";
 Role role = client.getRole(roleId);
 ```
 
-4. 역할 목록 조회
+4. ロールリストの照会
 
 **[GetRoleRequest]**
 
 | Key               |    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| roleIds              |    List&lt;String>               |**No**|  역할 ID 목록(완전 일치)                |
-| roleIdPreLike        |    String                        |**No**|  범위 ID(전방 일치)                  |
-| relatedRoleIds       |    List&lt;String>               |**No**|  연관관계 역할 ID 목록(완전 일치)           |
-| descriptionLike      |    String                        |**No**|  설명(부분 일치)                        |
-| roleNameLike         |    String                        |**No**|  역할 이름(부분 일치)                   |
-| roleGroup            |    String                        |**No**|  역할 그룹(완전 일치)                   |
-| roleGroupLike        |    String                        |**No**|  역할 그룹(부분 일치)                   |
-| roleTagIdExpr        |    String                        |**No**|  역할 태그 조건(구분자 ';':OR, ',':AND) |
-| roleTagIds           |    List&lt;String>               |**No**|  역할 태그 ID 목록(완전 일치)            |
-| attributeIds         |    List&lt;String>               |**No**|  조건 속성 ID 목록(완전 일치)           |
-| attributeTagIds      |    List&lt;String>               |**No**|  조건 속성 태그 ID 목록(완전 일치)       |
-| needAttributes       |    Boolean                       |**No**|  응답 시 조건 속성 정보 포함 여부           |
-| needRoleTags         |    Boolean                       |**No**|  응답 시 역할 태그 ID 목록 포함 여부         |
-| needRoleRelations    |    Boolean                       |**No**|  응답 시 연관관계 역할 ID 목록 포함 여부        |
-| searchRoleOptionCode |    SearchRoleOptionCode          |**No**|  역할 검색 시 하위 역할 포함 여부       |
+| roleIds              |    List&lt;String>               |**No**| ロールIDリスト(完全一致)                |
+| roleIdPreLike        |    String                        |**No**| スコープID(前方一致)                  |
+| relatedRoleIds       |    List&lt;String>               |**No**|  関連関係ロールIDリスト(完全一致)           |
+| descriptionLike      |    String                        |**No**| 説明(部分一致)                        |
+| roleNameLike         |    String                        |**No**| ロール名(部分一致)                   |
+| roleGroup            |    String                        |**No**| ロールグループ(完全一致)                   |
+| roleGroupLike        |    String                        |**No**| ロールグループ(部分一致)                   |
+| roleTagIdExpr        |    String                        |**No**| ロールタグ条件(セパレータ';':OR, ',':AND) |
+| roleTagIds           |    List&lt;String>               |**No**| ロールタグIDリスト(完全一致)            |
+| attributeIds         |    List&lt;String>               |**No**| 条件属性IDリスト(完全一致)           |
+| attributeTagIds      |    List&lt;String>               |**No**| 条件属性タグIDリスト(完全一致)       |
+| needAttributes       |    Boolean                       |**No**| レスポンス時に条件属性情報を含めるかどうか           |
+| needRoleTags         |    Boolean                       |**No**| レスポンス時にロールタグIDリストを含めるかどうか         |
+| needRoleRelations    |    Boolean                       |**No**| レスポンス時に関連関係ロールIDリストを含めるかどうか        |
+| searchRoleOptionCode |    SearchRoleOptionCode          |**No**| ロール検索時に下位ロールを含めるかどうか       |
 
 ```java
 GetRoleRequest request = GetRoleRequest.builder()
@@ -771,9 +771,9 @@ Pageable pageable = Pageable.builder()
 Page<Role> roles = client.getRoles(request, pageable);
 ```
 
-5. 역할 수정
+5. ロールの修正
 
-⚠️ 요청 시 사용되는 모델은 `Role` 참고
+⚠️リクエスト時に使用されるモデルは`Role`参考を参照
 
 ```java
 Role role = Role.builder()
@@ -799,7 +799,7 @@ Role role = Role.builder()
 client.updateRole(role);
 ```
 
-6. 역할 삭제
+6. ロールの削除
 
 ```java
 String roleId = "";
@@ -807,13 +807,13 @@ String roleId = "";
 client.deleteRole(roleId);
 ```
 
-7. 역할 다건 삭제
+7. ロールの一括削除
 
 **[DeleteRolesRequest]**
 
 | Key                  |     Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|roleIds| Set&lt;String>      |**Yes**|   역할 ID 목록 |
+|roleIds| Set&lt;String>      |**Yes**|  ロールIDリスト |
 
 ```java
 DeleteRolesRequest request = DeleteRolesRequest.builder()
@@ -823,16 +823,16 @@ DeleteRolesRequest request = DeleteRolesRequest.builder()
 client.deleteRoles(request);
 ```
 
-8. 역할에서 설정 가능한 모든 속성 목록 조회
+8. ロールで設定可能なすべての属性リストの照会
 
 **[GetRoleAttributesRequest]**
 
 | Key               |    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| roleId            |    String          |**Yes**|   역할 ID                     |
-| attributeIds      |    List&lt;String> |**No**|   조건 속성 ID 목록(완전 일치)     |
-| attributeTagIds   |    List&lt;String> |**No**|   조건 속성 태그 ID 목록(완전 일치) |
-| attributeNameLike |    Boolean         |**No**|   응답 시 조건 속성 이름(부분 일치)   |
+| roleId            |    String          |**Yes**|  ロールID                     |
+| attributeIds      |    List&lt;String> |**No**|  条件属性IDリスト(完全一致)     |
+| attributeTagIds   |    List&lt;String> |**No**|  条件属性タグIDリスト(完全一致) |
+| attributeNameLike |    Boolean         |**No**|  レスポンス時の条件属性名(部分一致)   |
 
 ```java
 GetRoleAttributesRequest request = GetRoleAttributesRequest.builder()
@@ -848,9 +848,9 @@ Pageable pageable = Pageable.builder()
 
 Page<Attribute> attributes = client.getRoleAttributes(request, pageable);
 ```
-⚠️ 응답 시 사용되는 모델은 `3. 속성` Model 참고
+⚠️レスポンス時に使用されるモデルは`3. 属性` Modelを参照
 
-8. 역할 사용 여부 DENY(미사용)로 변경 가능 여부
+8. ロール使用有無をDENY(未使用)に変更できるかどうか
 
 ```java
 String roleId = "";
@@ -858,17 +858,17 @@ String roleId = "";
 boolean result = client.isDeniable(roleId);
 ```
 
-#### 6. 역할 연관 관계
-> 역할 연관 관계 등록, 수정, 삭제
+#### 6. ロール関連関係
+> ロール関連関係の登録、修正、削除
 
-1. 역할 연관 관계 등록
+1. ロール関連関係の登録
 
 **[CreateRoleRelationRequest]**
 
 | Key           |    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| roleId    |    String  |**Yes**|   역할 ID                       |
-| roleRelations   |    List&lt;RoleRelation>  |**No**|   ⚠️ `5. 역할`의 RoleRelation Model 참고   |
+| roleId    |    String  |**Yes**|  ロールID                       |
+| roleRelations   |    List&lt;RoleRelation>  |**No**|   ⚠️ `5. ロール`のRoleRelation Modelを参照  |
 
 ```java
 CreateRoleRelationRequest role = CreateRoleRelationRequest.builder()
@@ -887,14 +887,14 @@ CreateRoleRelationRequest role = CreateRoleRelationRequest.builder()
 client.createRoleRelations(role);
 ```
 
-2. 역할 연관 관계 수정
+2. ロール関連関係の修正
 
 **[UpdateRoleRelationRequest]**
 
 | Key           |    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| roleId    |    String  |**Yes**|   역할 ID                       |
-| roleRelations   |    List&lt;RoleRelation>  |**No**|   ⚠️ `5. 역할`의 RoleRelation Model 참고   |
+| roleId    |    String  |**Yes**|  ロールID                       |
+| roleRelations   |    List&lt;RoleRelation>  |**No**|   ⚠️ `5. ロール`のRoleRelation Modelを参照  |
 
 ```java
 UpdateRoleRelationRequest role = UpdateRoleRelationRequest.builder()
@@ -913,14 +913,14 @@ UpdateRoleRelationRequest role = UpdateRoleRelationRequest.builder()
 client.updateRoleRelation(role);
 ```
 
-3. 역할 연관 관계 삭제
+3. ロール関連関係の削除
 
 **[DeleteRoleRelationRequest]**
 
 | Key           |    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| roleId    |    String  |**Yes**|   역할 ID                       |
-| relatedRoleIds   |    List&lt;String>  |**No**|   연관 역할 ID 목록   |
+| roleId    |    String  |**Yes**|  ロールID                       |
+| relatedRoleIds   |    List&lt;String>  |**No**|   関連ロールIDリスト  |
 
 ```java
 DeleteRoleRelationRequest role = DeleteRoleRelationRequest.builder()
@@ -931,8 +931,8 @@ DeleteRoleRelationRequest role = DeleteRoleRelationRequest.builder()
 client.deleteRoleRelations(role);
 ```
 
-#### 7. 리소스
-> 리소스 정보 등록, 조회, 수정, 삭제
+#### 7. リソース
+> リソース情報の登録、照会、修正、削除
 
 1. Model
 
@@ -940,16 +940,16 @@ client.deleteRoleRelations(role);
 
 | Key           |    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| resourceId    |    String  |**No**|   리소스 ID                       |
-| description   |    String  |**No**|   설명                                |
-| name          |    String  |**No**|   리소스 이름                       |
-| path          |    String  |**Yes**|   리소스 경로                     |
-| uiPath        |    String  |**Yes**|   리소스 UI 경로                  |
-| priority      |    Integer |**Yes**|   우선순위                              |
-| metadata      |    String  |**No**|   메타데이터                             |
-| newResourceId |    String  |**No**|   기존에 생성된 리소스 ID를 업데이트하고 싶을 때만 사용 |
+| resourceId    |    String  |**No**|  リソースID                       |
+| description   |    String  |**No**|  説明                               |
+| name          |    String  |**No**|  リソース名                      |
+| path          |    String  |**Yes**|  リソースパス                    |
+| uiPath        |    String  |**Yes**|  リソースUIパス                 |
+| priority      |    Integer |**Yes**|  優先順位                             |
+| metadata      |    String  |**No**|  メタデータ                            |
+| newResourceId |    String  |**No**|  既に作成されたリソースIDをアップデートしたい場合にのみ使用 |
 
-2. 리소스 생성
+2. リソースの作成
 
 ```java
 Resource resource = Resource.builder()
@@ -965,9 +965,9 @@ Resource resource = Resource.builder()
 client.createResource(resource);
 ```
 
-3. 리소스 조회
+3. リソースの照会
 
-⚠️ 응답 시 사용되는 모델은 `Model` 참고
+⚠️レスポンス時に使用されるモデルは`Model`を参照
 
 ```java
 String resourceId = "";
@@ -975,26 +975,26 @@ String resourceId = "";
 Resource resource = client.getResource(resourceId);
 ```
 
-4. 리소스 목록 조회
+4. リソースリストの照会
 
-⚠️ 응답 시 사용되는 모델은 `Common` 참고
+⚠️レスポンス時に使用されるモデルは`Common`を参照
 
 **[GetResourcesRequest]**
 
 | Key                  |     Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| resourceIdPreLike    |     String               |**No**|  리소스 ID(전방 일치)      |
-| resourcePath         |     String               |**No**|  리소스 경로(완전 일치)    |
-| resourcePathLike     |     String               |**No**|  리소스 경로(전방 일치)         |
-| resourceUiPath       |     String               |**No**|  리소스 UI 경로(전방 일치)      |
-| resourceIds          |     List&lt;String>      |**No**|  리소스 ID 목록                |
-| resourcePaths        |     List&lt;String>      |**No**|  리소스 경로 목록(완전 일치)      |
-| resourceUiPaths      |     List&lt;String>      |**No**|  리소스 UI 경로 목록(완전 일치)   |
-| userIds              |     List&lt;String>      |**No**|  리소스에 접근 가능한 사용자 ID 목록    |
-| scopeIds             |     List&lt;String>      |**No**|  리소스에 접근 가능한 범위 ID 목록     |
-| roleIds              |     List&lt;String>      |**No**|  리소스에 부여된 역할 ID 목록        |
-| operationIds         |     List&lt;String>      |**No**|  리소스에 부여된 오퍼레이션 ID 목록 |
-| searchRoleOptionCode |     SearchRoleOptionCode |**No**|  역할 검색 시 하위 역할 포함 여부      |
+| resourceIdPreLike    |     String               |**No**| リソースID(前方一致)      |
+| resourcePath         |     String               |**No**| リソースパス(完全一致)    |
+| resourcePathLike     |     String               |**No**| リソースパス(前方一致)         |
+| resourceUiPath       |     String               |**No**| リソースUIパス(前方一致)      |
+| resourceIds          |     List&lt;String>      |**No**| リソースIDリスト               |
+| resourcePaths        |     List&lt;String>      |**No**| リソースパスリスト(完全一致)      |
+| resourceUiPaths      |     List&lt;String>      |**No**| リソースUIパスリスト(完全一致)   |
+| userIds              |     List&lt;String>      |**No**| リソースにアクセス可能なユーザーIDリスト   |
+| scopeIds             |     List&lt;String>      |**No**| リソースにアクセス可能なスコープIDリスト    |
+| roleIds              |     List&lt;String>      |**No**| リソースに付与されたロールIDリスト       |
+| operationIds         |     List&lt;String>      |**No**| リソースに付与されたオペレーションIDリスト |
+| searchRoleOptionCode |     SearchRoleOptionCode |**No**| ロール検索時に下位ロールを含めるかどうか      |
 
 ```java
 GetResourcesRequest request = GetResourcesRequest.builder()
@@ -1011,9 +1011,9 @@ Pageable pageable = Pageable.builder()
 Page<Resource> resources = client.getResources(request, pageable);
 ```
 
-5. 리소스 수정
+5. リソースの修正
 
-⚠️ 요청 시 사용되는 모델은 `Resource` 참고
+⚠️リクエスト時に使用されるモデルは`Resource`を参照
 
 ```java
 Resource resource = Resource.builder()
@@ -1029,7 +1029,7 @@ Resource resource = Resource.builder()
 client.updateResource(operation);
 ```
 
-6. 리소스 삭제
+6. リソースの削除
 
 ```java
 String resourceId = "";
@@ -1037,13 +1037,13 @@ String resourceId = "";
 client.deleteResource(resourceId);
 ```
 
-7. 리소스 다건 삭제
+7. リソースの一括削除
 
 **[DeleteResourcesRequest]**
 
 | Key                  |     Type | Required |   Description   |
 |--------------|----------------|----|----------|
-|resourceIds| Set&lt;String>      |**Yes**|   리소스 ID 목록 |
+|resourceIds| Set&lt;String>      |**Yes**|  リソースIDリスト |
 
 ```java
 DeleteResourcesRequest request = DeleteResourcesRequest.builder()
@@ -1053,23 +1053,23 @@ DeleteResourcesRequest request = DeleteResourcesRequest.builder()
 client.deleteResources(request);
 ```
 
-#### 8. 리소스 계층구조
-> 리소스의 계층구조를 조회합니다.
-> uiPath(resourceUiPath)를 기준으로 계층구조가 형성되며, 사용자가 정의한 캐시 시간만큼 캐싱됩니다.
+#### 8. リソースの階層構造
+> リソースの階層構造を照会します。
+> uiPath(resourceUiPath)を基準に階層構造が形成され、ユーザーが定義したキャッシュ時間だけキャッシュされます。
 
-1. 리소스 계층 구조 조회
+1. リソースの階層構造照会
 
 **[GetResourceHierarchyRequest]**
 
 | Key             | Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| userIds         | List&lt;String> |**No**| 사용자 ID 목록   |
-| roleIds         | List&lt;String> |**No**| 역할 ID 목록    |
-| operationIds    | List&lt;String> |**No**| 오퍼레이션 ID 목록 |
-| scopeIds        | List&lt;String> |**No**| 범위 ID 목록    |
-| resourceIds     | List&lt;String> |**No**| 리소스 ID 목록   |
-| resourcePath    | String          |**No**| 리소스 경로      |
-| resourceUiPath  | String          |**No**| 리소스 UI 경로   |
+| userIds         | List&lt;String> |**No**| ユーザーIDリスト  |
+| roleIds         | List&lt;String> |**No**| ロールIDリスト   |
+| operationIds    | List&lt;String> |**No**| オペレーションIDリスト |
+| scopeIds        | List&lt;String> |**No**| スコープIDリスト   |
+| resourceIds     | List&lt;String> |**No**| リソースIDリスト  |
+| resourcePath    | String          |**No**| リソースパス     |
+| resourceUiPath  | String          |**No**| リソースUIパス  |
 
 ```java
 GetResourceHierarchyRequest request = GetResourceHierarchyRequest.builder()
@@ -1083,40 +1083,40 @@ List<ResourceHierarchy> responses = client.getResourceHierarchy(request);
 
 | Key         | Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| resourceId  | String                     |**Yes**| 리소스 ID                                  |
-| description | String                     |**No**| 리소스 설명                                  |
-| name        | String                     |**Yes**| 리소스 이름                                  |
-| path        | String                     |**Yes**| 리소스 경로                                  |
-| uiPath      | String                     |**Yes**| 리소스 UI 경로<br/>계층 구조가 이 경로를 기반으로 만들어진다.  |
-| priority    | Integer                    |**Yes**| 우선 순위                                   |
-| resources   | List&lt;ResourceHierarchy> |**No**| 하위 리소스들                                 |
+| resourceId  | String                     |**Yes**| リソースID                                  |
+| description | String                     |**No**| リソースの説明                                 |
+| name        | String                     |**Yes**| リソース名                                 |
+| path        | String                     |**Yes**| リソースパス                                 |
+| uiPath      | String                     |**Yes**| リソースUIパス<br/>このパスに基づいて階層構造が作成されます。 |
+| priority    | Integer                    |**Yes**| 優先順位                                   |
+| resources   | List&lt;ResourceHierarchy> |**No**| 下位リソース                                 |
 
-#### 9. 사용자 인가(user authorization)
-> 사용자가 특정한 역할을 가지고 있거나, 리소스에 대한 접근 권한을 가지고 있는지를 확인합니다.
-> 리소스의 경우 사용자가 정의한 캐시 시간만큼 캐싱됩니다.
+#### 9. ユーザー認可(user authorization)
+> ユーザーが特定のロールを持っているか、リソースに対するアクセス権を持っているかどうかを確認します。
+> リソースの場合、ユーザーが定義したキャッシュ時間だけキャッシュされます。
 
-1. 특정 리소스의 인가 결과 확인
+1.特定のリソースの認可結果確認
 
-* 요청할 때 리소스 ID나 리소스 경로 중 하나는 반드시 있어야 합니다.
-* 리소스 ID와 리소스 경로 값을 모두 넣으면 리소스 ID를 우선하여 검사하기 때문에, 리소스 경로로 검사하고 싶은 경우 리소스 ID를 설정하면 안 됩니다.
+* リクエストする際、リソースIDまたはリソースパスのいずれかが必ず必要です。
+* リソースIDとリソースパスの両方の値を入れると、リソースIDを優先して検査するため、リソースパスで検査したい場合は、リソースIDを設定しないでください。
 
 **[GetResourceAuthorizationRequest]**
 
 | Key           |    Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| authRequestId | String                          |**No**| 사용자가 정의한 ID 값<br/>어떤 인증 조건에 대한 응답인지에 대해 명확하게 알아야 하는 경우 사용 |
-| operationId   | String                          |**Yes**| 오퍼레이션 ID                                              |
-| resourceId    | String                          |**No**| 리소스 ID(리소스 경로가 없으면 필수)                             |
-| resourcePath  | String                          |**No**| 리소스 경로(리소스 ID가 없으면 필수)                       |
-| scopeId       | String                          |**No**| 범위 ID                                                  |
-| attributes    | List&lt;AuthorizationAttribute> |**No**| 조건 속성 목록                                                     |
+| authRequestId | String                          |**No**| ユーザーが定義したID値<br/>どの認証条件に対するレスポンスであるかを明確に知る必要がある場合に使用します。 |
+| operationId   | String                          |**Yes**| オペレーションID                                              |
+| resourceId    | String                          |**No**| リソースID(リソースパスがない場合は必須)                             |
+| resourcePath  | String                          |**No**| リソースパス(リソースIDがない場合は必須)                       |
+| scopeId       | String                          |**No**| スコープID                                                  |
+| attributes    | List&lt;AuthorizationAttribute> |**No**| 条件属性リスト                                                    |
 
 **[AuthorizationAttribute]**
 
 | Key            |   Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| attributeId    | String                           |**Yes**| 조건 속성 ID       |
-| attributeValue | String                           |**Yes**| 조건 속성 값        |
+| attributeId    | String                           |**Yes**| 条件属性ID       |
+| attributeValue | String                           |**Yes**| 条件属性値       |
 
 ```java
 String userId = "userId";
@@ -1133,8 +1133,8 @@ GetResourceAuthorizationRequest request = GetResourceAuthorizationRequest.builde
 boolean response = client.hasAuthorizationByResource(userId, request);
 ```
 
-2. 여러 리소스의 인가 결과 확인
-* 요청한 순서대로 응답이 반환됩니다.
+2. 複数のリソースの認可結果確認
+* リクエストした順番でレスポンスが返されます。
 
 ```java
 String userId = "userId";
@@ -1157,24 +1157,24 @@ List<GetResourceAuthorizationResponse> responses = client.hasAuthorizationByReso
 
 | Key           |    Type | Required | Description                                 |
 |--------------|----------------|----|---------------------------------------------|
-| authRequestId | String                          |**No**| 사용자가 정의한 ID 값<br/>요청 시에 보낸 값이 그대로 반환된다.     |
-| operationId   | String                          |**Yes**| 오퍼레이션 ID                                    |
-| resourceId    | String                          |**Yes**| 리소스 ID                                      |
-| resourcePath  | String                          |**No**| 리소스 경로                                      |
-| scopeId       | String                          |**Yes**| 범위 ID                                       |
-| permission    | Boolean                         |**Yes**| 인가 결과<br/><br/>true: 권한 있음<br/>false: 권한 없음 |
-| attributes    | List&lt;AuthorizationAttribute> |**No**| 조건 속성 목록                                    |
+| authRequestId | String                          |**No**| ユーザーが定義したID値<br/>リクエスト時に送った値がそのまま返されます。     |
+| operationId   | String                          |**Yes**| オペレーションID                                    |
+| resourceId    | String                          |**Yes**| リソースID                                      |
+| resourcePath  | String                          |**No**| リソースパス                                     |
+| scopeId       | String                          |**Yes**| スコープID                                       |
+| permission    | Boolean                         |**Yes**| 認可結果<br/><br/>true:権限あり<br/>false:権限なし |
+| attributes    | List&lt;AuthorizationAttribute> |**No**| 条件属性リスト                                   |
 
-3. 특정 역할의 인가 결과 확인
+3. 特定のロールの認可結果確認
 
 **[GetRoleAuthorizationRequest]**
 
 | Key            | Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| authRequestId  | String                          |**No**| 사용자가 정의한 ID 값<br/>어떤 인증 조건에 대한 응답인지에 대해 명확하게 알아야 하는 경우 사용 |
-| attributes     | List&lt;AuthorizationAttribute> |**No**| 조건 속성 목록                                                     |
-| roleId         | String                          |**Yes**| 역할 ID                                                     |
-| scopeId        | String                          |**No**| 범위 ID                                                  |
+| authRequestId  | String                          |**No**|  ユーザーが定義したID値<br/>どの認証条件に対する応答であるかを明確に知る必要がある場合に使用。 |
+| attributes     | List&lt;AuthorizationAttribute> |**No**| 条件属性リスト                                                    |
+| roleId         | String                          |**Yes**| ロールID                                                     |
+| scopeId        | String                          |**No**| スコープID                                                  |
 
 ```java
 String userId = "userId";
@@ -1191,7 +1191,7 @@ GetRoleAuthorizationRequest getUserRequest = GetRoleAuthorizationRequest.builder
 boolean response = client.hasAuthorizationByRole(userId, request);
 ```
 
-4. 여러 역할의 인가 결과 확인
+4. 複数のロールの認可結果確認
 
 ```java
 String userId = "userId";
@@ -1221,32 +1221,32 @@ List<GetRoleAuthorizationResponse> responses = client.hasAuthorizationByRoles(us
 
 | Key            | Type | Required |   Description   |
 |--------------|----------------|----|----------|
-| authRequestId  | String                          |**No**| 사용자가 정의한 ID 값<br/>요청 시에 보낸 값이 그대로 반환된다.        |
-| roleId         | String                          |**Yes**| 역할 ID                                         |
-| scopeId        | String                          |**Yes**| 범위 ID
-| permission     | Boolean                         |**Yes**| 인가 결과<br/><br/>true: 권한 있음<br/>false: 권한 없음 |
-| attributes     | List&lt;AuthorizationAttribute> |**No**| 조건 속성 목록                                      |
+| authRequestId  | String                          |**No**| ユーザーが定義したID値<br/>リクエスト時に送った値がそのまま返されます。        |
+| roleId         | String                          |**Yes**| ロールID                                         |
+| scopeId        | String                          |**Yes**| スコープID
+| permission     | Boolean                         |**Yes**| 認可結果<br/><br/>true:権限あり<br/>false:権限なし |
+| attributes     | List&lt;AuthorizationAttribute> |**No**| 条件属性リスト                                     |
 
-### 클라이언트 SDK 캐시
+### クライアントSDKキャッシュ
 
-클라이언트 SDK에서는 아래 3가지 경우에 대해서 각각 클라이언트 단의 캐시를 사용합니다.
+クライアントSDKでは、下記の3つの場合に、それぞれクライアント側のキャッシュを使用します。
 
-- Resource ID를 이용한 권한 체크
-- Resource Path를 이용한 권한 체크
-- Resource Hierarchy 조회
+- Resource IDを利用した権限チェック
+- Resource Pathを利用した権限チェック
+- Resource Hierarchy照会
 
-LRU로 관리하고 있으며, 캐시의 기본값은 300초의 TTL(time to live)과 1,000,000개 Size입니다.
-해당 값을 수정하려면 NHN Cloud 콘솔에 접속하여 변경할 수 있습니다.
-NHN Cloud 콘솔에서 변경한 설정은 변경 즉시 반영되며, 변경되는 즉시 기존 캐시는 모두 삭제됩니다.
+LRUで管理しており、キャッシュのデフォルト値は300秒のTTL(time to live)と1,000,000個Sizeです。
+この値を修正するにはNHN Cloudコンソールに接続します。
+NHN Cloudコンソールで変更した設定は、変更されるとすぐに反映され、変更されると同時に既存のキャッシュはすべて削除されます。
 
-![[그림 2] 클라이언트 SDK 캐시 설정](http://static.toastoven.net/prod_role/role_62.png)
-<center>[그림 2] 클라이언트 SDK 캐시 설정</center>
+![[図2]クライアントSDKキャッシュ設定](http://static.toastoven.net/prod_role/role_62.png)
+<center>[図2]クライアントSDKキャッシュ設定</center>
 
-### Transaction 지원
+### Transactionサポート
 
-ROLE의 데이터를 Atomic 하게 추가/변경/삭제하고 싶을 경우에는 RoleClient 객체의 beginTransaction()을 호출하여 RoleSession 객체를 얻어와 사용하면 됩니다.
+ROLEのデータをAtomicに追加/変更/削除したい場合は、RoleClientオブジェクトのbeginTransaction()を呼び出してRoleSessionオブジェクトを取得して使います。
 
-예를 들어, 아래와 같이 여러 개의 Role을 동시에 등록할 경우 중간에 에러 발생 시 몇개는 등록이 되고, 몇 개는 등록이 안될 수 있습니다.
+例えば、下記のように複数のRoleを同時に登録する際、途中でエラーが発生すると、いくつかは登録されて、いくつかは登録できない場合があります。
 
 ```java
 RoleClient client = RoleClientFactory.getClient(RoleConfig.builder()
@@ -1271,16 +1271,16 @@ try {
                                              .build())
                    .build();
 
-	// 만약 여기서 Exception이 발생한다면
-	// U1은 생성되지만 M1은 생성되지 않습는다.
+	// もし、ここでExceptionが発生したら
+	// U1は作成されますが、M1は作成されません。
 	client.createRole(role);
 } catch (Exception e) {
-    // 에러 발생 시 자체 Rollback 로직을 구현해야 합니다.
+    // エラー発生時、独自にRollbackロジックを実装する必要があります。
     client.userDelete("U1");
 }
 ```
 
-RoleSession 객체를 사용한다면, 위와 같은 상황에서 부분 실패를 없앨 수 있습니다.
+RoleSessionオブジェクトを使うと、上のような状況で部分的な失敗をなくすことができます。
 
 ```java
 RoleClient client = RoleClientFactory.getClient(RoleConfig.builder()
@@ -1306,18 +1306,18 @@ try {
                                              .build())
                    .build();
 
-   // 만약 여기서 Exception이 발생한다 하여도, 부분 실패는 발생하지 않습니다.
+   // もし、ここでExceptionが発生しても、部分的な失敗は発生しません。
    session.createRole(role);
-   // 에러가 발생하지 않았다면, 서버에 변경사항을 반영합니다.
+   // エラーが発生しなかった場合、サーバーに変更事項を反映します。
    session.commit();
 } catch (Exception e) {
-   // 에러 발생 시 session에 저장된 변경 사항들을 rollback 함수를 통해 비운다
+   // エラーが発生した時、rollback関数を使ってsessionに保存された変更内容を空にします。
    session.rollback();
 }
 ```
 
-RoleSession 객체를 사용 시 commit() 메서드를 호출하기 전까지는 어떠한 추가/수정/변경사항도 서버에 반영되지 않기 때문에, commit() 하기 전 변경한 데이터를 읽지 않도록 주의해야 합니다.
+RoleSessionオブジェクトを使う時、commit()メソッドを呼び出す前までは追加/修正/変更がサーバーに反映されないので、commit()する前に変更したデータを読まないように注意する必要があります。
 
-RoleSession 객체를 commit() 하거나 rollback() 한 다음 재사용 할 수 있습니다.
+RoleSessionオブジェクトをcommit()したりrollback()した後、再使用できます。
 
-> RoleSession은 `SDK 사용 가이드`에서 정의된 서비스 중 조회를 제외한 등록, 수정, 삭제에 대해서 동일하게 사용 가능합니다.
+> RoleSessionは`SDK使用ガイド`で定義されたサービスのうち、照会を除いた登録、修正、削除に対して同じように使用できます。
