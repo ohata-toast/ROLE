@@ -1772,6 +1772,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
       "roleId" : "roleId",
       "roleName" : "roleName",
       "description" : "description",
+      "roleTags" : [ {
+        "roleTagId" : "roleTagId"
+      }, {
+        "roleTagId" : "roleTagId"
+      } ],
       "conditions" : [ {
         "attributeId" : "instance.name",
         "attributeValues" : [ "attributeValues", "attributeValues" ],
@@ -1795,6 +1800,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
       "roleId" : "roleId",
       "roleName" : "roleName",
       "description" : "description",
+      "roleTags" : [ {
+        "roleTagId" : "roleTagId"
+      }, {
+        "roleTagId" : "roleTagId"
+      } ],
       "conditions" : [ {
         "attributeId" : "instance.name",
         "attributeValues" : [ "attributeValues", "attributeValues" ],
@@ -1908,6 +1918,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |   **roleGroup** | **String**| **No** | 역할 그룹  |
 |   **roleId** | **String**| **Yes** | 역할 ID  |
 |   **roleName** | **String**| **No** | 역할 이름  |
+|   **roleTags** | **List&lt;RoleBundleProtocol.RoleTagProtocol>**| **No** | 역할 태그 목록  |
 
 ##### ConditionBundleProtocol
 
@@ -2220,6 +2231,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
       "roleId" : "roleId",
       "roleName" : "roleName",
       "description" : "description",
+      "roleTags" : [ {
+        "roleTagId" : "roleTagId"
+      }, {
+        "roleTagId" : "roleTagId"
+      } ],
       "conditions" : [ {
         "attributeId" : "instance.name",
         "attributeValues" : [ "attributeValues", "attributeValues" ],
@@ -2243,6 +2259,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
       "roleId" : "roleId",
       "roleName" : "roleName",
       "description" : "description",
+      "roleTags" : [ {
+        "roleTagId" : "roleTagId"
+      }, {
+        "roleTagId" : "roleTagId"
+      } ],
       "conditions" : [ {
         "attributeId" : "instance.name",
         "attributeValues" : [ "attributeValues", "attributeValues" ],
@@ -2289,6 +2310,11 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
       "roleId" : "roleId",
       "roleName" : "roleName",
       "description" : "description",
+      "roleTags" : [ {
+        "roleTagId" : "roleTagId"
+      }, {
+        "roleTagId" : "roleTagId"
+      } ],
       "conditions" : [ {
         "attributeId" : "instance.name",
         "attributeValues" : [ "attributeValues", "attributeValues" ],
@@ -2426,6 +2452,7 @@ RESTful API와 클라이언트 SDK를 사용하려면 앱키와 비밀 키가 �
 |   **roleGroup** | **String**| **No** | 역할 그룹  |
 |   **roleId** | **String**| **Yes** | 역할 ID  |
 |   **roleName** | **String**| **No** | 역할 이름  |
+|   **roleTags** | **List&lt;RoleBundleProtocol.RoleTagProtocol>**| **No** | 역할 태그 목록  |
 
 ##### ConditionBundleProtocol
 

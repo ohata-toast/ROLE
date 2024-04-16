@@ -1,5 +1,18 @@
 ## Application Service > ROLE > 릴리스 노트
 
+### 2024. 04. 23.
+#### 기능 추가
+* [RESTful API] 역할 목록 조회, 역할 단건 조회 API가 확장되었습니다.
+  * 연관 관계 역할 목록에 역할 태그 목록이 추가되었습니다.
+    * POST /role/v3.0/appkeys/{appKey}/roles/search : 역할 목록 조회
+        * 자세한 사항은 매뉴얼 참고: [링크](https://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-v3-guide/#searchRoles)
+    * GET /role/v3.0/appkeys/{appKey}/roles/{roleId} : 역할 단건 조회
+        * 자세한 사항은 매뉴얼 참고: [링크](https://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-v3-guide/#getRole)
+
+#### 버그 수정
+* [RESTful API] 역할 생성, 역할 수정 API 요청 시 roleApplyPolicyCode(역할 사용 여부) 항목을 반영하지 않는 오류가 수정되었습니다.
+* [RESTful API] 역할 생성, 역할 수정 API 요청 시 conditions(역할 조건 속성)의 일부 유효성 검증이 실패하는 오류가 수정되었습니다.
+
 ### 2024. 03. 26.
 #### 기능 추가
 * [RESTful API] 사용자 목록 조회 API가 변경되었습니다.
