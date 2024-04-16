@@ -4,7 +4,7 @@
 #### 機能追加
 * [RESTful API]ユーザーリスト照会APIが変更されました。
     * POST /role/v3.0/appkeys/{appKey}/users/search :ユーザーリスト照会
-        * 詳細については、マニュアルを参照: [リンク](https://docs.nhncloud.com/ko/Application%20Service/ROLE/ko/api-v3-guide/#_8)
+        * 詳細については、マニュアルを参照: [リンク](https://docs.nhncloud.com/ja/Application%20Service/ROLE/ja/api-v3-guide/#_8)
 
 ### 2024. 02. 27.
 #### 機能追加
